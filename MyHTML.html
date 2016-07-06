@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en,ru">
+<head>
+    <meta charset="utf-8">
+    <script src="http://api-maps.yandex.ru/2.0/?load=package.full&lang=ru-RU"></script>
+    <title>Your first Web project</title>
+    <title>Your first Web project</title>
+
+</head>
+<body>
+<div id="map" style="width: 400px; height: 300px"></div>
+<label for="latitude">Latitude:</label>
+<input type="text" id="latitude" value="59.942402"/><br/>
+<label for="longitude">Longitude:</label>
+<input type="text" id="longitude" value="30.293661"/><br/>
+<input type="submit" value="Show map" onclick=" showMap(document.getElementById('latitude').value,document.getElementById('longitude').value);"/>
+<script type="text/javascript">
+    function showMap (latitude, longitude) {
+        var myMap = new ymaps.Map('map',{
+            center:[latitude, longitude],
+            zoom:16
+        });
+    }
+</script>
+<h1>blablabla mr Anderson</h1>
+<img src="images/neo.jpg"/>
+
+<form name="selectForm">
+    <p>
+        <label for="musicTypes">Выберите некоторые жанры музыки, а затет нажмите на кнопку ниже:</label>
+        <select id="musicTypes" name="musicTypes" multiple="multiple">
+            <option selected="selected">R&B</option>
+            <option>Jazz</option>
+            <option>Blues</option>
+            <option>New Age</option>
+            <option>Classical</option>
+            <option>Opera</option>
+        </select>
+    </p>
+    <p><input id="btn" type="button" value="Как много выбрано?" /></p>
+</form>
+</body>
+<button>Change user</button>
+<script src="scripts/main.js"></script>
+
+</html>
