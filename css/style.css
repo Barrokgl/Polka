@@ -132,6 +132,7 @@ footer {
     position: fixed;
     text-align: center;
     background: beige;
+    display: none;
     width: 400px;
     top:50%;
     left:50%;
