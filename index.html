@@ -53,29 +53,34 @@
     <script type="text/javascript">
         function absoluteJsonGet() {
             var imgArray = document.getElementsByClassName('book');
+            var readyForJson = new Map();
             var imgSrc = [];
             var newSrc = [];
             var n = imgArray.length;
             var i = 0;
-            while (i < n) {
-                newSrc = imgSrc.push(imgArray[i].attributes[1].nodeValue);
-                i++;
-            }
-
-
             var aArray = document.getElementsByClassName('book-label');
             var u = aArray.length;
             var q = 0;
             var imgLabel = [];
             var newLabel = [];
-            while (q < u) {
+            while (i < n && q < u) {
+                newSrc = imgSrc.push(imgArray[i].attributes[1].nodeValue);
                 newLabel = imgLabel.push(aArray[q].innerText);
-                q++;
+                readyForJson.set(imgLabel[q], imgSrc[i]);
+                i++; q++;
             }
-
+            function mapToJson(map) {
+                return JSON.stringify([...map]);
+            }
+            function jsonToMap(jsonStr) {
+                return new Map(JSON.parse(jsonStr));
+            }
+            var objJson = mapToJson(readyForJson);
             console.log(imgLabel);
             console.log(imgSrc);
-            console.log(newSrc);
+            console.log(readyForJson);
+            console.log(objJson);
+
         }
 
 
