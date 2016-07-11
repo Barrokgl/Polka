@@ -37,9 +37,13 @@
         </form>
     </div>
     <script>
-//        document.getElementById('loginCall').onclick = function () {
-//            document.getElementsByClassName('mainLoginForm').style.display = 'block';
-//        }
+        var button = document.getElementById('loginCall');
+        function Click() {
+            console.log(button);
+            var jsonButton = JSON.stringify(button);
+            console.log(jsonButton);
+        }
+        button.addEventListener("click", Click);
     </script>
 </body>
 </html>
