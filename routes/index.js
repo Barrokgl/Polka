@@ -3,7 +3,7 @@ var router = express.Router();
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Polka.ru' });
+  res.render('index', { title: 'Polka.ru - рекомендательный книжный сервис' });
 });
 /* GET login page. */
 router.get('/login', function(req, res) {
