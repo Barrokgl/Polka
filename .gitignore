@@ -1,3 +1,5 @@
 /node_modules
 /old
 /data/mongod.lock
+/data/local.0
+/data/local.ns
