@@ -5,6 +5,8 @@ html
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
   body
-    include incudes/header
+    block header
+      include incudes/header
     block content
-    include  incudes/footer
+    block footer
+      include  incudes/footer

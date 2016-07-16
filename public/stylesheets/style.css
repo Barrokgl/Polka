@@ -79,9 +79,34 @@ nav.header-nav ul{
   padding:0px;
   width: 140px;
   height: 70px;
-  margin: 35px 0px -5px 8px;
+  margin: 32px 0px -5px 8px;
   text-align:center;
 
+}
+
+/* Main content */
+
+.main-content-title h1{
+  /*margin: 0px 0px 0px 15px;*/
+  padding-left: 20px;
+  padding-top: 20px;
+  text-align: center;
+}
+/* Книжечки */
+.book-line {
+  margin-top: 15px;
+  padding-left: 15px;
+  border-bottom: solid coral;
+}
+
+.book-line-title {
+  margin-left: 5px;
+  margin-bottom: 10px;
+}
+
+.book-line span {
+  display: inline-block;
+  margin: 5px;
 }
 
 /* login form */
@@ -124,7 +149,7 @@ footer {
   height: 60px;
   text-align: center;
   padding-top: 50px;
-  position: absolute;
+  /*position: absolute;*/
   left: 0;
   bottom: 0;
 }
