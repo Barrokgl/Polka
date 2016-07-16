@@ -454,12 +454,12 @@
       <workItem from="1468403552769" duration="3522000" />
       <workItem from="1468429651926" duration="2577000" />
       <workItem from="1468526128882" duration="19488000" />
-      <workItem from="1468655301698" duration="8166000" />
+      <workItem from="1468655301698" duration="8778000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="147205000" />
+    <option name="totallyTimeSpent" value="147817000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -471,7 +471,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.12648809" sideWeight="0.49346405" order="0" side_tool="false" content_ui="combo" />
@@ -546,7 +546,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/MyHTML.html" />
     <entry file="file://$PROJECT_DIR$/scripts/main.js" />
     <entry file="file://$PROJECT_DIR$/MyHTML.html" />
     <entry file="file://$PROJECT_DIR$/scripts/main.js" />
@@ -792,6 +791,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="34">
           <caret line="2" column="17" selection-start-line="2" selection-start-column="17" selection-end-line="2" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.gitattributes">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
