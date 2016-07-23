@@ -57,6 +57,7 @@ span.logotype {
   text-align: center;
   padding: 0px;
   margin: 20px 0px 0px 0px;
+
 }
 .search-form {
   display: block;
@@ -114,13 +115,13 @@ nav.header-nav ul{
   position: fixed;
   text-align: center;
   background: beige;
-  /*display: none;*/
   width: 400px;
+  border-radius: 5px;
+  border: solid 2px;
+  /* align center login form*/
   top:50%;
   left:50%;
   transform: translate(-50%,-50%);
-  border-radius: 5px;
-  border: solid 2px;
 }
 .loginFormBtns {
   margin: 10px;
