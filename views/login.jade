@@ -17,4 +17,5 @@ block content
                     input(name='password', type='password', placeholder='Пароль')
             div.loginFormLine
                 span
-                    input(name='submit', type='submit', value='Войти')
+                    input(formmethod='post' name='submit', type='submit', value='Войти')
+    script(rel='text/javascript', href='/javascripts/LoginReg.js')
