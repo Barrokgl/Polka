@@ -1,0 +1,27 @@
+var fs = require('fs');
+var dao = require('./dao').users;
+var newHeaders = ['userId', 'login', 'username', 'password'];
+
+function generateContent(lengthOfCsv) {
+    var contentString = [];
+    for (i = 0; i < lengthOfCsv; i++) {
+        var userId = i+1, login = 'user' + i + '@mail.com', username = 'user' + i, password = Math.floor(Math.random() * (1000 - 10 + 1)) + 10;;
+        contentString[i] = [];
+        contentString[i].push(userId, login, username, password + '\n');
+        contentString[i] = contentString[i].join('|');
+        contentString[i] = contentString[i];
+    }
+    return contentString.join('');
+}
+
+function write(headers, lengthOfCsv, csvfile) {
+    var writeStream = fs.createWriteStream(csvfile);
+    writeStream.write(headers.join('|')+ '\n');
+    writeStream.write(generateContent(lengthOfCsv));
+    writeStream.on('error', function (err) {
+        console.log(err);
+    });
+}
+//write(newHeaders, 100, 'users.csv');
+
+

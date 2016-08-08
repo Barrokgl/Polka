@@ -8,9 +8,9 @@
   "dependencies": {
     "body-parser": "~1.15.1",
     "cookie-parser": "~1.4.3",
+    "deasync": "^0.1.7",
     "debug": "~2.2.0",
     "express": "~4.13.4",
-    "fast-csv": "^2.1.0",
     "jade": "~1.11.0",
     "jstransformer": "*",
     "mongodb": "^2.2.1",

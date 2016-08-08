@@ -18,7 +18,7 @@ router.get('/', function(req, res) {
 });
 /* GET login page. */
 router.get('/login', function(req, res) {
-  res.render('login', { title: 'Login or Sign up' });
+  res.render('login', { title: 'login or Sign up' });
 });
 /* Post Registration handler */
 router.post('/login', function (req, res) {
