@@ -1,19 +1,28 @@
 var fs = require('fs');
 var dao = require('./dao').users;
 var newHeaders = ['userId', 'login', 'username', 'password'];
-
+//convert obj user to string
+function objToString (obj) {
+    var str = '';
+    for (var p in obj) {
+        if (obj.hasOwnProperty(p)) {
+            str += obj[p]+ ' ';
+        }
+    }
+    return str;
+}
+//generate users strings
 function generateContent(lengthOfCsv) {
     var contentString = [];
     for (i = 0; i < lengthOfCsv; i++) {
-        var userId = i+1, login = 'user' + i + '@mail.com', username = 'user' + i, password = Math.floor(Math.random() * (1000 - 10 + 1)) + 10;;
+        var user = {userId: i+1, login: 'user'+i+'@mail.com', username: 'user'+i, password:Math.floor(Math.random()*(1000-10+1))+10};
         contentString[i] = [];
-        contentString[i].push(userId, login, username, password + '\n');
-        contentString[i] = contentString[i].join('|');
-        contentString[i] = contentString[i];
+        contentString[i].push(objToString(user));
+        contentString[i] = contentString[i][0].split(' ').join('|').slice(0, -1)+'\n';
     }
     return contentString.join('');
 }
-
+// write our db
 function write(headers, lengthOfCsv, csvfile) {
     var writeStream = fs.createWriteStream(csvfile);
     writeStream.write(headers.join('|')+ '\n');
@@ -22,6 +31,5 @@ function write(headers, lengthOfCsv, csvfile) {
         console.log(err);
     });
 }
-//write(newHeaders, 100, 'users.csv');
-
+//write(newHeaders, 10, 'users2.csv');
 

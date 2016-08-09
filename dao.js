@@ -2,29 +2,25 @@
  * Created by Barrokgl on 01.08.2016.
  */
 var fs = require('fs');
-var newUser = {userId:'003',login: 'newuser@mail.ru',username :'newuser1',password: 'myownpass'};
+var newUser = require('./newUser.json');
+var csvfile = './users.csv';
+
 
 var users = {
-  readAllUsers: function (csvfile) {
+  transToObj: function (callback) {
       // trans stream to string
-      function readAllUsers(csvfile) {
+      function reading(callback) {
           var readStream = fs.createReadStream(csvfile, {encoding: 'utf-8'}, function(err){if (err) {console.log(err);}});
-          var str = '', sync = true;
+          var str = '';
           readStream.on('data', function (data) {
               str += data;
           });
           readStream.on('end', function () {
-              sync = false;
+              callback(str);
           });
-          //use deasync module to fill our str
-          while(sync) {require('deasync').sleep(100);}
-          return str;
       }
-      return readAllUsers(csvfile);
-  },
-  transToObj: function (text) {
       // transform data to object with keys - headers and values - our users
-      function transToObj(textToTrans) {
+      function transfofm(textToTrans) {
           textToTrans = textToTrans.split('\n');
           var headers = textToTrans[0].split('|');
           var objCsv = [];
@@ -38,21 +34,24 @@ var users = {
           }
           return objCsv;
       }
-      return transToObj(readAllUsers(text));
+      if (callback) {reading(function (cb) {callback(transfofm(cb))});}
   },
-  compareUsr: function (text, user) {
+  checkExist: function (user) {
       //compare our users with props of newUser
-      function compareUsr(text, user) {
+      function cheking(text, user) {
           for (i=0; i<text.length;i++){
               if (text[i].login == user.login || text[i].username == user.username) {console.log('exists!'); return true;}
               else {console.log('no match');}
           }
       }
-      return compareUsr(transToObj(readAllUsers(text)), user);
+      // check our user from file we read by transToObj
+     this.transToObj(function (cb) {
+         cheking(cb, newUser);
+     });
   },
-  addUser: function (user, csvfile) {
+  addUser: function (user) {
       //transform new usr to a string and add to file
-      function addUser(userToAdd, csvfile) {
+      function adding(userToAdd) {
           var finUser, arrVal = [];
           for (var key in userToAdd) {
               if (userToAdd.hasOwnProperty(key)){
@@ -62,7 +61,7 @@ var users = {
           }
           // write stream with appending string at the end of file
           var writeStream = fs.createWriteStream(csvfile, {flags: 'a'});
-          writeStream.write('\n' + finUser);
+          writeStream.write(finUser+ '\n');
           writeStream.on('error', function (err) {console.log(err);});
           writeStream.end();
           writeStream.on('finish', function () {
@@ -70,8 +69,14 @@ var users = {
           });
           console.log(finUser);
       }
-      addUser(user, csvfile);
+      adding(user);
     }
 };
 
+users.transToObj(function (cb) {
+    console.log(cb);
+});
+
+
 module.exports.users = users;
+
