@@ -15,7 +15,7 @@ function objToString (obj) {
 function generateContent(lengthOfCsv) {
     var contentString = [];
     for (i = 0; i < lengthOfCsv; i++) {
-        var user = {userId: i+1, login: 'user'+i+'@mail.com', username: 'user'+i, password:Math.floor(Math.random()*(1000-10+1))+10};
+        var user = {userId: i+1, login: 'user'+(i+1)+'@mail.com', username: 'user'+(i+1), password:Math.floor(Math.random()*(1000-10+1))+10};
         contentString[i] = [];
         contentString[i].push(objToString(user));
         contentString[i] = contentString[i][0].split(' ').join('|').slice(0, -1)+'\n';
@@ -31,5 +31,5 @@ function write(headers, lengthOfCsv, csvfile) {
         console.log(err);
     });
 }
-//write(newHeaders, 10, 'users2.csv');
+write(newHeaders, 150, 'users.csv');
 

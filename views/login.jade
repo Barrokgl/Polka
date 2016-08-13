@@ -1,21 +1,21 @@
 extends layout
 
 block content
-    .mainLoginForm
-        form
-            div.logginFormButtons
-                input(name="login" type="button" value="Вход")
-                input(name="registration" type="button" value="Регистрация")
-            div.loginFormLine
-                span
-                   input(name='email', type='email', placeholder='Email')
-            div.loginFormLine
-                span
-                    input(name='username', type='text', placeholder='Имя пользователя')
-            div.loginFormLine
-                span
-                    input(name='password', type='password', placeholder='Пароль')
-            div.loginFormLine
-                span
-                    input(formmethod='post' name='submit', type='submit', value='Войти')
-    script(rel='text/javascript', href='/javascripts/LoginReg.js')
+    div.main-content
+        .mainLoginForm
+            form
+                div.logginFormButtons
+                    input(name="enter" type="button" value="Вход")
+                    input(name="registration" type="button" value="Регистрация")
+                div.loginFormLine
+                    span
+                       input(name='login', type='email', placeholder='Email')
+                div.loginFormLine
+                    span
+                        input(name='username', type='text', placeholder='Имя пользователя')
+                div.loginFormLine
+                    span
+                        input(name='password', type='password', placeholder='Пароль')
+                div.loginFormLine
+                    span
+                        input#send(type='button', value='Зарегистрироваться')

@@ -20,7 +20,7 @@ var users = {
           });
       }
       // transform data to object with keys - headers and values - our users
-      function transfofm(textToTrans) {
+      function transform(textToTrans) {
           textToTrans = textToTrans.split('\n');
           var headers = textToTrans[0].split('|');
           var objCsv = [];
@@ -34,32 +34,39 @@ var users = {
           }
           return objCsv;
       }
-      if (callback) {reading(function (cb) {callback(transfofm(cb))});}
+      reading(function (cb) {callback(transform(cb))});
   },
-  checkExist: function (user) {
+  checkExist: function (user, callback) {
       //compare our users with props of newUser
-      function cheking(text, user) {
+      var checkArr = [];
+      function cheking(text, user, callback) {
           for (i=0; i<text.length;i++){
-              if (text[i].login == user.login || text[i].username == user.username) {console.log('exists!'); return true;}
+              if (text[i].login == user.login || text[i].username == user.username) {console.log('exists!'); checkArr.push(text[i]);}
               else {console.log('no match');}
           }
+          callback(checkArr.length !== 0)
+
       }
       // check our user from file we read by transToObj
-     this.transToObj(function (cb) {
-         cheking(cb, newUser);
+     this.transToObj(function (text) {
+         cheking(text, user, function (cb) {
+             callback(cb);
+         });
      });
   },
   addUser: function (user) {
       //transform new usr to a string and add to file
-      function adding(userToAdd) {
+      function adding(userToAdd, id) {
           var finUser, arrVal = [];
+          //push userId
+          arrVal.push(id);
           for (var key in userToAdd) {
               if (userToAdd.hasOwnProperty(key)){
                   arrVal.push(userToAdd[key]);
                   finUser = arrVal.join('|');
               } else {throw error}
           }
-          // write stream with appending string at the end of file
+          //write stream with appending string at the end of file
           var writeStream = fs.createWriteStream(csvfile, {flags: 'a'});
           writeStream.write(finUser+ '\n');
           writeStream.on('error', function (err) {console.log(err);});
@@ -67,16 +74,13 @@ var users = {
           writeStream.on('finish', function () {
               console.log('complete!')
           });
-          console.log(finUser);
       }
-      adding(user);
+      users.transToObj(function (cb) {
+          adding(user, cb.length);
+      });
+
     }
 };
 
-users.transToObj(function (cb) {
-    console.log(cb);
-});
-
-
-module.exports.users = users;
+module.exports = users;
 

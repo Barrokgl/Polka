@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var users = require('../dao');
 
 /* GET home page. */
 // router.get('/', function(req, res, next) {
@@ -21,8 +22,17 @@ router.get('/login', function(req, res) {
   res.render('login', { title: 'login or Sign up' });
 });
 /* Post Registration handler */
-router.post('/login', function (req, res) {
-    res.send('Succes!');
-})
+router.post('/registration', function (req, res) {
+    users.checkExist(req.body, function (exist) {
+        if (!exist) {
+            users.addUser(req.body);
+            res.json({success: true, answer: 'Пользователь добавлен!'});
+            //res.redirect('back');
+        }
+        if (exist){res.json({success: true, answer: 'Пользователь с таким именем или логином уже существует!'});}
+    });
+    // res.json({success: true});
+    // res.redirect('back');
+});
 
 module.exports = router;

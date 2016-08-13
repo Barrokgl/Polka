@@ -6,7 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 
-// New Code
+// Mongo
 var mongo = require('mongodb');
 var monk = require('monk');
 var db = monk('localhost:27017/Polka');

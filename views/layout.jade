@@ -4,9 +4,12 @@ html
     meta(charset='UTF-8')
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
+    script(src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js")
+    script(src='javascripts/login.js' defer)
   body
-    block header
-      include incudes/header
-    block content
-    block footer
-      include  incudes/footer
+    div.wrapper
+      block header
+          include incudes/header
+      block content
+      block footer
+        include  incudes/footer

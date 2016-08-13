@@ -1,13 +1,11 @@
 div.wrap
     header
-        span.logotype
-        div.header-name
-            a(href='./')
-                p  Polka.ru
+        a(href='./')
+            span.logotype
         div.search-form
             form#q
-                input(name='search' type="search" id="search" placeholder="Искать по названию или автору" required)
-                input(name='icon' type="image" src='../images/find.png' class="find" alt="Поиск")
+               input(name='search' id="search" placeholder="Искать по названию или автору" required)
+               input(type="image" src='../images/find.png' class="find" alt="Поиск")
         nav.header-nav
             ul
                 li

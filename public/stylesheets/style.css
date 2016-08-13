@@ -8,6 +8,10 @@ body {
   height: 100%;
   background-color: #e0af66;
 }
+.wrapper {
+    position: relative;
+    min-height: 100vh;
+}
 
 a {
   cursor: pointer;
@@ -17,23 +21,23 @@ a {
 
 /* форма поиска*/
 #q {
-  height: 25px;
+  /*height: 25px;*/
   max-width: 470px;
   background: #fff;
-  display: inline;
+  /*display: inline;*/
 }
 
 #search {
   width: 400px;
-  height: 10px;
+  /*height: 10px;*/
   outline: none;
   border: none;
   -webkit-appearance: none;
-  padding: 10px 2px;
+  /*padding: 10px 2px;*/
 }
 
 .find {
-  vertical-align: -5px;
+  vertical-align: -3px;
   padding-right: 5px;
 }
 
@@ -45,24 +49,25 @@ a {
 span.logotype {
   display: block;
   float: left;
-  width: 64px;
-  height: 64px;
-  margin: 10px 0px 0px 20px;
-  background: url('../images/books.png');
+  width: 200px;
+  height: 80px;
+  margin-left: 30px;
+  background: url('../images/logotype.png');
+  background-size: cover;
 }
-.header-name {
-  display: block;
-  float: left;
-  width: 170px;
-  text-align: center;
-  padding: 0px;
-  margin: 20px 0px 0px 0px;
+/*.header-name {*/
+  /*display: block;*/
+  /*float: left;*/
+  /*width: 170px;*/
+  /*text-align: center;*/
+  /*padding: 0px;*/
+  /*margin: 20px 0px 0px 0px;*/
 
-}
+/*}*/
 .search-form {
   display: block;
   float: left;
-  margin: 30px 0px 0px 0px;
+  margin: 35px 0px 0px 100px;
 }
 
 nav.header-nav ul{
@@ -80,12 +85,15 @@ nav.header-nav ul{
   padding:0px;
   width: 140px;
   height: 70px;
-  margin: 32px 0px -5px 8px;
+  margin: 35px 0px -5px 8px;
   text-align:center;
 
 }
 
 /* Main content */
+.main-content {
+  padding-bottom: 150px;
+}
 
 .main-content-title h1{
   /*margin: 0px 0px 0px 15px;*/
