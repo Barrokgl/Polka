@@ -1,6 +1,6 @@
 var fs = require('fs');
-var dao = require('./dao').users;
 var newHeaders = ['userId', 'login', 'username', 'password'];
+
 //convert obj user to string
 function objToString (obj) {
     var str = '';
@@ -15,10 +15,14 @@ function objToString (obj) {
 function generateContent(lengthOfCsv) {
     var contentString = [];
     for (i = 0; i < lengthOfCsv; i++) {
-        var user = {userId: i+1, login: 'user'+(i+1)+'@mail.com', username: 'user'+(i+1), password:Math.floor(Math.random()*(1000-10+1))+10};
-        contentString[i] = [];
-        contentString[i].push(objToString(user));
-        contentString[i] = contentString[i][0].split(' ').join('|').slice(0, -1)+'\n';
+        var user = {
+            userId: i+1,
+            login: 'user'+(i+1)+'@mail.com',
+            username: 'user'+(i+1),
+            password:Math.floor(Math.random()*(1000-10+1))+10
+        };
+        contentString.push(user);
+        contentString[i] = objToString(contentString[i]).split(' ').join('|').slice(0, -1)+'\n';
     }
     return contentString.join('');
 }
@@ -31,5 +35,4 @@ function write(headers, lengthOfCsv, csvfile) {
         console.log(err);
     });
 }
-write(newHeaders, 150, 'users.csv');
 

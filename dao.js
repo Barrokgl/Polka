@@ -2,7 +2,6 @@
  * Created by Barrokgl on 01.08.2016.
  */
 var fs = require('fs');
-var newUser = require('./newUser.json');
 var csvfile = './users.csv';
 
 
@@ -20,7 +19,7 @@ var users = {
           });
       }
       // transform data to object with keys - headers and values - our users
-      function transform(textToTrans) {
+      function transform(textToTrans, callback) {
           textToTrans = textToTrans.split('\n');
           var headers = textToTrans[0].split('|');
           var objCsv = [];
@@ -32,16 +31,22 @@ var users = {
               }
               objCsv.push(newObj);
           }
-          return objCsv;
+          callback(objCsv);
       }
-      reading(function (cb) {callback(transform(cb))});
+      reading(function (cb) {
+          transform(cb, function (cb) {
+              callback(cb);
+          })
+      });
   },
   checkExist: function (user, callback) {
       //compare our users with props of newUser
       var checkArr = [];
       function cheking(text, user, callback) {
           for (i=0; i<text.length;i++){
-              if (text[i].login == user.login || text[i].username == user.username) {console.log('exists!'); checkArr.push(text[i]);}
+              if (text[i].login == user.login || text[i].username == user.username) {
+                  console.log('exists!'); checkArr.push(text[i]);
+              }
               else {console.log('no match');}
           }
           callback(checkArr.length !== 0)

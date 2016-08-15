@@ -26,13 +26,28 @@ router.post('/registration', function (req, res) {
     users.checkExist(req.body, function (exist) {
         if (!exist) {
             users.addUser(req.body);
-            res.json({success: true, answer: 'Пользователь добавлен!'});
-            //res.redirect('back');
-        }
-        if (exist){res.json({success: true, answer: 'Пользователь с таким именем или логином уже существует!'});}
-    });
-    // res.json({success: true});
-    // res.redirect('back');
-});
+            res.json({
+                success: true,
+                answer: 'Пользователь добавлен!',
+                done: true
+            });
 
+        }
+        else {
+            res.json({
+                success: true,
+                answer: 'Пользователь с таким именем или логином уже существует!'
+            });
+        }
+    });
+
+});
+/* Post login handler*/
+router.post('/login', function(req, res) {
+    res.json({
+        success: true,
+        answer: 'personal accounts almost work',
+        done: true
+    });
+});
 module.exports = router;

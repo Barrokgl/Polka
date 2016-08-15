@@ -21,19 +21,15 @@ a {
 
 /* форма поиска*/
 #q {
-  /*height: 25px;*/
   max-width: 470px;
   background: #fff;
-  /*display: inline;*/
 }
 
 #search {
   width: 400px;
-  /*height: 10px;*/
   outline: none;
   border: none;
   -webkit-appearance: none;
-  /*padding: 10px 2px;*/
 }
 
 .find {
@@ -55,15 +51,7 @@ span.logotype {
   background: url('../images/logotype.png');
   background-size: cover;
 }
-/*.header-name {*/
-  /*display: block;*/
-  /*float: left;*/
-  /*width: 170px;*/
-  /*text-align: center;*/
-  /*padding: 0px;*/
-  /*margin: 20px 0px 0px 0px;*/
 
-/*}*/
 .search-form {
   display: block;
   float: left;
@@ -96,7 +84,6 @@ nav.header-nav ul{
 }
 
 .main-content-title h1{
-  /*margin: 0px 0px 0px 15px;*/
   padding-left: 20px;
   padding-top: 20px;
   text-align: center;
