@@ -63,8 +63,16 @@ router.get('/addbook', function(req, res) {
 /* Post addbook handler*/
 
 router.post('/addbook', function (req, res, next) {
-    books.addBook(req, res);
-    res.status(200).json({success: true, answer: 'Uploaded'});
+    books.parseForm(req, res, function (fields) {
+       books.checkExist(fields, function (exist) {
+           if (!exist) {
+               books.addBook(fields);
+               res.status(200).json({success: true, answer: 'Uploaded'});
+           } else {
+               res.status(200).json({success: true, answer: 'not uploaded'});
+           }
+       })
+    });
 });
 
 module.exports = router;

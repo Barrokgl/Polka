@@ -3,7 +3,7 @@ var formidable = require('formidable');
 var csvfile = './api/books.csv';
 
 //parse incoming form
-function formParse(req, res, callback) {
+function parsing(req, res, callback) {
     var fields = {};
     var form = new formidable.IncomingForm();
     form.encoding = 'utf-8';
@@ -61,7 +61,7 @@ function transform(textToTrans) {
 var checkArr = [];
 function cheking(text, book, callback) {
     for (i=0; i<text.length;i++){
-        if (text[i].bookname == book.bookname || text[i].author == book.author) {
+        if (text[i].bookname == book.bookname && text[i].author == book.author) {
             console.log('exists!'); checkArr.push(text[i]);
         }
         else {console.log('no match');}
@@ -91,21 +91,21 @@ function adding(bookToAdd, id) {
     });
 }
 var books = {
-    addBook: function (req, res) {
+    parseForm: function (req, res, callback) {
+        parsing(req, res, function (fields) {
+            callback(fields)
+        })
+    },
+    addBook: function (book) {
         reading(function (books) {
-            formParse(req, res, function (fields) {
-                adding(fields, transform(books).length)
-            })
+                adding(book, transform(books).length)
         });
 
     },
-    checkExist: function (req, res, callback) {
+    checkExist: function (book , callback) {
         reading(function (books) {
-            formParse(req, res, function (fields) {
-                cheking(transform(books), fields, function (exist) {
-                    console.log(exist);
-                    callback(exist)
-                })
+            cheking(transform(books), book, function (exist) {
+                callback(exist)
             })
         })
     }
