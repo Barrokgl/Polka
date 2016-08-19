@@ -2,7 +2,7 @@
  * Created by Barrokgl on 01.08.2016.
  */
 var fs = require('fs');
-var csvfile = './users.csv';
+var csvfile = './api/users.csv';
 
 // trans stream to string
 function reading(callback) {
