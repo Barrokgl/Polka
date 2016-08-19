@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var users = require('../dao');
+var formidable = require('formidable');
 
 /* GET home page. */
 // router.get('/', function(req, res, next) {
@@ -42,7 +43,9 @@ router.post('/registration', function (req, res) {
     });
 
 });
+
 /* Post login handler*/
+
 router.post('/login', function(req, res) {
     res.json({
         success: true,
@@ -50,4 +53,23 @@ router.post('/login', function(req, res) {
         done: true
     });
 });
+
+/* GET addbook page */
+
+router.get('/addbook', function(req, res) {
+    res.status(200).render('addbook', { title: 'Add your own book' });
+});
+
+router.post('/addbook', function (req, res) {
+    var form = new formidable.IncomingForm();
+    form.encoding = 'utf-8';
+    form.uploadDir = 'C:/Users/Barrokgl/Desktop/Polka/public/uploads';
+    form.keepExtensions = true;
+    form.parse(req, function (err, fields, files) {
+        console.log(fields);
+        console.log(files.bookimg.File);
+        res.status(200).json({success: true, answer: 'Uploaded'})
+    });
+});
+
 module.exports = router;

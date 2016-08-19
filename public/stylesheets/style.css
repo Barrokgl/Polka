@@ -105,39 +105,6 @@ nav.header-nav ul{
   margin: 5px;
 }
 
-/* login form */
-.mainLoginForm {
-  position: fixed;
-  text-align: center;
-  background: beige;
-  width: 400px;
-  border-radius: 5px;
-  border: solid 2px;
-  /* align center login form*/
-  top:50%;
-  left:50%;
-  transform: translate(-50%,-50%);
-}
-.loginFormBtns {
-  margin: 10px;
-}
-
-.loginFormBtns input {
-  width: 100px;
-  background: plum;
-}
-
-.loginFormLine {
-  margin: 10px;
-}
-
-.loginFormLine input {
-  width: 70%;
-}
-
-.userName {
-  display: none;
-}
 /* footer */
 footer {
   background-color: burlywood;

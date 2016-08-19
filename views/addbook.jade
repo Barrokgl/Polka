@@ -1,0 +1,28 @@
+extends layout
+block append head
+    script(src='javascripts/addbook.js' defer)
+    link(rel='stylesheet', href='/stylesheets/addbook.css')
+block content
+    div.main-content
+        h1 Добавь свою любимую книгу!
+        .add-book-form
+            form#data
+                div.add-form-line
+                    span
+                        input(name='bookname' type='text' placeholder='Название' required )
+                div.add-form-line
+                    span
+                        input(name='author' type='text' placeholder='Автор' required)
+                div.add-form-line
+                    span
+                        input(name='genre' type='text' placeholder='Жанр' required)
+                div.add-form-line.add-book-text
+                    span
+                        textarea(rows=9 name='text' cols=40 placeholder='Описание книги' required)
+                div.add-form-line
+                    span.add-img
+                        label.upload-label(for='upload-image')  Загрузить обложку
+                        input#upload-image(name='bookimg' type='file' accept="image/jpeg,image/png")
+                div.add-form-line
+                    span
+                        input#send(type='button' value='Отправить')

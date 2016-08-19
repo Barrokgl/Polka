@@ -1,5 +1,7 @@
 extends layout
-
+block append head
+    script(src='javascripts/login.js' defer)
+    link(rel='stylesheet', href='/stylesheets/login.css')
 block content
     div.main-content
         .mainLoginForm
@@ -9,13 +11,13 @@ block content
                     input(name="registration" type="button" value="Регистрация")
                 div.loginFormLine
                     span
-                       input(name='login', type='email', placeholder='Email')
+                       input(name='login', type='email', placeholder='Email' required)
                 div.loginFormLine
                     span
-                        input(name='username', type='text', placeholder='Имя пользователя')
+                        input(name='username', type='text', placeholder='Имя пользователя' required)
                 div.loginFormLine
                     span
-                        input(name='password', type='password', placeholder='Пароль')
+                        input(name='password', type='password', placeholder='Пароль' required)
                 div.loginFormLine
                     span
                         input#send(type='button', value='Зарегистрироваться')

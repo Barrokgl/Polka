@@ -1,0 +1,43 @@
+.main-content h1 {
+    position: absolute;
+    top: 15%;
+    left: 35%;
+}
+.add-book-form {
+    position: fixed;
+    text-align: center;
+    background: beige;
+    width: 500px;
+    border-radius: 5px;
+    border: solid 2px;
+    /* align center form*/
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);
+}
+.add-form-line {
+    margin: 10px;
+}
+
+.add-form-line input {
+    width: 70%;
+}
+.add-book-text input{
+    resize: none;
+}
+/* file upload pretty */
+.upload-label {
+    font-size: 1.25em;
+    font-weight: 700;
+    color: white;
+    background-color: #a16a0b;
+    display: inline-block;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#upload-image {
+    opacity: 0;
+    position: absolute;
+    z-index: -1;
+}

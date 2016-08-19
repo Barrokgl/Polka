@@ -1,5 +1,6 @@
 var fs = require('fs');
 var newHeaders = ['userId', 'login', 'username', 'password'];
+var users = require('./dao');
 
 //convert obj user to string
 function objToString (obj) {
@@ -35,4 +36,3 @@ function write(headers, lengthOfCsv, csvfile) {
         console.log(err);
     });
 }
-
