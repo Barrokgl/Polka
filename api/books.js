@@ -1,13 +1,15 @@
 var fs = require('fs');
 var formidable = require('formidable');
-var csvfile = './api/books.csv';
+var config = require('../config');
+var file = config.get('dbs:bookstable');
+var upload = config.get('uploaddir');
 
 //parse incoming form
-function parsing(req, res, callback) {
+function parseIncommingForm(req, res, callback) {
     var fields = {};
     var form = new formidable.IncomingForm();
     form.encoding = 'utf-8';
-    form.uploadDir = 'C:/Users/Barrokgl/Desktop/Polka/public/uploads';
+    form.uploadDir = upload;
     form.keepExtensions = true;
     //error handler
     form.on('error', function(err) {
@@ -31,7 +33,7 @@ function parsing(req, res, callback) {
 
 // trans stream to string
 function reading(callback) {
-    var readStream = fs.createReadStream(csvfile, {encoding: 'utf-8'}, function(err){if (err) {console.log(err);}});
+    var readStream = fs.createReadStream(file, {encoding: 'utf-8'}, function(err){if (err) {console.log(err);}});
     var str = '';
     readStream.on('data', function (data) {
         str += data;
@@ -41,7 +43,7 @@ function reading(callback) {
     });
 }
 
-// transform data to object with keys - headers and values - our books
+// transformToObject data to object with keys - headers and values - our books
 function transform(textToTrans) {
     textToTrans = textToTrans.split('\n');
     var headers = textToTrans[0].split('|');
@@ -70,7 +72,7 @@ function cheking(text, book, callback) {
 
 }
 
-//transform new book to a string and add to file
+//transformToObject new book to a string and add to file
 function adding(bookToAdd, id) {
     var finBook, arrVal = [];
     //push bookId
@@ -82,7 +84,7 @@ function adding(bookToAdd, id) {
         } else {throw error}
     }
     //write stream with appending string at the end of file
-    var writeStream = fs.createWriteStream(csvfile, {flags: 'a'});
+    var writeStream = fs.createWriteStream(file, {flags: 'a'});
     writeStream.write(finBook+ '\n');
     writeStream.on('error', function (err) {console.log(err);});
     writeStream.end();
@@ -92,7 +94,7 @@ function adding(bookToAdd, id) {
 }
 var books = {
     parseForm: function (req, res, callback) {
-        parsing(req, res, function (fields) {
+        parseIncommingForm(req, res, function (fields) {
             callback(fields)
         })
     },
@@ -110,4 +112,5 @@ var books = {
         })
     }
 };
+
 module.exports = books;

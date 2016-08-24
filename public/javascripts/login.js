@@ -24,14 +24,12 @@ $(document).ready(function () {
             password: password
         };
         //send to server
-        $.ajax({
-            url: url,
-            type: "POST",
-            data: data,
-            success: function(response){
-                alert(response.answer);
-                if (response.done){window.history.back(-1)}
-            }
-        });
+        $.post(url, {data: data},
+            function (data, textStatus, jqXHR) {
+                alert(data.answer);
+                if (data.done) {
+                    window.history.back(-1)
+                }
+        })
     });
 });

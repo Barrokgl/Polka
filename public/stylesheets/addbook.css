@@ -41,3 +41,7 @@
     position: absolute;
     z-index: -1;
 }
+.error-box {
+    color: red;
+    font-size: 12px;
+}

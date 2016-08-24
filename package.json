@@ -17,7 +17,9 @@
     "jstransformer": "*",
     "mongodb": "^2.2.1",
     "monk": "^3.0.6",
-    "morgan": "~1.7.0",
-    "serve-favicon": "~2.3.0"
+    "morgan": "^1.7.0",
+    "nconf": "^0.8.4",
+    "serve-favicon": "~2.3.0",
+    "winston": "^2.2.0"
   }
 }

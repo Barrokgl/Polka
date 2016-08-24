@@ -9,13 +9,31 @@ block content
             form#data
                 div.add-form-line
                     span
-                        input(name='bookname' type='text' placeholder='Название' required )
+                        input(
+                        name='bookname'
+                        type='text'
+                        placeholder='Название'
+                        pattern='[A-Za-zА-Яа-яЁё0-9.-]{,30}'
+                        required
+                        )
                 div.add-form-line
                     span
-                        input(name='author' type='text' placeholder='Автор' required)
+                        input(
+                        name='author'
+                        type='text'
+                        placeholder='Автор'
+                        pattern='[A-Za-zА-Яа-яЁё0-9.-]{,30}'
+                        required
+                        )
                 div.add-form-line
                     span
-                        input(name='genre' type='text' placeholder='Жанр' required)
+                        input(
+                        name='genre'
+                        type='text'
+                        placeholder='Жанр'
+                        pattern='[A-Za-zА-Яа-яЁё0-9.-]{,30}'
+                        required
+                        )
                 div.add-form-line.add-book-text
                     span
                         textarea(rows=9 name='text' cols=40 placeholder='Описание книги' required)

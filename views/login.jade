@@ -11,13 +11,26 @@ block content
                     input(name="registration" type="button" value="Регистрация")
                 div.loginFormLine
                     span
-                       input(name='login', type='email', placeholder='Email' required)
+                       input(name='login' type='email' placeholder='Email' required)
                 div.loginFormLine
                     span
-                        input(name='username', type='text', placeholder='Имя пользователя' required)
+                        input(
+                        name='username'
+                        type='text'
+                        placeholder='Имя пользователя'
+                        pattern='^[a-zA-Z][a-zA-Z0-9-_\.]{1,20}$'
+                        title='Нельзя использовать спецсимволы'
+                        required
+                        )
                 div.loginFormLine
                     span
-                        input(name='password', type='password', placeholder='Пароль' required)
+                        input(
+                            name='password'
+                            type='password'
+                            pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"
+                            title="Не менее восьми символов содержащих хотя бы одну цифру и символы из верхнего и нижнего регистра"
+                            placeholder='Пароль' required
+                            )
                 div.loginFormLine
                     span
                         input#send(type='button', value='Зарегистрироваться')
