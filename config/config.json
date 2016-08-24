@@ -1,0 +1,8 @@
+{
+  "port": "8000",
+  "dbs": {
+    "userstable": "./api/users.csv",
+    "bookstable": "./api/books.csv"
+  },
+  "uploaddir": "./public/uploads"
+}
