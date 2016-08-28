@@ -4,5 +4,9 @@
     "userstable": "./api/users.csv",
     "bookstable": "./api/books.csv"
   },
-  "uploaddir": "./public/uploads"
+  "uploaddir": "./public/uploads",
+  "session": {
+    "secret": "WhoIsJohnGalt",
+    "key": "sid"
+  }
 }

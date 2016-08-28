@@ -3,9 +3,11 @@ var config = require('../config');
 var file = config.get('dbs:userstable');
 
 exports.post = function (req, res) {
+    console.log(req.body);
     users.checkExist(file, req.body, function (exist) {
         if (!exist) {
             users.addNewItem(req.body, file);
+            req.session.user = req.body;
             res.json({
                 success: true,
                 answer: 'Пользователь добавлен!',

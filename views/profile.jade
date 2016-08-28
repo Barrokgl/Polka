@@ -1,0 +1,13 @@
+extends layout
+
+block content
+    div.container
+        div.row
+            div.col-xs-2
+            div.col-xs-8
+                img.img-responsive(src="/images/user-default.png")
+                p UserID: #{user.userId}
+                p Login: #{user.login}
+                p Username #{user.username}
+            div.col-xs-2
+

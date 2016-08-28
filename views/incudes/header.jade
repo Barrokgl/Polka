@@ -1,16 +1,29 @@
-div.wrap
-    header
-        a(href='./')
-            span.logotype
-        div.search-form
-            form#q
-               input(name='search' id="search" placeholder="Искать по названию или автору" required)
-               input(type="image" src='../images/find.png' class="find" alt="Поиск")
-        nav.header-nav
-            ul
+nav.navbar.navbar-default.navbar-static-top(role="navigation")
+    div.container-fluid
+        div.navbar-header
+            button.navbar-toggle(type="button" data-toggle="collapse" data-target="#bs-navbar-collapse")
+                    span.sr-only Toggle navigation
+                    span.icon-bar
+                    span.icon-bar
+                    span.icon-bar
+            a.navbar-band(href="/")
+                img.img-responsive.logotype(src="/images/logotype.png" alt="Polka.ru")
+        div.navbar-collapse.collapse#bs-navbar-collapse
+            form.navbar-form.navbar-left.nav-search-align(role="search")
+                div.form-group
+                    input.form-control(type="text" placeholder="Поиск")
+                    a(href="/search")
+                        span.glyphicon.glyphicon-search.search-icon
+            ul.nav.navbar-nav.navbar-right.nav-align
                 li
                     a О нас
                 li
                     a Библиотека
-                li
-                    a(href='/login') Вход / Регистрация
+                if user
+                    li
+                        a(href='/profile') Пользователь #{user.username}
+                    li
+                        a(href="/logout") Выйти
+                else
+                    li
+                        a(href='/login') Вход / Регистрация

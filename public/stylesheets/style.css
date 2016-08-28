@@ -1,18 +1,13 @@
 * {
   margin: 0;
 }
-
+html {
+  position: relative;
+  min-height: 100%;
+}
 body {
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-  min-width: 780px;
-  height: 100%;
-  background-color: #e0af66;
+  margin-bottom: 60px;
 }
-.wrapper {
-    position: relative;
-    min-height: 100vh;
-}
-
 a {
   cursor: pointer;
   text-decoration: none;
@@ -20,99 +15,40 @@ a {
 }
 
 /* форма поиска*/
-#q {
-  max-width: 470px;
-  background: #fff;
+.search-icon {
+  left: -25px;
 }
-
-#search {
-  width: 400px;
-  outline: none;
-  border: none;
-  -webkit-appearance: none;
-}
-
-.find {
-  vertical-align: -3px;
-  padding-right: 5px;
-}
-
 /* хеадер */
-.wrap {
-  background: lemonchiffon;
-  height:80px;
-}
-span.logotype {
-  display: block;
-  float: left;
-  width: 200px;
-  height: 80px;
-  margin-left: 30px;
-  background: url('../images/logotype.png');
-  background-size: cover;
-}
 
-.search-form {
-  display: block;
-  float: left;
-  margin: 35px 0px 0px 100px;
+.nav-search-align {
+  margin-top: 14px;
 }
-
-nav.header-nav ul{
-  text-align:center;
-  margin:0px 0px 0px 10px;
+.nav-align {
+  margin-top: 7px;
 }
-
-.header-nav li {
-  display: inline-block;
-  float: right;
+.navbar-default .navbar-nav>li>a{
+  color: #2a1403;
 }
-
-.header-nav a{
-  display: block;
-  padding:0px;
-  width: 140px;
-  height: 70px;
-  margin: 35px 0px -5px 8px;
-  text-align:center;
-
+.navbar-default .navbar-nav>li>a:hover {
+  border-bottom: 1px darkgreen solid;
 }
-
+.navbar {
+  background-color: #e0af66;
+}
 /* Main content */
-.main-content {
-  padding-bottom: 150px;
-}
 
-.main-content-title h1{
-  padding-left: 20px;
-  padding-top: 20px;
-  text-align: center;
-}
 /* Книжечки */
-.book-line {
-  margin-top: 15px;
-  padding-left: 15px;
-  border-bottom: solid coral;
-}
-
-.book-line-title {
-  margin-left: 5px;
-  margin-bottom: 10px;
-}
-
-.book-line span {
-  display: inline-block;
-  margin: 5px;
-}
 
 /* footer */
-footer {
-  background-color: burlywood;
+#footer {
+  position: absolute;
+  bottom: 0;
   width: 100%;
   height: 60px;
-  text-align: center;
-  padding-top: 50px;
-  position: absolute;
-  left: 0;
-  bottom: 0;
+  background-color: burlywood;
+  margin-top: 20px;
 }
+.container .text-muted {
+  margin: 20px 0;
+}
+/*media */

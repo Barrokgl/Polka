@@ -4,7 +4,9 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
+var config = require('./config');
+var session = require('express-session');
+var FileStore = require('session-file-store')(session);
 
 // Mongo
 var mongo = require('mongodb');
@@ -25,6 +27,13 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
+app.use(session({
+  store: new FileStore,
+  secret: config.get('session:secret'),
+  key: config.get('session:key'),
+  saveUninitialized: true,
+  resave: true
+}));
 app.use(express.static(path.join(__dirname, 'public')));
 
 
@@ -33,6 +42,9 @@ app.use(function(req,res,next){
   req.db = db;
   next();
 });
+
+// registered users handler
+app.use(require('./libs/loadUser'));
 
 app.use('/', routes);
 

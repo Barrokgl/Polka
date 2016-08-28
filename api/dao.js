@@ -70,6 +70,7 @@ function checkItemExist(text, user, callback) {
         if (text[i].login == user.login || text[i].username == user.username) {
             console.log('exists!');
             checkArr.push(text[i]);
+            break;
         }
         else {
             console.log('no match');
@@ -78,8 +79,28 @@ function checkItemExist(text, user, callback) {
     callback(checkArr.length !== 0)
 }
 
+// authentication of user
+var authenticated;
+function authenticateUser(text, user, callback) {
+    for (i=0; i < text.length; i++) {
+        if (text[i].login == user.login) {
+            if (text[i].password == user.password) {
+                authenticated = text[i];
+                break;
+            } else {
+                console.log('wrong password');
+                break;
+            }
+        } else {
+            authenticated = false;
+            console.log('not found')
+        }
+    }
+    callback(authenticated);
+}
+
 //parse incoming form
-function parseIncommingForm(req, res, callback) {
+function parseMultipartForm(req, res, callback) {
     var fields = {};
     var form = new formidable.IncomingForm();
     form.encoding = 'utf-8';
@@ -99,7 +120,6 @@ function parseIncommingForm(req, res, callback) {
     });
     //Call back at the end of the form.
     form.on('end', function () {
-        //res.status(200).json({success: true, answer: 'Uploaded'});
         callback(fields)
     });
     form.parse(req);
@@ -109,7 +129,8 @@ var dao = {
   checkExist: function (file ,user, callback) {
           readFromFile(file , function (text) {
               checkItemExist(transformToObject(text), user, function (exist) {
-                  callback(exist)
+                  callback(exist);
+                  console.log(exist);
               })
           })
   },
@@ -119,9 +140,16 @@ var dao = {
          });
   },
   parseForm: function (req, res, callback) {
-        parseIncommingForm(req, res, function (fields) {
+        parseMultipartForm(req, res, function (fields) {
             callback(fields)
         })
+  },
+  userAuthentication: function (file, user, callback) {
+      readFromFile(file, function (text) {
+          authenticateUser(transformToObject(text), user, function (auth) {
+              callback(auth);
+          })
+      })
   }
 };
 

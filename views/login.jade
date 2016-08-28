@@ -1,36 +1,45 @@
 extends layout
 block append head
     script(src='javascripts/login.js' defer)
+    script(src="../bower_components/bootstrap-validator/dist/validator.min.js")
     link(rel='stylesheet', href='/stylesheets/login.css')
 block content
-    div.main-content
-        .mainLoginForm
-            form
-                div.logginFormButtons
-                    input(name="enter" type="button" value="Вход")
-                    input(name="registration" type="button" value="Регистрация")
-                div.loginFormLine
-                    span
-                       input(name='login' type='email' placeholder='Email' required)
-                div.loginFormLine
-                    span
-                        input(
-                        name='username'
-                        type='text'
-                        placeholder='Имя пользователя'
-                        pattern='^[a-zA-Z][a-zA-Z0-9-_\.]{1,20}$'
-                        title='Нельзя использовать спецсимволы'
-                        required
-                        )
-                div.loginFormLine
-                    span
-                        input(
+    div.container
+        div.row
+            div.col-xs-4
+            div.col-xs-4
+                form#logform(role="form")
+                    fieldset
+                        legend Вход на сайт
+                        div.row
+                            div.btn-group.col-xs-12
+                                button.btn.btn-default(name="enter" type="button" value="Вход") Вход
+                                button.btn.btn-default(name="registration" type="button" value="Регистрация") Регистрация
+                        div.form-group
+                            input.form-control(
+                            name='login'
+                            type='email'
+                            placeholder='Email'
+                            data-error="Неправильный email"
+                            required
+                            )
+                        div.form-group
+                            input.form-control(
+                            name='username'
+                            type='text'
+                            placeholder='Имя пользователя'
+                            pattern='^[a-zA-Z][a-zA-Z0-9-_\.]{1,20}$'
+                            title='Нельзя использовать спецсимволы'
+                            required
+                            )
+                        div.form-group
+                            input.form-control(
                             name='password'
                             type='password'
                             pattern="(?=^.{8,}$)((?=.*\d)|(?=.*\W+))(?![.\n])(?=.*[A-Z])(?=.*[a-z]).*$"
                             title="Не менее восьми символов содержащих хотя бы одну цифру и символы из верхнего и нижнего регистра"
                             placeholder='Пароль' required
                             )
-                div.loginFormLine
-                    span
-                        input#send(type='button', value='Зарегистрироваться')
+                        button#send.btn.btn-default(type='submit') Зарегистрироваться
+            div.col-xs-4
+

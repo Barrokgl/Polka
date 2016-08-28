@@ -7,4 +7,4 @@ exports.get = function(req, res) {
             docs : docs,
             title: "Polka.ru"
         });
-});}
+});};

@@ -1,46 +1,45 @@
 extends layout
 block append head
     script(src='javascripts/addbook.js' defer)
+    script(src="../bower_components/bootstrap-validator/dist/validator.min.js")
     link(rel='stylesheet', href='/stylesheets/addbook.css')
 block content
-    div.main-content
-        h1 Добавь свою любимую книгу!
-        .add-book-form
-            form#data
-                div.add-form-line
-                    span
-                        input(
-                        name='bookname'
-                        type='text'
-                        placeholder='Название'
-                        pattern='[A-Za-zА-Яа-яЁё0-9.-]{,30}'
-                        required
-                        )
-                div.add-form-line
-                    span
-                        input(
-                        name='author'
-                        type='text'
-                        placeholder='Автор'
-                        pattern='[A-Za-zА-Яа-яЁё0-9.-]{,30}'
-                        required
-                        )
-                div.add-form-line
-                    span
-                        input(
-                        name='genre'
-                        type='text'
-                        placeholder='Жанр'
-                        pattern='[A-Za-zА-Яа-яЁё0-9.-]{,30}'
-                        required
-                        )
-                div.add-form-line.add-book-text
-                    span
-                        textarea(rows=9 name='text' cols=40 placeholder='Описание книги' required)
-                div.add-form-line
-                    span.add-img
-                        label.upload-label(for='upload-image')  Загрузить обложку
-                        input#upload-image(name='bookimage' type='file' accept="image/jpeg,image/png")
-                div.add-form-line
-                    span
-                        input#send(type='button' value='Отправить')
+    div.container
+        div.row
+            div.col-xs-3
+            div.col-xs-6
+                form#data(role="form")
+                    fieldset
+                        legend Добавь свою любимую книгу
+                        div.form-group
+                            input.form-control(
+                            name='bookname'
+                            type='text'
+                            placeholder='Название'
+                            pattern='[A-Za-zА-Яа-яЁё0-9.-]*'
+                            required
+                            )
+                        div.form-group
+                            input.form-control(
+                            name='author'
+                            type='text'
+                            placeholder='Автор'
+                            pattern='[A-Za-zА-Яа-яЁё0-9.-]*'
+                            required
+                            )
+                        div.form-group
+                            input.form-control(
+                            name='genre'
+                            type='text'
+                            placeholder='Жанр'
+                            pattern='[A-Za-zА-Яа-яЁё0-9.-]*'
+                            required
+                            )
+                        div.form-group
+                            textarea.form-control(rows=9 name='text' cols=40 placeholder='Описание книги' required)
+                        div.form-group
+                            label.upload-label(for='upload-image')  Загрузить обложку
+                            input#upload-image.form-control(name='bookimage' type='file' accept="image/jpeg,image/png")
+                            p.help-block Картинки формата jpeg или png
+                        button#send.btn.btn-default(type='submit') Отправить
+            div.col-xs-3

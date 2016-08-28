@@ -2,16 +2,6 @@ var fs = require('fs');
 var newHeaders = ['userId', 'login', 'username', 'password'];
 var convert = require('./dao').objToString;
 
-//convert obj user to string
-function objToString (obj) {
-    var str = '';
-    for (var p in obj) {
-        if (obj.hasOwnProperty(p)) {
-            str += obj[p]+ ' ';
-        }
-    }
-    return str;
-}
 //generate dao strings
 function generateContent(lengthOfCsv) {
     var contentString = [];
@@ -23,7 +13,6 @@ function generateContent(lengthOfCsv) {
             password:Math.floor(Math.random()*(1000-10+1))+10
         };
         contentString.push(user);
-        // contentString[i] = objToString(contentString[i]).split(' ').join('|').slice(0, -1)+'\n';
         contentString[i] = convert(contentString[i]).split(' ').join('|').slice(0, -1)+'\n';
     }
     return contentString.join('');

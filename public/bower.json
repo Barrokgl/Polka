@@ -1,0 +1,16 @@
+{
+  "name": "Polka.ru",
+  "description": "web app",
+  "main": "./bin/www",
+  "authors": [
+    "barrokgl"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "dependencies": {
+    "jquery": "^3.1.0",
+    "bootstrap": "^3.3.7",
+    "bootstrap-validator": "^0.11.5"
+  }
+}

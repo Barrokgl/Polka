@@ -1,29 +1,28 @@
 extends layout
 
 block content
-    div.main-content
-        span.main-content-title
-            h1 Добро пожаловать на Polka.ru!
-            div.book-line
-                div.book-line-title
-                    h2
-                        a(href='/new-books') Новинки
-                each img, i in docs
-                    if (i < 5)
-                        span
+    div.container-fluid
+        div.row
+            h2.col-xs-12.col-xs-push-4 Добро пожаловать на Polka.ru!
+        div.row
+            h3
+                a(href='/new-books') Новинки
+            each img, i in docs
+                if (i < 5)
+                    div.col-xs-2
+                        div.clearfix
                             a(href='/#{img.name}')
-                                img.book(src='../#{img.src}')
-                            p
-                                a.book-label(href='/#{img.name}') #{img.name}
-
-            div.book-line
-                div.book-line-title
-                    h2
-                        a(href='/popular-books') Популярное
-                each img, i in docs
-                    if (i > 4)
-                        span
+                                img.img-responsive.pull-left(src='../#{img.src}' alt="#{img.name}")
+                        p
+                            a(href='/#{img.name}') #{img.name}
+        div.row
+            h3
+                a(href='/new-books') Популярное
+            each img, i in docs
+                if (i > 4)
+                    div.col-xs-2
+                        div.clearfix
                             a(href='/#{img.name}')
-                                img.book(src='../#{img.src}')
-                            p
-                                a.book-label(href='/#{img.name}') #{img.name}
+                                img.img-responsive.pull-left(src='../#{img.src}' alt="#{img.name}")
+                        p
+                            a(href='/#{img.name}') #{img.name}
