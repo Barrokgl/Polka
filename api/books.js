@@ -63,7 +63,7 @@ function transform(textToTrans) {
 var checkArr = [];
 function cheking(text, book, callback) {
     for (i=0; i<text.length;i++){
-        if (text[i].bookname == book.bookname && text[i].author == book.author) {
+        if (text[i].bookname == book.bookname || text[i].author == book.author) {
             console.log('exists!'); checkArr.push(text[i]);
         }
         else {console.log('no match');}

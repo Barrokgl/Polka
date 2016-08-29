@@ -6,7 +6,10 @@
   },
   "uploaddir": "./public/uploads",
   "session": {
+    "stoore": "mew FileStrore",
     "secret": "WhoIsJohnGalt",
-    "key": "sid"
+    "key": "sid",
+    "saveUninitialized": "true",
+    "resave": "true"
   }
 }

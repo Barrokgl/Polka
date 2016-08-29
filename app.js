@@ -7,6 +7,8 @@ var bodyParser = require('body-parser');
 var config = require('./config');
 var session = require('express-session');
 var FileStore = require('session-file-store')(session);
+var HttpError = require('./libs/error').HttpError;
+var log = require('./libs/logs')(module);
 
 // Mongo
 var mongo = require('mongodb');
@@ -27,13 +29,7 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(session({
-  store: new FileStore,
-  secret: config.get('session:secret'),
-  key: config.get('session:key'),
-  saveUninitialized: true,
-  resave: true
-}));
+app.use(session(config.get('session')));
 app.use(express.static(path.join(__dirname, 'public')));
 
 
@@ -46,37 +42,38 @@ app.use(function(req,res,next){
 // registered users handler
 app.use(require('./libs/loadUser'));
 
+//Error sender
+app.use(require('./libs/sendHttpError'));
+
 app.use('/', routes);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
+  var err = new HttpError(404, 'Not Found');
   next(err);
 });
 
-// error handlers
-
-// development error handler
-// will print stacktrace
-if (app.get('env') === 'development') {
-  app.use(function(err, req, res, next) {
-    res.status(err.status || 500);
-    res.render('error', {
-      message: err.message,
-      error: err
-    });
-  });
-}
+// error handler
 
 // production error handler
 // no stacktraces leaked to user
 app.use(function(err, req, res, next) {
-  res.status(err.status || 500);
-  res.render('error', {
-    message: err.message,
-    error: {}
-  });
+  if (typeof err == 'number') { // next(404);
+    err = new HttpError(err);
+  }
+  if (err instanceof HttpError) {
+    res.sendHttpError(err);
+  } else {
+    // development error handler
+    // will print stacktrace
+    if (app.get('env') == 'development') {
+        throw new Error(err);
+    } else {
+      log.error(err);
+      err = new HttpError(500);
+      res.sendHttpError(err);
+    }
+  }
 });
 
 module.exports = app;

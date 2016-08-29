@@ -71,8 +71,7 @@ function checkItemExist(text, user, callback) {
             console.log('exists!');
             checkArr.push(text[i]);
             break;
-        }
-        else {
+        } else {
             console.log('no match');
         }
     }
