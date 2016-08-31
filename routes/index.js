@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var HttpError = require('../libs/error').HttpError;
 
 /* GET home page. */
 router.get('/', require('./homepage').get);
@@ -24,6 +25,9 @@ router.post('/addbook', require('./addbook').post);
 
 /* Get profile handler */
 router.get('/profile', require('./profile').get);
+
+/* get book */
+router.get('/book/:bookname', require('./book').get);
 
 module.exports = router;
 

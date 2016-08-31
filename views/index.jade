@@ -1,28 +1,29 @@
 extends layout
-
+block append head
+    link(rel='stylesheet' href='/stylesheets/homepage.css')
 block content
     div.container-fluid
         div.row
             h2.col-xs-12.col-xs-push-4 Добро пожаловать на Polka.ru!
         div.row
-            h3
+            h3.partition-header
                 a(href='/new-books') Новинки
             each book, i in doc
                 if (i < 5)
                     div.col-xs-2
                         div.clearfix
-                            a(href='/#{book.bookname}')
+                            a(href='/book/:#{book.bookname}')
                                 img.img-responsive.pull-left(src='../#{book.bookimage}' alt="#{book.bookname}")
                         p
-                            a(href='/#{book.bookname}') #{book.bookname}
+                            a(href='/book/:#{book.bookname}') #{book.bookname}
         div.row
-            h3
+            h3.partition-header
                 a(href='/new-books') Популярное
             each book, i in doc
                 if (i > 4 && i < 10)
                     div.col-xs-2
                         div.clearfix
-                            a(href='/#{book.bookname}')
+                            a(href='/book/:#{book.bookname}')
                                 img.img-responsive.pull-left(src='../#{book.bookimage}' alt="#{book.bookname}")
                         p
-                            a(href='/#{book.bookname}') #{book.bookname}
+                            a(href='/book/:#{book.bookname}') #{book.bookname}

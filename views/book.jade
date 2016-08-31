@@ -1,0 +1,15 @@
+extends layout
+
+block content
+    div.container
+        div.row
+            div.col-xs-2
+            div.col-xs-8
+                    p #{book.bookid}
+                    p #{book.bookname}
+                    p #{book.author}
+                    p #{book.genre}
+                    p #{book.year}
+                    p #{book.text}
+                    img.img-responsive(src="../#{book.bookimage}")
+            div.col-xs-2

@@ -77,6 +77,20 @@ function checkBookExist(text, book, callback) {
 
 }
 
+//find book
+var find;
+function findBook(text, book, callback) {
+    for (i=0; i < text.length-1; i++) {
+        if (text[i].bookname.toLocaleLowerCase() == book.toLocaleLowerCase()) {
+            find = text[i];
+            break;
+        } else {
+            find = false;
+        }
+    }
+    callback(find);
+}
+
 //compare our dao with props of newUser
 var checkArr = [];
 function checkUserExist(text, user, callback) {
@@ -177,6 +191,13 @@ var dao = {
   accessBookCollection: function (callback) {
       readFromFile(config.get('dbs:bookstable'), function (text) {
           callback(transformToObject(text));
+      })
+  },
+  getRequestedBook: function (file, book, callback) {
+      readFromFile(file, function (text) {
+          findBook(transformToObject(text), book, function (exist) {
+              callback(exist);
+          })
       })
   }
 };
