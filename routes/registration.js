@@ -4,7 +4,7 @@ var file = config.get('dbs:userstable');
 
 exports.post = function (req, res) {
     console.log(req.body);
-    users.checkExist(file, req.body, function (exist) {
+    users.checkUser(file, req.body, function (exist) {
         if (!exist) {
             users.addNewItem(req.body, file);
             req.session.user = req.body;

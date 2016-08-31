@@ -63,9 +63,23 @@ function addItemToFile(ItemToAdd, id, file) {
     });
 }
 
+
+//compare our books with props of newbook
+var checkBookArr = [];
+function checkBookExist(text, book, callback) {
+    for (i=0; i<text.length;i++){
+        if (text[i].bookname == book.bookname && text[i].author == book.author) {
+            console.log('exists!'); checkBookArr.push(text[i]);
+        }
+        else {console.log('no match');}
+    }
+    callback(checkBookArr.length !== 0)
+
+}
+
 //compare our dao with props of newUser
 var checkArr = [];
-function checkItemExist(text, user, callback) {
+function checkUserExist(text, user, callback) {
     for (i = 0; i < text.length; i++) {
         if (text[i].login == user.login || text[i].username == user.username) {
             console.log('exists!');
@@ -101,6 +115,7 @@ function authenticateUser(text, user, callback) {
 //parse incoming form
 function parseMultipartForm(req, res, callback) {
     var fields = {};
+    var fileType;
     var form = new formidable.IncomingForm();
     form.encoding = 'utf-8';
     form.uploadDir = upload;
@@ -116,31 +131,40 @@ function parseMultipartForm(req, res, callback) {
     //Call back when each file in the form is parsed.
     form.on('file', function (name, file) {
         fields[name] = file.path;
+        fileType = file.type;
     });
     //Call back at the end of the form.
     form.on('end', function () {
-        callback(fields)
+        callback(fields, fileType)
     });
     form.parse(req);
 }
 
 var dao = {
-  checkExist: function (file ,user, callback) {
+  checkUser: function (file , user, callback) {
           readFromFile(file , function (text) {
-              checkItemExist(transformToObject(text), user, function (exist) {
+              checkUserExist(transformToObject(text), user, function (exist) {
                   callback(exist);
                   console.log(exist);
               })
           })
   },
+  checkBook: function (file , book, callback) {
+        readFromFile(file , function (text) {
+            checkBookExist(transformToObject(text), book, function (exist) {
+                callback(exist);
+                console.log(exist);
+            })
+        })
+    },
   addNewItem: function (item, file) {
          readFromFile(file, function (text) {
              addItemToFile(item, transformToObject(text).length, file);
          });
   },
   parseForm: function (req, res, callback) {
-        parseMultipartForm(req, res, function (fields) {
-            callback(fields)
+        parseMultipartForm(req, res, function (fields, fileType) {
+            callback(fields, fileType);
         })
   },
   userAuthentication: function (file, user, callback) {
@@ -149,8 +173,14 @@ var dao = {
               callback(auth);
           })
       })
+  },
+  accessBookCollection: function (callback) {
+      readFromFile(config.get('dbs:bookstable'), function (text) {
+          callback(transformToObject(text));
+      })
   }
 };
+
 
 module.exports = dao;
 module.exports.objToString = objToString;

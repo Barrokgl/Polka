@@ -7,22 +7,22 @@ block content
         div.row
             h3
                 a(href='/new-books') Новинки
-            each img, i in docs
+            each book, i in doc
                 if (i < 5)
                     div.col-xs-2
                         div.clearfix
-                            a(href='/#{img.name}')
-                                img.img-responsive.pull-left(src='../#{img.src}' alt="#{img.name}")
+                            a(href='/#{book.bookname}')
+                                img.img-responsive.pull-left(src='../#{book.bookimage}' alt="#{book.bookname}")
                         p
-                            a(href='/#{img.name}') #{img.name}
+                            a(href='/#{book.bookname}') #{book.bookname}
         div.row
             h3
                 a(href='/new-books') Популярное
-            each img, i in docs
-                if (i > 4)
+            each book, i in doc
+                if (i > 4 && i < 10)
                     div.col-xs-2
                         div.clearfix
-                            a(href='/#{img.name}')
-                                img.img-responsive.pull-left(src='../#{img.src}' alt="#{img.name}")
+                            a(href='/#{book.bookname}')
+                                img.img-responsive.pull-left(src='../#{book.bookimage}' alt="#{book.bookname}")
                         p
-                            a(href='/#{img.name}') #{img.name}
+                            a(href='/#{book.bookname}') #{book.bookname}

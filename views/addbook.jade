@@ -16,7 +16,7 @@ block content
                             name='bookname'
                             type='text'
                             placeholder='Название'
-                            pattern='[A-Za-zА-Яа-яЁё0-9.-\s]*'
+                            pattern='[A-Za-zА-Яа-яЁё0-9.- ]{,30}'
                             required
                             )
                         div.form-group
@@ -24,7 +24,7 @@ block content
                             name='author'
                             type='text'
                             placeholder='Автор'
-                            pattern='[A-Za-zА-Яа-яЁё0-9.-\s]*'
+                            pattern='[A-Za-zА-Яа-яЁё0-9.- ]{,30}'
                             required
                             )
                         div.form-group
@@ -32,11 +32,18 @@ block content
                             name='genre'
                             type='text'
                             placeholder='Жанр'
-                            pattern='[A-Za-zА-Яа-яЁё0-9.-\s]*'
+                            pattern='[A-Za-zА-Яа-яЁё0-9.- ]{,30}'
                             required
                             )
                         div.form-group
-                            textarea.form-control(rows=9 name='text' cols=40 placeholder='Описание книги' required)
+                            input.form-control(
+                            name='year'
+                            type='numbers'
+                            placeholder='Год выпуска'
+                            pattern='[0-9]{4}'
+                            )
+                        div.form-group
+                            textarea.form-control(rows=9 cols=40 name="text" placeholder='Описание книги' maxlength='150' required)
                         div.form-group
                             label.upload-label(for='upload-image')  Загрузить обложку
                             input#upload-image.form-control(name='bookimage' type='file' accept="image/jpeg,image/png")

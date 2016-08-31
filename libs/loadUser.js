@@ -5,7 +5,7 @@ var file = config.get('dbs:userstable');
 module.exports = function (req, res, next) {
   req.user = res.locals.user = null;
   if (!req.session.user) {return next()}
-  users.checkExist(file, req.session.user, function (exist) {
+  users.checkUser(file, req.session.user, function (exist) {
       if (!exist) {res.redirect('/login')}
       else {
           req.user = res.locals.user = req.session.user;

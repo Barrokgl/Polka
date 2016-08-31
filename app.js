@@ -11,9 +11,9 @@ var HttpError = require('./libs/error').HttpError;
 var log = require('./libs/logs')(module);
 
 // Mongo
-var mongo = require('mongodb');
-var monk = require('monk');
-var db = monk('localhost:27017/Polka');
+// var mongo = require('mongodb');
+// var monk = require('monk');
+// var db = monk('localhost:27017/Polka');
 
 var routes = require('./routes/index');
 
@@ -34,10 +34,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 
 // Make our db accessible to our router
-app.use(function(req,res,next){
-  req.db = db;
-  next();
-});
+// app.use(function(req,res,next){
+//   req.db = db;
+//   next();
+// });
 
 // registered users handler
 app.use(require('./libs/loadUser'));
