@@ -65,8 +65,8 @@ function addItemToFile(ItemToAdd, id, file) {
 
 
 //compare our books with props of newbook
-var checkBookArr = [];
 function checkBookExist(text, book, callback) {
+    var checkBookArr = [];
     for (i=0; i<text.length;i++){
         if (text[i].bookname == book.bookname && text[i].author == book.author) {
             console.log('exists!'); checkBookArr.push(text[i]);
@@ -78,8 +78,8 @@ function checkBookExist(text, book, callback) {
 }
 
 //find book
-var find;
 function findBook(text, book, callback) {
+    var find;
     for (i=0; i < text.length-1; i++) {
         if (text[i].bookname.toLocaleLowerCase() == book.toLocaleLowerCase()) {
             find = text[i];
@@ -92,8 +92,8 @@ function findBook(text, book, callback) {
 }
 
 //compare our dao with props of newUser
-var checkArr = [];
 function checkUserExist(text, user, callback) {
+    var checkArr = [];
     for (i = 0; i < text.length; i++) {
         if (text[i].login == user.login || text[i].username == user.username) {
             console.log('exists!');
@@ -107,8 +107,8 @@ function checkUserExist(text, user, callback) {
 }
 
 // authentication of user
-var authenticated;
 function authenticateUser(text, user, callback) {
+    var authenticated;
     for (i=0; i < text.length; i++) {
         if (text[i].login == user.login) {
             if (text[i].password == user.password) {

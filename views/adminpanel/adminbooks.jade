@@ -1,0 +1,15 @@
+extends admin
+
+block content
+    div.col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2
+        each book, i in books
+            if (i < books.length-1)
+                div.row
+                    div.col-xs-12
+                        img.img-responsive(src="../#{book.bookimage}")
+                        p #{book.bookid}
+                        p #{book.bookname}
+                        p #{book.author}
+                        p #{book.genre}
+                        p #{book.year}
+                        p #{book.text}

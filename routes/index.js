@@ -29,5 +29,10 @@ router.get('/profile', require('./profile').get);
 /* get book */
 router.get('/book/:bookname', require('./book').get);
 
+/* admin panel */
+router.get('/admin', require('./admin').get);
+
+router.get('/admin/books', require('./admin').book);
+
 module.exports = router;
 

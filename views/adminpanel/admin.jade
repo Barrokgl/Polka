@@ -1,0 +1,89 @@
+doctype html
+html
+    head
+        block head
+            meta(charset='UTF-8')
+            meta(http-equiv="X-UA-Compatible" content="IE=edge")
+            meta(name="viewport" content="width=device-width, initial-scale=1")
+            title= title
+            link(rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css")
+            link(rel='stylesheet', href='/stylesheets/admin.css')
+            script(src="../bower_components/jquery/dist/jquery.min.js")
+    body
+        block header
+            nav.navbar.navbar-inverse.navbar-fixed-top(role="navigation")
+                div.container-fluid
+                    div.navbar-header
+                        button.navbar-toggle.collapsed(
+                        data-toggle="collapse"
+                        data-target="#navbar"
+                        aria-expanded="false"
+                        aria-controls="navbar"
+                        )
+                            span.sr-only Toogle navigation
+                            span.icon-bar
+                            span.icon-bar
+                            span.icon-bar
+                        a.navbar-brand(href='#') Admin panel
+                    div.navbar-collapse.collapse#navbar
+                        ul.nav.navbar-nav.navbar-right
+                            li
+                                a(href='/') View site
+                            li
+                                a(href='#') Users
+                            li
+                                a(href='#') Statistics
+                            li
+                                a(href='/admin/books') Books
+                            li
+                                a(href='#') Engine
+            div.container-fluid
+                div.row
+                    div.col-sm-3.col-md-2.sidebar
+                        ul.nav.nav-sidebar
+                            li
+                                a(href='#') Something else
+                            li
+                                a(href='#') Something else
+                            li
+                                a(href='#') Something else
+                            li
+                                a(href='#') Something else
+                    div.col-sm-9.col-sm-offset-3.col-md-10.col-md-offset-2.main
+                        h1.page-header Dashboard
+                        div.row.placeholders
+                            div.col-xs-6.col-sm-3.placeholder
+                                img.img-responsive(
+                                src='data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=='
+                                width="200"
+                                height="200"
+                                )
+                                h4 Label
+                                span.text-info Some info
+                            div.col-xs-6.col-sm-3.placeholder
+                                img.img-responsive(
+                                src='data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=='
+                                width="200"
+                                height="200"
+                                )
+                                h4 Label
+                                span.text-info Some info
+                            div.col-xs-6.col-sm-3.placeholder
+                                img.img-responsive(
+                                src='data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=='
+                                width="200"
+                                height="200"
+                                )
+                                h4 Label
+                                span.text-info Some info
+                            div.col-xs-6.col-sm-3.placeholder
+                                img.img-responsive(
+                                src='data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=='
+                                width="200"
+                                height="200"
+                                )
+                                h4 Label
+                                span.text-info Some info
+                    block content
+
+
