@@ -29,7 +29,12 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(session(config.get('session')));
+app.use(session({
+  store: new FileStore,
+  secret: config.get('session:secret'),
+  saveUninitialized: config.get('session:saveUninitialized'),
+  resave: config.get('session:resave')
+}));
 app.use(express.static(path.join(__dirname, 'public')));
 
 

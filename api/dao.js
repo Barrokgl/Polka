@@ -2,6 +2,7 @@ var fs = require('fs');
 var config = require('../config');
 var upload = config.get('uploaddir');
 var formidable = require('formidable');
+var log = require('../libs/logs');
 
 // trans stream to string
 function readFromFile(file, callback) {
@@ -51,15 +52,17 @@ function addItemToFile(ItemToAdd, id, file) {
         if (ItemToAdd.hasOwnProperty(key)){
             arrVal.push(ItemToAdd[key]);
             finItem = arrVal.join('|');
-        } else {throw error}
+        } else {
+            throw new Error;
+        }
     }
     //write stream with appending string at the end of file
     var writeStream = fs.createWriteStream(file, {flags: 'a'});
     writeStream.write(finItem+ '\n');
-    writeStream.on('error', function (err) {console.log(err);});
+    writeStream.on('error', function (err) {throw new Error(err);});
     writeStream.end();
     writeStream.on('finish', function () {
-        console.log('complete!')
+        console.log('complete adding: '+ finItem)
     });
 }
 
@@ -70,8 +73,9 @@ function checkBookExist(text, book, callback) {
     for (i=0; i<text.length;i++){
         if (text[i].bookname == book.bookname && text[i].author == book.author) {
             console.log('exists!'); checkBookArr.push(text[i]);
+        } else {
+            console.log('no match');
         }
-        else {console.log('no match');}
     }
     callback(checkBookArr.length !== 0)
 
@@ -120,7 +124,7 @@ function authenticateUser(text, user, callback) {
             }
         } else {
             authenticated = false;
-            console.log('not found')
+            console.log('not found user')
         }
     }
     callback(authenticated);

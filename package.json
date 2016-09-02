@@ -20,6 +20,7 @@
     "monk": "^3.0.6",
     "morgan": "^1.7.0",
     "nconf": "^0.8.4",
+    "nodemon": "^1.10.2",
     "serve-favicon": "~2.3.0",
     "session-file-store": "^0.2.1",
     "winston": "^2.2.0"

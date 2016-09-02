@@ -8,10 +8,15 @@ exports.get = function(req, res) {
 exports.post = function(req, res) {
     users.userAuthentication(file, req.body, function (auth) {
         if (auth) {
+            if (req.body.remember) {
+                var hour = 3600000;
+                req.session.cookie.maxAge = 14 * 24 * hour;
+            } else {
+                req.session.cookie.expires = false;
+            }
             req.session.user = auth;
             res.json({
                 success: true,
-                answer: 'Готово!',
                 done: true
             });
         } else {

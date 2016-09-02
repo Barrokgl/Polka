@@ -2,3 +2,12 @@
 .btn-group, .btn-group-vertical {
     margin-bottom: 15px;
 }
+.checkbox label {
+    padding-left: 10px;
+}
+.checkbox input[type=checkbox] {
+    margin-left: 10px;
+}
+.checkbox {
+    display: none;
+}

@@ -3,6 +3,7 @@ $(document).ready(function () {
     //select to login
     $('[name="enter"]').click(function () {
         $('[name="username"]').hide().attr('type', 'hidden');
+        $('.checkbox').show();
         $("#logform").validator('update');
         $("#send").text('Войти');
         url = '/login';
@@ -10,6 +11,7 @@ $(document).ready(function () {
     //select to registration
     $('[name="registration"]').click(function () {
         $('[name="username"]').show().attr('type', 'text');
+        $('.checkbox').hide();
         $("#logform").validator('update');
         $("#send").text('Зарегистрироваться');
         url = '/registration';
@@ -24,14 +26,18 @@ $(document).ready(function () {
             var login = $("[name='login']").val();
             var username = $("[name='username']").val();
             var password = $("[name='password']").val();
-
+            var remember = $('[name="checkbox"]').prop("checked");
             //send to server
-            $.post(url, {login: login, username: username, password: password},
+
+            $.post(url, {
+                login: login,
+                username: username,
+                password: password,
+                remember: remember ? remember : undefined
+            },
                 function (data, textStatus, jqXHR) {
-                    alert(data.answer);
-                    if (data.done) {
-                        window.location = '/';
-                    }
+                    data.answer ? alert(data.answer) : undefined;
+                    data.done ? window.location = '/' : undefined;
                 })
         }
     });
