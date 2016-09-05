@@ -1,6 +1,5 @@
 var express = require('express');
 var router = express.Router();
-var HttpError = require('../libs/error').HttpError;
 
 /* GET home page. */
 router.get('/', require('./homepage').get);
@@ -29,9 +28,13 @@ router.get('/profile', require('./profile').get);
 /* get book */
 router.get('/book/:bookname', require('./book').get);
 
+/* add book to polka */
+router.post('/book/:bookname', require('./book').post);
+
 /* admin panel */
 router.get('/admin', require('./admin').get);
-/* get books */
+
+/* get all books */
 router.get('/admin/books', require('./admin').book);
 
 module.exports = router;

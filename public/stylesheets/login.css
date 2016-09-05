@@ -11,3 +11,8 @@
 .checkbox {
     display: none;
 }
+.popover{
+    color: rgb(169, 68, 66);
+    background-color: rgb(242, 222, 222);
+    border-color: rgb(235, 204, 209);
+}

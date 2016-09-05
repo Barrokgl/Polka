@@ -1,15 +1,35 @@
 extends layout
-
+block append head
+    link(rel='stylesheet', href='/stylesheets/book.css')
+    script(src='../javascripts/book.js' defer)
 block content
     div.container
         div.row
             div.col-xs-2
             div.col-xs-8
-                    p #{book.bookid}
-                    p #{book.bookname}
-                    p #{book.author}
-                    p #{book.genre}
-                    p #{book.year}
-                    p #{book.text}
-                    img.img-responsive(src="../#{book.bookimage}")
+                div.row
+                    div.col-xs-4
+                        img.img-responsive(src="../#{book.bookimage}")
+                    div.col-xs-8
+                        h3.bookname.underline #{book.bookname}
+                        p Автор: #{book.author}
+                        p Жанр: #{book.genre}
+                        p Год издания #{book.year}г.
+                div.row
+                    div.col-xs-12.description
+                        h3.underline Описание
+                        p #{book.text}
+                div.row
+                    div.col-xs-12
+                        if (user)
+                            if (bookAdded)
+                                a.btn.btn-success(href="/profile" role="button") Стоит на полке
+                            else
+                                input.btn.btn-default#addToPolka(
+                                type="button"
+                                value="Добавить на полку"
+                                )
+                        else
+                            a.btn.btn-default(href="/login" role="button") Добавить на полку
+                            p.bookid(hidden="hidden") #{book.id}
             div.col-xs-2

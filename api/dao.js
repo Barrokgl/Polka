@@ -2,11 +2,11 @@ var fs = require('fs');
 var config = require('../config');
 var upload = config.get('uploaddir');
 var formidable = require('formidable');
-var log = require('../libs/logs');
+var log = require('../libs/logs')(module);
 
 // trans stream to string
 function readFromFile(file, callback) {
-    var readStream = fs.createReadStream( file, {encoding: 'utf-8'}, function(err){if (err) {console.log(err);}});
+    var readStream = fs.createReadStream( file, {encoding: 'utf-8'}, function(err){if (err) {throw new Error(err);}});
     var str = '';
     readStream.on('data', function (data) {
         str += data;
@@ -16,53 +16,32 @@ function readFromFile(file, callback) {
     });
 }
 
-// transformToObject data to object with keys - headers and values
+// transformToObject data to object
 function transformToObject(text) {
-    text = text.split('\n');
-    var headers = text[0].split('|');
-    var objCsv = [];
-    for (i=1; i<text.length; i++) {
-        var bigData = text[i].split('|');
-        var newObj = {};
-        for (j=0; j<bigData.length;j++) {
-            newObj[headers[j]] = bigData[j];
-        }
-        objCsv.push(newObj);
-    }
-    return objCsv;
-}
-
-//convert obj to string
-function objToString (obj) {
-    var str = '';
-    for (var p in obj) {
-        if (obj.hasOwnProperty(p)) {
-            str += obj[p]+ ' ';
-        }
-    }
-    return str;
+    return JSON.parse(text);
 }
 
 //transformToObject new item to a string and add to file
-function addItemToFile(ItemToAdd, id, file) {
-    var finItem, arrVal = [];
-    //push userId
-    arrVal.push(id);
-    for (var key in ItemToAdd) {
-        if (ItemToAdd.hasOwnProperty(key)){
-            arrVal.push(ItemToAdd[key]);
-            finItem = arrVal.join('|');
+function addItemToFile(itemToAdd, text, file) {
+    // create new obj and add id
+    var objToAdd = {id: text.length+1};
+    for (var key in itemToAdd) {
+        if (itemToAdd.hasOwnProperty(key)) {
+            objToAdd[key] = itemToAdd[key];
         } else {
-            throw new Error;
+            throw new Error(500);
         }
     }
-    //write stream with appending string at the end of file
-    var writeStream = fs.createWriteStream(file, {flags: 'a'});
-    writeStream.write(finItem+ '\n');
+    text[text.length] = objToAdd;
+    console.log(text);
+    console.log(JSON.stringify(text));
+    // create wtite stream to rewrite newItem
+    var writeStream = fs.createWriteStream(file, {flags: 'w'});
+    writeStream.write(JSON.stringify(text));
     writeStream.on('error', function (err) {throw new Error(err);});
     writeStream.end();
     writeStream.on('finish', function () {
-        console.log('complete adding: '+ finItem)
+        log.info('complete adding new item to: '+file);
     });
 }
 
@@ -72,9 +51,9 @@ function checkBookExist(text, book, callback) {
     var checkBookArr = [];
     for (i=0; i<text.length;i++){
         if (text[i].bookname == book.bookname && text[i].author == book.author) {
-            console.log('exists!'); checkBookArr.push(text[i]);
+            checkBookArr.push(text[i]);
         } else {
-            console.log('no match');
+            checkBookArr = [];
         }
     }
     callback(checkBookArr.length !== 0)
@@ -100,11 +79,10 @@ function checkUserExist(text, user, callback) {
     var checkArr = [];
     for (i = 0; i < text.length; i++) {
         if (text[i].login == user.login || text[i].username == user.username) {
-            console.log('exists!');
             checkArr.push(text[i]);
             break;
         } else {
-            console.log('no match');
+            checkArr = [];
         }
     }
     callback(checkArr.length !== 0)
@@ -119,12 +97,10 @@ function authenticateUser(text, user, callback) {
                 authenticated = text[i];
                 break;
             } else {
-                console.log('wrong password');
                 break;
             }
         } else {
             authenticated = false;
-            console.log('not found user')
         }
     }
     callback(authenticated);
@@ -157,13 +133,20 @@ function parseMultipartForm(req, res, callback) {
     });
     form.parse(req);
 }
+// check object not empty
+function notEmpty(obj) {
+    for(var prop in obj) {
+        if(obj.hasOwnProperty(prop))
+            return true;
+    }
+    return false;
+}
 
 var dao = {
   checkUser: function (file , user, callback) {
           readFromFile(file , function (text) {
               checkUserExist(transformToObject(text), user, function (exist) {
                   callback(exist);
-                  console.log(exist);
               })
           })
   },
@@ -171,13 +154,12 @@ var dao = {
         readFromFile(file , function (text) {
             checkBookExist(transformToObject(text), book, function (exist) {
                 callback(exist);
-                console.log(exist);
             })
         })
     },
   addNewItem: function (item, file) {
          readFromFile(file, function (text) {
-             addItemToFile(item, transformToObject(text).length, file);
+             addItemToFile(item, transformToObject(text), file);
          });
   },
   parseForm: function (req, res, callback) {
@@ -203,9 +185,17 @@ var dao = {
               callback(exist);
           })
       })
-  }
+  },
+  filterUsersBooks:  function (bookid, userBooks, callback) {
+            var filteredBooks = userBooks.filter(function (value) {
+                    return value == bookid
+                 });
+            if (notEmpty(filteredBooks)) {
+                callback(filteredBooks);
+            } else {
+                callback(undefined);
+            }
+        }
 };
 
-
 module.exports = dao;
-module.exports.objToString = objToString;

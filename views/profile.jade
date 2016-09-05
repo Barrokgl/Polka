@@ -1,16 +1,31 @@
 extends layout
-
+block append head
+    link(rel='stylesheet', href='/stylesheets/profile.css')
 block content
     div.container
         div.row
             div.col-xs-2
-            div.col-xs-8
-                if (user.profileIcon)
-                    img.img-responsive(src="#{user.profileIcon}")
-                else
-                    img.img-responsive(src="/images/user-default.png")
-                p UserID: #{user.userId}
-                p Login: #{user.login}
-                p Username #{user.username}
+            div.col-xs-8.main
+                div.row
+                    div.col-xs-4
+                        if (user.profileIcon)
+                            img.img-responsive(src="#{user.profileIcon}")
+                        else
+                            img.img-responsive(src="/images/user-default.png")
+                    div.col-xs-8
+                        h4.text-capitalize.name #{user.username}
+                        div.row
+                            div.col-xs-12
+                                p Some information about user
+                                p= user.books
+                div.row
+                    div.col-xs-12
+                        h2.name Полка книг
+                        div.col-xs-2
+                        div.col-xs-2
+                        div.col-xs-2
+                        div.col-xs-2
+                        div.col-xs-2
+                        div.col-xs-2
             div.col-xs-2
 

@@ -1,0 +1,9 @@
+.bookname {
+    margin-top: 0;
+}
+.description {
+    margin-top: 20px;
+}
+.underline {
+    border-bottom: 2px darkgreen solid;
+}

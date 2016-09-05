@@ -11,8 +11,8 @@
       }
   },
   "dbs": {
-      "userstable": "./api/users.csv",
-      "bookstable": "./api/books.csv"
+      "userstable": "./api/users.json",
+      "bookstable": "./api/books.json"
   },
   "uploaddir": "./public/uploads",
   "session": {

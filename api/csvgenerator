@@ -1,7 +1,7 @@
 var fs = require('fs');
 var newHeaders = ['userId', 'login', 'username', 'password'];
 var convert = require('./dao').objToString;
-
+var dao = require('./dao');
 //generate dao strings
 function generateContent(lengthOfCsv) {
     var contentString = [];
@@ -26,4 +26,4 @@ function write(headers, lengthOfCsv, csvfile) {
         console.log(err);
     });
 }
-write(newHeaders, 10, 'newcsv.csv');
+

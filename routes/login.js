@@ -8,21 +8,18 @@ exports.get = function(req, res) {
 exports.post = function(req, res) {
     users.userAuthentication(file, req.body, function (auth) {
         if (auth) {
+            //if remember set cookie maxAge 2 weeks
             if (req.body.remember) {
                 var hour = 3600000;
                 req.session.cookie.maxAge = 14 * 24 * hour;
             } else {
                 req.session.cookie.expires = false;
             }
+            //OK
             req.session.user = auth;
-            res.json({
-                success: true,
-                done: true
-            });
+            res.status(202).end();
         } else {
-            res.json({
-                success: true,
-                answer: 'Неправильный логин или пароль'
-        })}
+            res.status(400).send('Неправильный логин или пароль').end()
+        }
     });
 };

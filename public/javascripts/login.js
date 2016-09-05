@@ -1,4 +1,7 @@
 $(document).ready(function () {
+    $('input').click(function () {
+        $('#send').popover('hide');
+    });
     var url = '/registration';
     //select to login
     $('[name="enter"]').click(function () {
@@ -17,10 +20,12 @@ $(document).ready(function () {
         url = '/registration';
     });
     //send form
-
+    $('#send').click(function () {
+        $('#logform').submit();
+    });
     $("#logform").validator().on('submit', function (e) {
         if (e.isDefaultPrevented()) {
-            alert('Форма заполнена не правильно')
+
         } else {
             e.preventDefault();
             var login = $("[name='login']").val();
@@ -28,17 +33,16 @@ $(document).ready(function () {
             var password = $("[name='password']").val();
             var remember = $('[name="checkbox"]').prop("checked");
             //send to server
-
             $.post(url, {
-                login: login,
-                username: username,
-                password: password,
-                remember: remember ? remember : undefined
-            },
-                function (data, textStatus, jqXHR) {
-                    data.answer ? alert(data.answer) : undefined;
-                    data.done ? window.location = '/' : undefined;
-                })
+                    login: login,
+                    username: username,
+                    password: password,
+                    remember: remember ? remember : undefined
+                },{},'text').done(function () {
+                window.location = '/';
+                }).fail(function (data) {
+                $('#send').attr('data-content', data.responseText).popover('show');
+            });
         }
     });
 });
