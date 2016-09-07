@@ -1,8 +1,8 @@
 var fs = require('fs');
-var config = require('../config');
+var config = require('config');
 var upload = config.get('uploaddir');
 var formidable = require('formidable');
-var log = require('../libs/logs')(module);
+var log = require('libs/logs')(module);
 
 // trans stream to string
 function readFromFile(file, callback) {
@@ -16,28 +16,23 @@ function readFromFile(file, callback) {
     });
 }
 
-// transformToObject data to object
+// transformToObject json to object
 function transformToObject(text) {
     return JSON.parse(text);
 }
 
+// transformToObject object to json
+function transformToJson(text) {
+    return JSON.stringify(text);
+}
+
 //transformToObject new item to a string and add to file
 function addItemToFile(itemToAdd, text, file) {
-    // create new obj and add id
-    var objToAdd = {id: text.length+1};
-    for (var key in itemToAdd) {
-        if (itemToAdd.hasOwnProperty(key)) {
-            objToAdd[key] = itemToAdd[key];
-        } else {
-            throw new Error(500);
-        }
-    }
-    text[text.length] = objToAdd;
-    console.log(text);
-    console.log(JSON.stringify(text));
-    // create wtite stream to rewrite newItem
+    itemToAdd.id =  text.length+1;
+    text.push(itemToAdd);
+    //create wtite stream to rewrite newItem
     var writeStream = fs.createWriteStream(file, {flags: 'w'});
-    writeStream.write(JSON.stringify(text));
+    writeStream.write(transformToJson(text));
     writeStream.on('error', function (err) {throw new Error(err);});
     writeStream.end();
     writeStream.on('finish', function () {
@@ -52,23 +47,19 @@ function checkBookExist(text, book, callback) {
     for (i=0; i<text.length;i++){
         if (text[i].bookname == book.bookname && text[i].author == book.author) {
             checkBookArr.push(text[i]);
-        } else {
-            checkBookArr = [];
         }
     }
     callback(checkBookArr.length !== 0)
 
 }
 
-//find book
+//find book in db
 function findBook(text, book, callback) {
     var find;
     for (i=0; i < text.length-1; i++) {
         if (text[i].bookname.toLocaleLowerCase() == book.toLocaleLowerCase()) {
             find = text[i];
             break;
-        } else {
-            find = false;
         }
     }
     callback(find);
@@ -78,11 +69,9 @@ function findBook(text, book, callback) {
 function checkUserExist(text, user, callback) {
     var checkArr = [];
     for (i = 0; i < text.length; i++) {
-        if (text[i].login == user.login || text[i].username == user.username) {
+        if (text[i].login == user.login || text[i].username == user.username ) {
             checkArr.push(text[i]);
             break;
-        } else {
-            checkArr = [];
         }
     }
     callback(checkArr.length !== 0)
@@ -99,8 +88,6 @@ function authenticateUser(text, user, callback) {
             } else {
                 break;
             }
-        } else {
-            authenticated = false;
         }
     }
     callback(authenticated);
@@ -132,14 +119,6 @@ function parseMultipartForm(req, res, callback) {
         callback(fields, fileType)
     });
     form.parse(req);
-}
-// check object not empty
-function notEmpty(obj) {
-    for(var prop in obj) {
-        if(obj.hasOwnProperty(prop))
-            return true;
-    }
-    return false;
 }
 
 var dao = {
@@ -190,12 +169,9 @@ var dao = {
             var filteredBooks = userBooks.filter(function (value) {
                     return value == bookid
                  });
-            if (notEmpty(filteredBooks)) {
-                callback(filteredBooks);
-            } else {
-                callback(undefined);
-            }
+            filteredBooks.length > 0 ? callback(filteredBooks) : undefined;
         }
 };
+
 
 module.exports = dao;

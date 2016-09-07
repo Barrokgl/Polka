@@ -25,11 +25,11 @@ router.post('/addbook', require('./addbook').post);
 /* Get profile handler */
 router.get('/profile', require('./profile').get);
 
+/* add book to polka */
+router.post('/add_to_polka', require('./profile').addToPolka);
+
 /* get book */
 router.get('/book/:bookname', require('./book').get);
-
-/* add book to polka */
-router.post('/book/:bookname', require('./book').post);
 
 /* admin panel */
 router.get('/admin', require('./admin').get);

@@ -4,18 +4,18 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var config = require('./config');
+var config = require('config');
 var session = require('express-session');
 var FileStore = require('session-file-store')(session);
-var HttpError = require('./libs/error').HttpError;
-var log = require('./libs/logs')(module);
+var HttpError = require('libs/error').HttpError;
+var log = require('libs/logs')(module);
 
 // Mongo
 // var mongo = require('mongodb');
 // var monk = require('monk');
 // var db = monk('localhost:27017/Polka');
 
-var routes = require('./routes/index');
+var routes = require('routes/index');
 
 var app = express();
 
@@ -45,10 +45,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 // });
 
 // registered users handler
-app.use(require('./libs/loadUser'));
+app.use(require('libs/loadUser'));
 
 //Error sender
-app.use(require('./libs/sendHttpError'));
+app.use(require('libs/sendHttpError'));
 
 app.use('/', routes);
 

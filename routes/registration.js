@@ -1,5 +1,5 @@
-var users = require('../api/dao');
-var config = require('../config');
+var users = require('api/dao');
+var config = require('config');
 var file = config.get('dbs:userstable');
 
 exports.post = function (req, res) {

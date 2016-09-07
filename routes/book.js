@@ -1,6 +1,6 @@
-var dao = require('../api/dao');
-var file = require('../config').get('dbs:bookstable');
-var HttpError = require('../libs/error').HttpError;
+var dao = require('api/dao');
+var file = require('config').get('dbs:bookstable');
+var HttpError = require('libs/error').HttpError;
 
 exports.get = function (req, res, next) {
     var url = decodeURI(req.params.bookname.slice(1));
@@ -20,18 +20,6 @@ exports.get = function (req, res, next) {
             }
         } else {
             next(new HttpError(404, 'Ups, no such book'));
-        }
-    })
-};
-
-exports.post = function(req, res, next) {
-    var url = decodeURI(req.params.bookname.slice(1));
-    dao.getRequestedBook(file, url, function (book) {
-        if (book) {
-            require('../libs/logs')(module).info(book.id);
-            res.status(200).end();
-        } else {
-            res.status(500).end();
         }
     })
 };
