@@ -28,9 +28,10 @@ function transformToJson(text) {
 
 //transformToObject new item to a string and add to file
 function addItemToFile(itemToAdd, text, file) {
+    // set id of new item
     itemToAdd.id =  text.length+1;
     text.push(itemToAdd);
-    //create wtite stream to rewrite newItem
+    //create write stream to write itemToAdd to file
     var writeStream = fs.createWriteStream(file, {flags: 'w'});
     writeStream.write(transformToJson(text));
     writeStream.on('error', function (err) {throw new Error(err);});
@@ -40,6 +41,30 @@ function addItemToFile(itemToAdd, text, file) {
     });
 }
 
+//add new books to user
+function addBookToPolka(table, userId, bookId, callback) {
+    loop:
+        for (i=0; i < table.length; i++) {
+            for (var prop in table[i]) {
+                if (table[i].hasOwnProperty(prop)) {
+                    if (prop == 'id' && table[i][prop] == userId) {
+                        table[i]['books'].push(parseInt(bookId));
+                        callback(table[i]['books']);
+                        break loop;
+                    } else {
+                        log.info('searching user')
+                    }
+                }
+            }
+        }
+    var writeStream = fs.createWriteStream(config.get('dbs:userstable'), {flags: 'w'});
+    writeStream.write(transformToJson(table));
+    writeStream.on('error', function (err) {throw new Error(err);});
+    writeStream.end();
+    writeStream.on('finish', function () {
+        log.info('complete adding new item to file');
+    });
+}
 
 //compare our books with props of newbook
 function checkBookExist(text, book, callback) {
@@ -47,20 +72,22 @@ function checkBookExist(text, book, callback) {
     for (i=0; i<text.length;i++){
         if (text[i].bookname == book.bookname && text[i].author == book.author) {
             checkBookArr.push(text[i]);
+            break;
         }
     }
-    callback(checkBookArr.length !== 0)
+    callback(checkBookArr.length !== 0);
 
 }
 
 //find book in db
-function findBook(text, book, callback) {
+function findBook(text, bookid, callback) {
     var find;
-    for (i=0; i < text.length-1; i++) {
-        if (text[i].bookname.toLocaleLowerCase() == book.toLocaleLowerCase()) {
+    for (i=0; i < text.length; i++) {
+        if (text[i].id == bookid) {
             find = text[i];
             break;
         }
+        find = false;
     }
     callback(find);
 }
@@ -135,7 +162,7 @@ var dao = {
                 callback(exist);
             })
         })
-    },
+  },
   addNewItem: function (item, file) {
          readFromFile(file, function (text) {
              addItemToFile(item, transformToObject(text), file);
@@ -166,12 +193,22 @@ var dao = {
       })
   },
   filterUsersBooks:  function (bookid, userBooks, callback) {
-            var filteredBooks = userBooks.filter(function (value) {
-                    return value == bookid
-                 });
-            filteredBooks.length > 0 ? callback(filteredBooks) : undefined;
-        }
+      var filteredBooks = userBooks.filter(function (value) {
+          return value == bookid
+      });
+      if(filteredBooks.length > 0) {
+          callback(filteredBooks)
+      } else {
+          callback(undefined)
+      }
+  },
+  addBooksToUser: function (file, userId, bookId, callback) {
+       readFromFile(file, function (text) {
+           addBookToPolka(transformToObject(text), userId, bookId, function (books) {
+               callback(books);
+           })
+       })
+  }
 };
-
 
 module.exports = dao;

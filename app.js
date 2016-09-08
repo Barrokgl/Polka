@@ -44,7 +44,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 //   next();
 // });
 
-// registered users handler
+// registered dao handler
 app.use(require('libs/loadUser'));
 
 //Error sender
@@ -72,6 +72,7 @@ app.use(function(err, req, res, next) {
     // development error handler
     // will print stacktrace
     if (app.get('env') == 'development') {
+        log.error(err);
         throw new Error(err);
     } else {
       log.error(err);

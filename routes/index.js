@@ -23,13 +23,13 @@ router.get('/addbook', require('./addbook').get);
 router.post('/addbook', require('./addbook').post);
 
 /* Get profile handler */
-router.get('/profile', require('./profile').get);
+router.get('/profile',require('libs/collectUserBooks'), require('./profile').get);
+
+/* get book */
+router.get('/book/:bookid', require('./book').get);
 
 /* add book to polka */
 router.post('/add_to_polka', require('./profile').addToPolka);
-
-/* get book */
-router.get('/book/:bookname', require('./book').get);
 
 /* admin panel */
 router.get('/admin', require('./admin').get);

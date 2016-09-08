@@ -1,10 +1,11 @@
 var dao = require('api/dao');
 var file = require('config').get('dbs:bookstable');
 var HttpError = require('libs/error').HttpError;
+var log = require('libs/logs')(module);
 
 exports.get = function (req, res, next) {
-    var url = decodeURI(req.params.bookname.slice(1));
-    dao.getRequestedBook(file, url, function (book) {
+    log.info(req.params.bookid);
+    dao.getRequestedBook(file, req.params.bookid.slice(1), function (book) {
         if (book) {
             if (req.user) {
                 dao.filterUsersBooks(book.id, req.user.books, function (value) {

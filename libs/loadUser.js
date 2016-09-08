@@ -1,5 +1,5 @@
 var config = require('config');
-var users = require('api/dao');
+var dao = require('api/dao');
 var file = config.get('dbs:userstable');
 
 module.exports = function (req, res, next) {
@@ -9,7 +9,7 @@ module.exports = function (req, res, next) {
       next()
   } else {
       // check user in our db using session data
-      users.checkUser(file, req.session.user, function (exist) {
+      dao.checkUser(file, req.session.user, function (exist) {
           // if no such user, this means bad session or some bug
           // so we break current session end redirect to login
           if (!exist) {

@@ -12,10 +12,10 @@ block content
                 if (i < 5)
                     div.col-xs-2
                         div.clearfix
-                            a(href='/book/:#{book.bookname}')
+                            a(href='/book/:#{book.id}')
                                 img.img-responsive.pull-left(src='../#{book.bookimage}' alt="#{book.bookname}")
                         p
-                            a(href='/book/:#{book.bookname}') #{book.bookname}
+                            a(href='/book/:#{book.id}') #{book.bookname}
         div.row
             h3.partition-header
                 a(href='/new-books') Популярное
@@ -23,7 +23,7 @@ block content
                 if (i > 4 && i < 10)
                     div.col-xs-2
                         div.clearfix
-                            a(href='/book/:#{book.bookname}')
+                            a(href='/book/:#{book.id}')
                                 img.img-responsive.pull-left(src='../#{book.bookimage}' alt="#{book.bookname}")
                         p
-                            a(href='/book/:#{book.bookname}') #{book.bookname}
+                            a(href='/book/:#{book.id}') #{book.bookname}

@@ -1,0 +1,19 @@
+var config = require('config');
+var dao = require('api/dao');
+var log = require('libs/logs')(module);
+
+module.exports = function (req, res, next) {
+    log.info('enter');
+    if (!req.user.books) {
+        log.info('out');
+        next();
+    } else {
+        log.info('func');
+        req.user.books.forEach(function (elem, index, arr) {
+            dao.getRequestedBook(config.get('dbs:bookstable'), elem, function (book) {
+                req.polka += book;
+            })
+        });
+        next();
+    }
+};

@@ -3,7 +3,7 @@
   "nodemon": {
       "script": "./bin/www",
       "restartable": "rs",
-      "ignore": "sessions/",
+      "ignore": ["sessions/", "api/*.json"],
       "ext": "js json jade",
       "env": {
           "NODE_ENV": "development",
