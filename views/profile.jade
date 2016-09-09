@@ -17,16 +17,14 @@ block content
                         div.row
                             div.col-xs-12
                                 p Some information about user
-                                p= user.books
                 div.row
                     div.col-xs-12
                         h2.name Полка книг
-                        div.col-xs-2
-                            p= polka
-                        div.col-xs-2
-                        div.col-xs-2
-                        div.col-xs-2
-                        div.col-xs-2
-                        div.col-xs-2
+                        each book in polka
+                            div.col-xs-12.polka
+                                a(href='/book/:#{book.id}')
+                                    img.img-responsive(src='../#{book.bookimage}' alt="#{book.bookname}")
+                                p
+                                    a(href='/book/:#{book.id}') #{book.bookname}
             div.col-xs-2
 

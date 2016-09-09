@@ -81,15 +81,18 @@ function checkBookExist(text, book, callback) {
 
 //find book in db
 function findBook(text, bookid, callback) {
-    var find;
-    for (i=0; i < text.length; i++) {
-        if (text[i].id == bookid) {
-            find = text[i];
-            break;
+    var find = [];
+    bookid.forEach(function (element, index, arr) {
+        for (i=0; i < text.length; i++) {
+            if (text[i].id == element) {
+                find.push(text[i]);
+            }
+            if (find.length == bookid.length) {
+                callback(find);
+                break;
+            }
         }
-        find = false;
-    }
-    callback(find);
+    });
 }
 
 //compare our dao with props of newUser
@@ -185,21 +188,21 @@ var dao = {
           callback(transformToObject(text));
       })
   },
-  getRequestedBook: function (file, book, callback) {
+  getRequestedBook: function (file, bookid, callback) {
       readFromFile(file, function (text) {
-          findBook(transformToObject(text), book, function (exist) {
+          findBook(transformToObject(text), bookid, function (exist) {
               callback(exist);
           })
       })
   },
   filterUsersBooks:  function (bookid, userBooks, callback) {
       var filteredBooks = userBooks.filter(function (value) {
-          return value == bookid
+          return value == bookid;
       });
       if(filteredBooks.length > 0) {
-          callback(filteredBooks)
+          callback(filteredBooks);
       } else {
-          callback(undefined)
+          callback(undefined);
       }
   },
   addBooksToUser: function (file, userId, bookId, callback) {

@@ -23,7 +23,7 @@ router.get('/addbook', require('./addbook').get);
 router.post('/addbook', require('./addbook').post);
 
 /* Get profile handler */
-router.get('/profile',require('libs/collectUserBooks'), require('./profile').get);
+router.get('/profile', require('./profile').get);
 
 /* get book */
 router.get('/book/:bookid', require('./book').get);

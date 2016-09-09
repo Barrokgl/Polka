@@ -3,11 +3,16 @@ var config = require('config');
 
 
 exports.get = function(req, res) {
+    console.log('in');
     if (req.session.user) {
-        console.log(req.polka);
-        res.render('profile', {
-            title: 'Profile',
-            polka: req.polka
+        console.log('in2');
+        dao.getRequestedBook(config.get('dbs:bookstable'), req.user.books, function (books) {
+            console.log(books);
+            console.log(books[0]);
+            res.render('profile', {
+                title: 'Profile',
+                polka: books
+            });
         });
     } else {
         res.redirect('/login');
@@ -16,9 +21,11 @@ exports.get = function(req, res) {
 
 // handle requests for edit user polka
 exports.addToPolka = function(req, res, next) {
-    dao.getRequestedBook(config.get('dbs:bookstable'), req.body.bookid, function (book) {
+    var bookid = [parseInt(req.body.bookid)];
+    dao.getRequestedBook(config.get('dbs:bookstable'), bookid, function (book) {
         if (book) {
-            dao.addBooksToUser(config.get('dbs:userstable'), req.user.id, book.id, function (books) {
+            require('libs/logs')(module).info('adding book: '+book.id);
+            dao.addBooksToUser(config.get('dbs:userstable'), req.user.id, book[0].id, function (books) {
                 req.session.user.books = books;
                 res.status(200).end();
             });
