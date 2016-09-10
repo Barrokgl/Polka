@@ -23,7 +23,11 @@ block content
                     div.col-xs-12
                         if (user)
                             if (bookAdded)
-                                a.btn.btn-success(href="/profile" role="button") Стоит на полке
+                                //a.btn.btn-success(href="/profile" role="button") Стоит на полке
+                                input.btn.btn-success#removeFromPolka(
+                                type="button"
+                                value="Стоит на полке"
+                                )
                             else
                                 input.btn.btn-default#addToPolka(
                                 type="button"

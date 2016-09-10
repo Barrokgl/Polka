@@ -66,6 +66,34 @@ function addBookToPolka(table, userId, bookId, callback) {
     });
 }
 
+// remove books from user
+function removeBookFromPolka(table, userId, bookId, callback) {
+    loop:
+        for (i=0; i < table.length; i++) {
+            for (var prop in table[i]) {
+                if (table[i].hasOwnProperty(prop)) {
+                    if (prop == 'id' && table[i][prop] == userId) {
+                        //table[i]['books'].push(parseInt(bookId));
+                        table[i]['books'] = table[i]['books'].filter(function (value) {
+                           return value != bookId;
+                        });
+                        callback(table[i]['books']);
+                        break loop;
+                    } else {
+                        log.info('searching user')
+                    }
+                }
+            }
+        }
+    var writeStream = fs.createWriteStream(config.get('dbs:userstable'), {flags: 'w'});
+    writeStream.write(transformToJson(table));
+    writeStream.on('error', function (err) {throw new Error(err);});
+    writeStream.end();
+    writeStream.on('finish', function () {
+        log.info('complete removing item to file');
+    });
+}
+
 //compare our books with props of newbook
 function checkBookExist(text, book, callback) {
     var checkBookArr = [];
@@ -211,6 +239,13 @@ var dao = {
                callback(books);
            })
        })
+  },
+  removeBookFromUser: function (file, userId, bookId, callback) {
+      readFromFile(file, function (text) {
+          removeBookFromPolka(transformToObject(text), userId, bookId, function (books) {
+              callback(books);
+          })
+      })
   }
 };
 

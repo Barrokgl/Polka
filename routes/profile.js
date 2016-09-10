@@ -35,6 +35,21 @@ exports.addToPolka = function(req, res, next) {
     })
 };
 
+exports.removeBook = function (req, res, next) {
+    var bookid = [parseInt(req.body.bookid)];
+    dao.getRequestedBook(config.get('dbs:bookstable'), bookid, function (book) {
+        if (book) {
+            require('libs/logs')(module).info('adding book: '+book[0].id);
+            dao.removeBookFromUser(config.get('dbs:userstable'), req.user.id, book[0].id, function (books) {
+                req.session.user.books = books;
+                res.status(200).end();
+            });
+        } else {
+            res.status(500).end();
+        }
+    })
+};
+
 
 
 

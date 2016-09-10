@@ -31,6 +31,9 @@ router.get('/book/:bookid', require('./book').get);
 /* add book to polka */
 router.post('/add_to_polka', require('./profile').addToPolka);
 
+/* remove book from polka */
+router.post('/remove_book', require('./profile').removeBook);
+
 /* admin panel */
 router.get('/admin', require('./admin').get);
 
