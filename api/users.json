@@ -1,1 +1,25 @@
-[{"id":"1","login":"georgykrivon@gmail.com","username":"georgykrivon","password":"Db2d3bda","books":[2,3,4,5]},{"id":"2","login":"barrokgl@gmail.com","username":"barrokgl","password":"Db2d3bda","books":[5,6,1]}]
+[
+    {
+        "id": "1",
+        "login": "georgykrivon@gmail.com",
+        "username": "georgykrivon",
+        "password": "Db2d3bda",
+        "books": [
+            5,
+            2,
+            4,
+            3
+        ]
+    },
+    {
+        "id": "2",
+        "login": "barrokgl@gmail.com",
+        "username": "barrokgl",
+        "password": "Db2d3bda",
+        "books": [
+            5,
+            6,
+            1
+        ]
+    }
+]

@@ -13,7 +13,7 @@ exports.post = function (req, res, next) {
         dao.checkBook(file, fields, function (exist) {
             if (!exist) {
                 if (fileType == 'image/jpeg' || fileType == 'image/png') {
-                    //dao.addNewItem(fields, file);
+                    dao.addNewItem(fields, file);
                     res.status(200).send('Книга добавлена');
                 } else {
                     fs.unlink(fields.bookimage, function (err) {

@@ -11,7 +11,7 @@ $(document).ready(function () {
         } else {
             e.preventDefault();
             var formData = new FormData($('form#data')[0]);
-            var formatedText = $('[name="text"]').val().replace(/\r\n/g, "<br />");
+            var formatedText = $('[name="text"]').val().replace(/\r+|\n+|\r\n+/g, "<br />");
             formData.set('text', formatedText);
             $.ajax({
                 url: '/addbook',
@@ -32,4 +32,3 @@ $(document).ready(function () {
         }
     });
 });
-

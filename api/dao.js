@@ -16,22 +16,8 @@ function readFromFile(file, callback) {
     });
 }
 
-// transformToObject json to object
-function transformToObject(text) {
-    return JSON.parse(text);
-}
-
-// transformToObject object to json
-function transformToJson(text) {
-    return JSON.stringify(text);
-}
-
-//transformToObject new item to a string and add to file
-function addItemToFile(itemToAdd, text, file) {
-    // set id of new item
-    itemToAdd.id =  text.length+1;
-    text.push(itemToAdd);
-    //create write stream to write itemToAdd to file
+// create writeStream and write to file
+function writeToFile(file, text) {
     var writeStream = fs.createWriteStream(file, {flags: 'w'});
     writeStream.write(transformToJson(text));
     writeStream.on('error', function (err) {throw new Error(err);});
@@ -41,43 +27,66 @@ function addItemToFile(itemToAdd, text, file) {
     });
 }
 
+// transformToObject json to object
+function transformToObject(text) {
+    return JSON.parse(text);
+}
+
+// transformToObject object to json
+function transformToJson(text) {
+    return JSON.stringify(text, null, 4);
+}
+
+//transformToObject new item to a string and add to file
+function addItemToFile(itemToAdd, text, file) {
+    // set id of new item
+    itemToAdd.id =  text.length+1;
+    itemToAdd.bookimage = itemToAdd.bookimage.replace(/public\//i, '');
+    console.log(itemToAdd);
+    text.push(itemToAdd);
+    //create write stream to write itemToAdd to file
+    writeToFile(file, text);
+}
+
 //add new books to user
-function addBookToPolka(table, userId, bookId, callback) {
+function addBookToPolka(text, userId, bookId, callback) {
+    var file = config.get('dbs:userstable');
     loop:
-        for (i=0; i < table.length; i++) {
-            for (var prop in table[i]) {
-                if (table[i].hasOwnProperty(prop)) {
-                    if (prop == 'id' && table[i][prop] == userId) {
-                        table[i]['books'].push(parseInt(bookId));
-                        callback(table[i]['books']);
+        //serch by all objects in table
+        for (i=0; i < text.length; i++) {
+            //search in properties of object
+            for (var prop in text[i]) {
+                if (text[i].hasOwnProperty(prop)) {
+                    // if id is is true do job
+                    if (prop == 'id' && text[i][prop] == userId) {
+                        text[i]['books'].push(parseInt(bookId));
+                        callback(text[i]['books']);
                         break loop;
                     } else {
-                        log.info('searching user')
+                        log.info('searching user');
                     }
                 }
             }
         }
-    var writeStream = fs.createWriteStream(config.get('dbs:userstable'), {flags: 'w'});
-    writeStream.write(transformToJson(table));
-    writeStream.on('error', function (err) {throw new Error(err);});
-    writeStream.end();
-    writeStream.on('finish', function () {
-        log.info('complete adding new item to file');
-    });
+    // write changing to file
+    writeToFile(file, text);
 }
 
 // remove books from user
-function removeBookFromPolka(table, userId, bookId, callback) {
+function removeBookFromPolka(text, userId, bookId, callback) {
+    var file = config.get('dbs:userstable');
     loop:
-        for (i=0; i < table.length; i++) {
-            for (var prop in table[i]) {
-                if (table[i].hasOwnProperty(prop)) {
-                    if (prop == 'id' && table[i][prop] == userId) {
-                        //table[i]['books'].push(parseInt(bookId));
-                        table[i]['books'] = table[i]['books'].filter(function (value) {
+        //serch by all objects in table
+        for (i=0; i < text.length; i++) {
+            //search in properties of object
+            for (var prop in text[i]) {
+                if (text[i].hasOwnProperty(prop)) {
+                    // if id is is true do job
+                    if (prop == 'id' && text[i][prop] == userId) {
+                        text[i]['books'] = text[i]['books'].filter(function (value) {
                            return value != bookId;
                         });
-                        callback(table[i]['books']);
+                        callback(text[i]['books']);
                         break loop;
                     } else {
                         log.info('searching user')
@@ -85,13 +94,8 @@ function removeBookFromPolka(table, userId, bookId, callback) {
                 }
             }
         }
-    var writeStream = fs.createWriteStream(config.get('dbs:userstable'), {flags: 'w'});
-    writeStream.write(transformToJson(table));
-    writeStream.on('error', function (err) {throw new Error(err);});
-    writeStream.end();
-    writeStream.on('finish', function () {
-        log.info('complete removing item to file');
-    });
+    // write changing to file
+    writeToFile(file, text);
 }
 
 //compare our books with props of newbook
@@ -110,17 +114,18 @@ function checkBookExist(text, book, callback) {
 //find book in db
 function findBook(text, bookid, callback) {
     var find = [];
+    // compare books ids with our table
     bookid.forEach(function (element, index, arr) {
         for (i=0; i < text.length; i++) {
             if (text[i].id == element) {
                 find.push(text[i]);
             }
-            if (find.length == bookid.length) {
-                callback(find);
-                break;
-            }
         }
     });
+    // callback then done
+    if (find.length == bookid.length) {
+        callback(find);
+    }
 }
 
 //compare our dao with props of newUser
@@ -248,5 +253,6 @@ var dao = {
       })
   }
 };
+
 
 module.exports = dao;
