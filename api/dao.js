@@ -51,22 +51,15 @@ function addItemToFile(itemToAdd, text, file) {
 //add new books to user
 function addBookToPolka(text, userId, bookId, callback) {
     var file = config.get('dbs:userstable');
-    loop:
         //serch by all objects in table
         for (i=0; i < text.length; i++) {
-            //search in properties of object
-            for (var prop in text[i]) {
-                if (text[i].hasOwnProperty(prop)) {
-                    // if id is is true do job
-                    if (prop == 'id' && text[i][prop] == userId) {
-                        text[i]['books'].push(parseInt(bookId));
-                        callback(text[i]['books']);
-                        break loop;
-                    } else {
-                        log.info('searching user');
-                    }
-                }
-            }
+             if (text[i]['id'] == userId) {
+                 text[i]['books'].push(parseInt(bookId));
+                 callback(text[i]['books']);
+                 break;
+             } else {
+                 log.info('searching user');
+             }
         }
     // write changing to file
     writeToFile(file, text);
@@ -75,23 +68,16 @@ function addBookToPolka(text, userId, bookId, callback) {
 // remove books from user
 function removeBookFromPolka(text, userId, bookId, callback) {
     var file = config.get('dbs:userstable');
-    loop:
         //serch by all objects in table
         for (i=0; i < text.length; i++) {
-            //search in properties of object
-            for (var prop in text[i]) {
-                if (text[i].hasOwnProperty(prop)) {
-                    // if id is is true do job
-                    if (prop == 'id' && text[i][prop] == userId) {
-                        text[i]['books'] = text[i]['books'].filter(function (value) {
-                           return value != bookId;
-                        });
-                        callback(text[i]['books']);
-                        break loop;
-                    } else {
-                        log.info('searching user')
-                    }
-                }
+            if (text[i]['id'] == userId) {
+                text[i]['books'] = text[i]['books'].filter(function (value) {
+                    return value != bookId;
+                });
+                callback(text[i]['books']);
+                break;
+            } else {
+                log.info('searching user')
             }
         }
     // write changing to file
@@ -114,18 +100,17 @@ function checkBookExist(text, book, callback) {
 //find book in db
 function findBook(text, bookid, callback) {
     var find = [];
-    // compare books ids with our table
-    bookid.forEach(function (element, index, arr) {
+    // iterate all ids in bookid
+    for (j=0; j < bookid.length; j++) {
+        //iterate all books in table
         for (i=0; i < text.length; i++) {
-            if (text[i].id == element) {
+            // if find book => push to callback array
+            if (text[i].id == bookid[j]) {
                 find.push(text[i]);
             }
         }
-    });
-    // callback then done
-    if (find.length == bookid.length) {
-        callback(find);
     }
+    find.length > 0 ? callback(find) : callback(false);
 }
 
 //compare our dao with props of newUser
@@ -253,6 +238,5 @@ var dao = {
       })
   }
 };
-
 
 module.exports = dao;

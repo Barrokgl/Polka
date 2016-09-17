@@ -21,7 +21,7 @@ exports.get = function (req, res, next) {
                 })
             }
         } else {
-            next(new HttpError(404, 'Ups, no such book'));
+            next(new HttpError(404,'Ups, no such book'));
         }
     })
 };
