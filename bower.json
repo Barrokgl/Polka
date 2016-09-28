@@ -1,5 +1,5 @@
 {
-  "name": "Polka.ru",
+  "name": "polka.ru",
   "description": "web app",
   "main": "./bin/www",
   "authors": [

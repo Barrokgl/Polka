@@ -3,10 +3,12 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "node daemon.js"
+    "start": "node daemon.js",
+    "postinstall": "bower install"
   },
   "dependencies": {
     "body-parser": "~1.15.1",
+    "bower": "1.7.9",
     "cookie-parser": "~1.4.3",
     "deasync": "^0.1.7",
     "debug": "~2.2.0",
