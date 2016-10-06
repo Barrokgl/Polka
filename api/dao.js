@@ -41,7 +41,9 @@ function transformToJson(text) {
 function addItemToFile(itemToAdd, text, file) {
     // set id of new item
     itemToAdd.id =  text.length+1;
-    itemToAdd.bookimage = itemToAdd.bookimage.replace(/public\//i, '');
+    if (itemToAdd.bookimage) {
+        itemToAdd.bookimage = itemToAdd.bookimage.replace(/public\//i, '');
+    }
     console.log(itemToAdd);
     text.push(itemToAdd);
     //create write stream to write itemToAdd to file
@@ -141,6 +143,19 @@ function authenticateUser(text, user, callback) {
     callback(authenticated);
 }
 
+//edit user porfile and upload icon
+function editUser(text ,userId, newInfo, callback) {
+    var file = config.get('dbs:userstable');
+    for (i=0; i<text.length; i++) {
+        if (text[i]['id'] == userId) {
+            text[i] = newInfo;
+            callback(text[i]);
+            break;
+        }
+    }
+    writeToFile(file, text);
+}
+
 //parse incoming form
 function parseMultipartForm(req, res, callback) {
     var fields = {};
@@ -234,6 +249,13 @@ var dao = {
       readFromFile(file, function (text) {
           removeBookFromPolka(transformToObject(text), userId, bookId, function (books) {
               callback(books);
+          })
+      })
+  },
+  editUserInfo: function (file, userId, newInfo, callback) {
+      readFromFile(file, function (text) {
+          editUser(transformToObject(text), userId, newInfo, function (updatedUser) {
+              callback(updatedUser);
           })
       })
   }

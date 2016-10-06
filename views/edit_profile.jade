@@ -1,0 +1,117 @@
+extends layout
+block append head
+    script(src='../javascripts/pikaday.js')
+    script(src='../javascripts/edit-profile.js' defer)
+    link(rel='stylesheet' href='/stylesheets/pikaday.css')
+block content
+    div.container
+        div.row
+            div.col-xs-2
+            div.col-xs-8.main
+
+                            div.row
+                                div.col-xs-12
+                                    legend.name Редактирование профиля
+                                    form#image(role='form')
+                                        fieldset
+                                            div.form-group
+                                                div.col-xs-4
+                                                    if (user.icon)
+                                                        img.img-responsive(src="#{user.icon}")
+                                                    else
+                                                        img.img-responsive(src="/images/user-default.png")
+                                                div.col-xs-8
+                                                    label.upload-label(for='upload-image') Загрузить иконку профиля
+                                                    input#upload-image(name='userimage' type='file' accept="image/jpeg,image/png")
+                                                    a#upload.btn.btn-default(
+                                                    role="button"
+                                                    tabindex="0"
+                                                    data-toggle="popover"
+                                                    data-trigger="manual"
+                                                    data-placement="top"
+                                                    type="button"
+                                                    data-content=" "
+                                                    ) Загрузить
+                            div.row.top-margin
+                                form#data(role="form")
+                                    fieldset
+                                        div.col-xs-12
+                                            div.form-group
+                                                label(for='username') Имя пользователя
+                                                input#username.form-control(
+                                                placeholder='Имя пользователя'
+                                                name='username'
+                                                type='text'
+                                                value=user.username
+                                                )
+                                            div.form-group
+                                                label(for='lastname') Фамилия
+                                                input#lastname.form-control(
+                                                name='lastname'
+                                                type='text'
+                                                value=user.lastname
+                                                )
+                                            div.form-group
+                                                label(for='firstname') Имя
+                                                input#firstname.form-control(
+                                                name='lastname'
+                                                type='text'
+                                                value=user.firstname
+                                                )
+                                            div.form-group
+                                                label(for='patronymic') Отчество
+                                                input#patronymic.form-control(
+                                                name='patronymic'
+                                                type='text'
+                                                value=user.patronymic
+                                                )
+                                            div.form-group
+                                                label(for='sex') Пол
+                                                p.usersex(hidden="hidden") #{user.sex}
+                                                select#sex.form-control
+                                                    option(value='Не выбрано') Не выбрано
+                                                    option(value='Женский') Женский
+                                                    option(value='Мужской') Мужской
+                                            div.form-group
+                                                label(for='dp') Дата рождения
+                                                div#dp.input-group
+                                                    input#date.span2.form-control(
+                                                    size="16"
+                                                    type="text"
+                                                    value=user.birthdate
+                                                    )
+                                                    span.input-group-addon
+                                                        i.glyphicon.glyphicon-th
+                                            div.form-group
+                                                label(for='country') Страна
+                                                input#country.form-control(
+                                                name='country'
+                                                type='text'
+                                                value=user.country
+                                                )
+                                            div.form-group
+                                                label(for='interests') Интересы
+                                                input#interests.form-control(
+                                                name='interests'
+                                                type='text'
+                                                value=user.interests
+                                                )
+                                            div.form-group
+                                                label(for='about') Обо мне
+                                                textarea#about.form-control(
+                                                rows=9
+                                                cols=40
+                                                name="text"
+                                                data-error="поле неправильно заполнено"
+                                                placeholder='Немного информации о ващей жизни или хобби и прочем'
+                                                )
+                                            a#send.btn.btn-default(
+                                            role="button"
+                                            tabindex="0"
+                                            data-toggle="popover"
+                                            data-trigger="manual"
+                                            data-placement="top"
+                                            type="button"
+                                            data-content=" "
+                                            ) Сохранить
+            div.col-xs-2

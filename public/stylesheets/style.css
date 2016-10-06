@@ -13,6 +13,10 @@ a {
   text-decoration: none;
   color:#272727;
 }
+/* green under line */
+.name {
+  border-bottom: 2px darkgreen solid;
+}
 
 /* форма поиска*/
 .search-icon {
@@ -36,7 +40,9 @@ a {
   background-color: #e0af66;
 }
 /* Main content */
-
+.top-margin {
+  margin-top: 20px;
+}
 
 /* footer */
 #footer {

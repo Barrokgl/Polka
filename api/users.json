@@ -9,7 +9,16 @@
             3,
             4,
             9
-        ]
+        ],
+        "icon": "uploads/upload_ecf350fa350f2fa72fbc14d59111ab5b.jpg",
+        "lastname": "Кривоносов",
+        "firstname": "Георгий",
+        "patronymic": "Константинович",
+        "usersex": "Мужской",
+        "birthdate": "Fri Apr 07 1995 00:00:00 GMT+0400 (MSD)",
+        "country": "Россия",
+        "interests": "js",
+        "about": ""
     },
     {
         "id": "2",
@@ -21,5 +30,11 @@
             6,
             1
         ]
+    },
+    {
+        "login": "tlg-13@ya.ru",
+        "username": "Sergey",
+        "password": "Password123",
+        "id": 3
     }
 ]

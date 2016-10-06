@@ -1,5 +1,6 @@
 extends layout
 block append head
+    script(src='../javascripts/birthdate.js')
     link(rel='stylesheet', href='/stylesheets/profile.css')
 block content
     div.container
@@ -8,15 +9,27 @@ block content
             div.col-xs-8.main
                 div.row
                     div.col-xs-4
-                        if (user.profileIcon)
-                            img.img-responsive(src="#{user.profileIcon}")
+                        if (user.icon)
+                            img.img-responsive(src="#{user.icon}")
                         else
                             img.img-responsive(src="/images/user-default.png")
                     div.col-xs-8
-                        h4.text-capitalize.name #{user.username}
+                        div.row
+                            div.col-xs-9
+                                h4.text-capitalize.name #{user.username}
+                            div.col-xs-3
+                                a.text-muted(href='/edit_profile') редактировать
                         div.row
                             div.col-xs-12
-                                p Some information about user
+                                p #{user.lastname} #{user.firstname}
+                                p=user.patronymic
+                                p.text-primary Дата рождения
+                                p.birthdate=user.birthdate
+                                p.text-primary Страна
+                                p=user.country
+                                p.text-primary Интересы
+                                p=user.interests
+                                p=user.about
                 div.row
                     div.col-xs-12
                         h2.name Полка книг

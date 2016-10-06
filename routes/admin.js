@@ -4,7 +4,7 @@ var dao = require('../api/dao');
 
 exports.get = function (req, res, next) {
     if (req.user) {
-        if (req.user.login == config.get('admin')) {
+        if (req.user.login == config.get('admin') || req.user.login == config.get('admin2')) {
             req.session.admin = true;
             res.render('adminpanel/admin')
         } else {

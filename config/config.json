@@ -1,5 +1,5 @@
 {
-  "port": "8000",
+  "port": "8001",
   "nodemon": {
       "script": "./bin/www",
       "restartable": "rs",
@@ -22,5 +22,6 @@
       "saveUninitialized": "true",
       "resave": "true"
   },
-  "admin": "georgykrivon@gmail.com"
+  "admin": "georgykrivon@gmail.com",
+  "admin2": "tlg-13@ya.ru"
 }
