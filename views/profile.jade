@@ -30,6 +30,9 @@ block content
                                 p.text-primary Интересы
                                 p=user.interests
                                 p=user.about
+                                if (user.admin)
+                                    p.text-primary Статус пользователя
+                                    p Admin
                 div.row
                     div.col-xs-12
                         h2.name Полка книг

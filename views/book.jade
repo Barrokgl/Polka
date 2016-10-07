@@ -11,7 +11,14 @@ block content
                     div.col-xs-4
                         img.img-responsive(src="../#{book.bookimage}")
                     div.col-xs-8
-                        h3.bookname.underline #{book.bookname}
+                        div.row
+                            if (user.admin)
+                                div.col-xs-9
+                                    h3.bookname.underline #{book.bookname}
+                                div.col-xs-3
+                                    a.text-muted(href='/edit_book/:#{book.id}') редактировать
+                            else
+                                h3.bookname.underline #{book.bookname}
                         p Автор: #{book.author}
                         p Жанр: #{book.genre}
                         p Год издания #{book.year}г.

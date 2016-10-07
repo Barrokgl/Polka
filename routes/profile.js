@@ -1,6 +1,6 @@
 var dao = require('api/dao');
 var config = require('config');
-
+var fs = require('fs');
 
 exports.get = function(req, res) {
     if (req.session.user) {
@@ -59,7 +59,7 @@ exports.uploadImg = function (req, res, next) {
         if (req.session.user) {
             if (filetype == 'image/jpeg' || filetype == 'image/png') {
                 //delete old icon
-                fs.unlink('/public/'+req.user.icon , function (err) {
+                fs.unlink('public/'+req.user.icon , function (err) {
                     if (err) throw new Error(err);
                     console.log('deleted broken image')
                 });

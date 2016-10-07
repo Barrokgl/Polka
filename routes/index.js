@@ -25,6 +25,9 @@ router.post('/registration', require('./registration').post);
 /* get book */
 router.get('/book/:bookid', require('./book').get);
 
+/* edit book */
+router.get('/edit_book/:bookid', require('./book').edit);
+
 /* GET addbook page */
 router.get('/addbook', require('./addbook').get);
 

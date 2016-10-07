@@ -18,6 +18,9 @@ module.exports = function (req, res, next) {
           // if user exist write his data to req and
           // req.locals properties and give it to next middleware
           } else {
+              if (req.session.user.login == config.get('admin') || req.session.user.login == config.get('admin2')) {
+                  req.session.user.admin = true;
+              }
               req.user = res.locals.user = req.session.user;
               next()
           }
