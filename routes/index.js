@@ -25,8 +25,14 @@ router.post('/registration', require('./registration').post);
 /* get book */
 router.get('/book/:bookid', require('./book').get);
 
-/* edit book */
+/* edit book GET handler*/
 router.get('/edit_book/:bookid', require('./book').edit);
+
+/* edit book POST handler*/
+router.post('/edit_book/:bookid', require('./book').editBook);
+
+/* upload bookcover */
+router.post('/upload_bookcover/:bookid', require('./book').uploadBookCover);
 
 /* GET addbook page */
 router.get('/addbook', require('./addbook').get);

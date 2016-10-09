@@ -41,9 +41,9 @@ function transformToJson(text) {
 function addItemToFile(itemToAdd, text, file) {
     // set id of new item
     itemToAdd.id =  text.length+1;
-    if (itemToAdd.bookimage) {
-        itemToAdd.bookimage = itemToAdd.bookimage.replace(/public\//i, '');
-    }
+    // if (itemToAdd.bookimage) {
+    //     itemToAdd.bookimage = itemToAdd.bookimage.replace(/public\//i, '');
+    // }
     console.log(itemToAdd);
     text.push(itemToAdd);
     //create write stream to write itemToAdd to file
@@ -144,11 +144,16 @@ function authenticateUser(text, user, callback) {
 }
 
 //edit user porfile and upload icon
-function editUser(text ,userId, newInfo, callback) {
-    var file = config.get('dbs:userstable');
+function editItem(file , text , itemId, newInfo, callback) {
+    //find item by id
     for (i=0; i<text.length; i++) {
-        if (text[i]['id'] == userId) {
-            text[i] = newInfo;
+        if (text[i]['id'] == itemId) {
+            //rewrite new properties
+            for(key in newInfo) {
+                if(newInfo.hasOwnProperty(key)) {
+                    text[i][key] = newInfo[key];
+                }
+            }
             callback(text[i]);
             break;
         }
@@ -174,7 +179,7 @@ function parseMultipartForm(req, res, callback) {
     });
     //Call back when each file in the form is parsed.
     form.on('file', function (name, file) {
-        fields[name] = file.path;
+        fields[name] = file.path.replace(/public\//i, '');
         fileType = file.type;
     });
     //Call back at the end of the form.
@@ -252,10 +257,10 @@ var dao = {
           })
       })
   },
-  editUserInfo: function (file, userId, newInfo, callback) {
+  editItemInfo: function (file, itemId, newInfo, callback) {
       readFromFile(file, function (text) {
-          editUser(transformToObject(text), userId, newInfo, function (updatedUser) {
-              callback(updatedUser);
+          editItem(file, transformToObject(text), itemId, newInfo, function (upadtedItem) {
+              callback(upadtedItem);
           })
       })
   }

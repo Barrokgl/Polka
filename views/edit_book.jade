@@ -1,4 +1,133 @@
 extends layout
-
+block append head
+    script(src='../javascripts/edit-book.js' defer)
+    link(rel='stylesheet' href='/stylesheets/edit_template.css')
 block content
     div.container
+        div.row
+            div.col-xs-2
+            div.col-xs-8.main
+                div.row
+                    div.col-xs-12
+                        div.row
+                            div.col-xs-8
+                                legend.name Редактирование книги
+                            div.col-xs-4
+                                a.text-muted(href='/book/:#{book.id}') страница книги
+                        form#image(role='form')
+                            fieldset
+                                div.form-group
+                                    div.col-xs-4
+                                        if (book.bookimage)
+                                            img.img-responsive(src='../#{book.bookimage}')
+                                        else
+                                            img.img-responsive(src='images/default-bookcover.png')
+                                    div.col-xs-8
+                                        label.upload-label(for='upload-image') Загрузить обложку книги
+                                        input#upload-image(name='bookimage' type='file' accept="image/jpeg,image/png")
+                                        a#upload.btn.btn-default(
+                                        role="button"
+                                        tabindex="0"
+                                        data-toggle="popover"
+                                        data-trigger="manual"
+                                        data-placement="top"
+                                        type="button"
+                                        data-content=" "
+                                        ) Загрузить
+                div.row.top-margin
+                    form#data(role="form")
+                        fieldset
+                            div.col-xs-12
+                                div.form-group
+                                    label(for='bookname') Название книги
+                                    input#bookname.form-control(
+                                    placeholder='Название книги'
+                                    name='bookname'
+                                    type='text'
+                                    value=book.bookname
+                                    )
+                                div.form-group
+                                    label(for='author') Автор книги
+                                    input#author.form-control(
+                                    placeholder='Автор'
+                                    name='author'
+                                    type='text'
+                                    value=book.author
+                                    )
+                                div.form-group
+                                    label(for='genre') Жанр
+                                    input#genre.form-control(
+                                    placeholder='Жанр'
+                                    name='genre'
+                                    type='text'
+                                    value=book.genre
+                                    )
+                                div.form-group
+                                    label(for='year') Год издания
+                                    input#year.form-control(
+                                    placeholder='Автор'
+                                    name='year'
+                                    type='text'
+                                    value=book.year
+                                    )
+                                div.form-group
+                                    label(for='text')
+                                    textarea#text.form-control(
+                                    rows=9
+                                    cols=40
+                                    name="text"
+                                    data-error="поле неправильно заполнено"
+                                    placeholder='Описание книги'
+                                    ) #{book.text}
+                                div.form-group
+                                    label(for='isbn')
+                                    input#isbn.form-control(
+                                    placeholder='Код ISBN'
+                                    name='ISBN'
+                                    type='text'
+                                    value=book.isbn
+                                    )
+                                div.form-group
+                                    label(for='publisher')
+                                    input#publisher.form-control(
+                                    placeholder='Издательство'
+                                    name='publisher'
+                                    type='text'
+                                    value=book.publisher
+                                    )
+                                div.form-group
+                                    label(for='seires')
+                                    input#seires.form-control(
+                                    placeholder='Серия'
+                                    name='seires'
+                                    type='text'
+                                    value=book.seires
+                                    )
+                                div.form-group
+                                    label(for='setting')
+                                    input#setting.form-control(
+                                    placeholder='Вселенная'
+                                    name='setting'
+                                    type='text'
+                                    value=book.setting
+                                    )
+                                div.form-group
+                                    label(for='additional')
+                                    textarea#additional.form-control(
+                                    rows=9
+                                    cols=40
+                                    name="additional"
+                                    data-error="поле неправильно заполнено"
+                                    placeholder='Дополнительные сведения'
+                                    ) #{book.additional}
+                                a#send.btn.btn-default(
+                                role="button"
+                                tabindex="0"
+                                data-toggle="popover"
+                                data-trigger="manual"
+                                data-placement="top"
+                                type="button"
+                                data-content=" "
+                                ) Сохранить
+                                p.bookid(hidden="hidden") #{book.id}
+            div.col-xs-2

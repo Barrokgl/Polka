@@ -24,7 +24,7 @@ $(document).ready(function () {
           })
           .fail(function () {
              alert(':(');
-          })
+          });
    });
    
    
@@ -36,7 +36,6 @@ $(document).ready(function () {
          firstname: $('#firstname').val(),
          patronymic: $('#patronymic').val(),
          usersex: $('#sex').val(),
-         // birthdate: $('#date').getDate(),
          birthdate: pickadate.getDate(),
          country: $('#country').val(),
          interests: $('#interests').val(),

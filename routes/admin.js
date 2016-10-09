@@ -4,8 +4,7 @@ var dao = require('../api/dao');
 
 exports.get = function (req, res, next) {
     if (req.user) {
-        if (req.user.login == config.get('admin') || req.user.login == config.get('admin2')) {
-            req.session.admin = true;
+        if (req.session.user.admin) {
             res.render('adminpanel/admin')
         } else {
             next(new HttpError(403, 'Forbidden'))
@@ -16,7 +15,7 @@ exports.get = function (req, res, next) {
 
 };
 exports.book = function (req, res, next) {
-    if (req.session.admin) {
+    if (req.session.user.admin) {
         dao.accessBookCollection(function (books) {
             res.render('adminpanel/adminbooks', {books: books})
         });

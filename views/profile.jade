@@ -10,9 +10,9 @@ block content
                 div.row
                     div.col-xs-4
                         if (user.icon)
-                            img.img-responsive(src="#{user.icon}")
+                            img.img-responsive.img-circle(src="#{user.icon}")
                         else
-                            img.img-responsive(src="/images/user-default.png")
+                            img.img-responsive.img-circle(src="/images/user-default.png")
                     div.col-xs-8
                         div.row
                             div.col-xs-9
@@ -24,7 +24,8 @@ block content
                                 p #{user.lastname} #{user.firstname}
                                 p=user.patronymic
                                 p.text-primary Дата рождения
-                                p.birthdate=user.birthdate
+                                if (user.birthdate)
+                                 p.birthdate=user.birthdate
                                 p.text-primary Страна
                                 p=user.country
                                 p.text-primary Интересы
@@ -33,7 +34,7 @@ block content
                                 if (user.admin)
                                     p.text-primary Статус пользователя
                                     p Admin
-                div.row
+                div.row.top-margin
                     div.col-xs-12
                         h2.name Полка книг
                         each book in polka
@@ -42,5 +43,17 @@ block content
                                     img.img-responsive(src='../#{book.bookimage}' alt="#{book.bookname}")
                                 p
                                     a(href='/book/:#{book.id}') #{book.bookname}
+                div.row.top-margin
+                    div.col-xs-12
+                        h2.name Друзья
+                        div.col-xs-12.polka
+                            img.img-responsive.img-circle(src="/images/user-default.png")
+                            p friend
+                        div.col-xs-12.polka
+                            img.img-responsive.img-circle(src="/images/user-default.png")
+                            p friend
+                        div.col-xs-12.polka
+                            img.img-responsive.img-circle(src="/images/user-default.png")
+                            p friend
             div.col-xs-2
 

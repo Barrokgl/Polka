@@ -8,17 +8,19 @@
             10,
             3,
             4,
-            9
+            9,
+            5
         ],
-        "icon": "uploads/upload_b6b51762af56558d548167aa540cbb72.jpg",
+        "icon": "uploads/upload_74180001265e14a5ba46e658c6937a65.jpg",
         "lastname": "Кривоносов",
         "firstname": "Георгий",
         "patronymic": "Константинович",
         "usersex": "Мужской",
-        "birthdate": "Fri Apr 07 1995 00:00:00 GMT+0400 (MSD)",
+        "birthdate": "Sat Apr 08 1995 00:00:00 GMT+0400 (MSD)",
         "country": "Россия",
         "interests": "js",
-        "about": ""
+        "about": "",
+        "admin": true
     },
     {
         "id": "2",

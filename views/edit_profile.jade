@@ -3,6 +3,7 @@ block append head
     script(src='../javascripts/pikaday.js')
     script(src='../javascripts/edit-profile.js' defer)
     link(rel='stylesheet' href='/stylesheets/pikaday.css')
+    link(rel='stylesheet' href='/stylesheets/edit_template.css')
 block content
     div.container
         div.row
@@ -104,7 +105,7 @@ block content
                                                 name="text"
                                                 data-error="поле неправильно заполнено"
                                                 placeholder='Немного информации о ващей жизни или хобби и прочем'
-                                                )
+                                                ) #{user.about}
                                             a#send.btn.btn-default(
                                             role="button"
                                             tabindex="0"
