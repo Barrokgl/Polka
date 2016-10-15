@@ -8,10 +8,11 @@ var fs = require('fs');
 exports.get = function (req, res, next) {
     //transform to array-like object
     var bookid = [req.params.bookid.slice(1)];
-    dao.getRequestedBook(file, bookid, function (book) {
+    // get book by id
+    dao.getRequestedBook(bookid, function (book) {
         if (book) {
             if (req.user) {
-                dao.filterUsersBooks(book[0].id, req.user.books, function (value) {
+                dao.filterUsersItems(book[0].id, req.user.books, function (value) {
                     res.render('book', {
                         book: book[0],
                         bookAdded: value
@@ -32,7 +33,7 @@ exports.edit = function (req, res, next) {
     var bookid = [req.params.bookid.slice(1)];
     if (req.user) {
         if (req.session.user.admin) {
-            dao.getRequestedBook(file, bookid, function (book) {
+            dao.getRequestedBook(bookid, function (book) {
                 if (book) {
                     res.render('edit_book', {
                         book: book[0]
@@ -67,7 +68,7 @@ exports.uploadBookCover = function (req, res, next) {
             if (filetype == 'image/jpeg' || filetype == 'image/png') {
                 var bookid = [req.params.bookid.slice(1)];
                 // get this book
-                dao.getRequestedBook(file, bookid, function (book) {
+                dao.getRequestedBook(bookid, function (book) {
                     // delete old image
                     fs.unlink('public/'+book[0].bookimage , function (err) {
                         if (err) throw new Error(err);

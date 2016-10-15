@@ -28,15 +28,12 @@ $(document).ready(function () {
 
         } else {
             e.preventDefault();
-            var login = $("[name='login']").val();
-            var username = $("[name='username']").val();
-            var password = $("[name='password']").val();
             var remember = $('[name="checkbox"]').prop("checked");
             //send to server
             $.post(url, {
-                    login: login,
-                    username: username,
-                    password: password,
+                    login: $("[name='login']").val(),
+                    username: $("[name='username']").val(),
+                    password: $("[name='password']").val(),
                     remember: remember ? remember : undefined
                 },{},'text').done(function () {
                 window.location = '/';

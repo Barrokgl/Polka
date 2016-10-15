@@ -1,5 +1,7 @@
 var fs = require('fs');
 var config = require('config');
+var booksDB = config.get('dbs:bookstable');
+var usersDB = config.get('dbs:userstable');
 var upload = config.get('uploaddir');
 var formidable = require('formidable');
 var log = require('libs/logs')(module);
@@ -41,47 +43,52 @@ function transformToJson(text) {
 function addItemToFile(itemToAdd, text, file) {
     // set id of new item
     itemToAdd.id =  text.length+1;
-    // if (itemToAdd.bookimage) {
-    //     itemToAdd.bookimage = itemToAdd.bookimage.replace(/public\//i, '');
-    // }
     console.log(itemToAdd);
     text.push(itemToAdd);
     //create write stream to write itemToAdd to file
     writeToFile(file, text);
 }
 
-//add new books to user
-function addBookToPolka(text, userId, bookId, callback) {
+
+function addToUser(text, userId, item, callback) {
     var file = config.get('dbs:userstable');
-        //serch by all objects in table
-        for (i=0; i < text.length; i++) {
-             if (text[i]['id'] == userId) {
-                 text[i]['books'].push(parseInt(bookId));
-                 callback(text[i]['books']);
-                 break;
-             } else {
-                 log.info('searching user');
-             }
+    //serch by all objects in table
+    for (i=0; i < text.length; i++) {
+        if (text[i]['id'] == userId) {
+            if (text[i].hasOwnProperty(item.property)) {
+                text[i][item.property].push(parseInt(item.value));
+            } else {
+                text[i][item.property] = [parseInt(item.value)];
+            }
+            callback(text[i][item.property]);
+            break;
+        } else {
+            log.info('searching user');
         }
+    }
     // write changing to file
     writeToFile(file, text);
 }
 
-// remove books from user
-function removeBookFromPolka(text, userId, bookId, callback) {
+//remove items from user
+function removeFromUser(text, userId, item, callback) {
     var file = config.get('dbs:userstable');
-        //serch by all objects in table
-        for (i=0; i < text.length; i++) {
-            if (text[i]['id'] == userId) {
-                text[i]['books'] = text[i]['books'].filter(function (value) {
-                    return value != bookId;
+    //serch by all objects in table
+    for (i=0; i < text.length; i++) {
+        if (text[i]['id'] == userId) {
+            if(text[i].hasOwnProperty(item.property)){
+                text[i][item.property] = text[i][item.property].filter(function (value) {
+                    return value != item.value;
                 });
-                callback(text[i]['books']);
-                break;
             } else {
-                log.info('searching user')
+                text[i][item.property] = [];
             }
+            callback(text[i][item.property]);
+            break;
+        } else {
+            log.info('searching user')
         }
+    }
     // write changing to file
     writeToFile(file, text);
 }
@@ -103,12 +110,32 @@ function checkBookExist(text, book, callback) {
 function findBook(text, bookid, callback) {
     var find = [];
     // iterate all ids in bookid
-    for (j=0; j < bookid.length; j++) {
-        //iterate all books in table
-        for (i=0; i < text.length; i++) {
-            // if find book => push to callback array
-            if (text[i].id == bookid[j]) {
-                find.push(text[i]);
+    if (bookid) {
+        for (j=0; j < bookid.length; j++) {
+            //iterate all books in table
+            for (i=0; i < text.length; i++) {
+                // if find book => push to callback array
+                if (text[i].id == bookid[j]) {
+                    find.push(text[i]);
+                }
+            }
+        }
+    }
+    find.length > 0 ? callback(find) : callback(false);
+}
+
+//find user in db
+function findUser(text, userid, callback) {
+    var find = [];
+    // iterate all ids in userid
+    if (userid) {
+        for (j=0; j < userid.length; j++) {
+            //iterate all books in table
+            for (i=0; i < text.length; i++) {
+                // if find user => push to callback array
+                if (text[i].id == userid[j]) {
+                    find.push(text[i]);
+                }
             }
         }
     }
@@ -190,15 +217,15 @@ function parseMultipartForm(req, res, callback) {
 }
 
 var dao = {
-  checkUser: function (file , user, callback) {
-          readFromFile(file , function (text) {
+  checkUser: function (user, callback) {
+          readFromFile(usersDB , function (text) {
               checkUserExist(transformToObject(text), user, function (exist) {
                   callback(exist);
               })
           })
   },
-  checkBook: function (file , book, callback) {
-        readFromFile(file , function (text) {
+  checkBook: function (book, callback) {
+        readFromFile(booksDB, function (text) {
             checkBookExist(transformToObject(text), book, function (exist) {
                 callback(exist);
             })
@@ -214,48 +241,55 @@ var dao = {
             callback(fields, fileType);
         })
   },
-  userAuthentication: function (file, user, callback) {
-      readFromFile(file, function (text) {
+  userAuthentication: function (user, callback) {
+      readFromFile(usersDB ,function (text) {
           authenticateUser(transformToObject(text), user, function (auth) {
               callback(auth);
           })
       })
   },
   accessBookCollection: function (callback) {
-      readFromFile(config.get('dbs:bookstable'), function (text) {
+      readFromFile(booksDB , function (text) {
           callback(transformToObject(text));
       })
   },
-  getRequestedBook: function (file, bookid, callback) {
-      readFromFile(file, function (text) {
+  getRequestedBook: function (bookid, callback) {
+      readFromFile(booksDB, function (text) {
           findBook(transformToObject(text), bookid, function (exist) {
               callback(exist);
           })
       })
   },
-  filterUsersBooks:  function (bookid, userBooks, callback) {
-      var filteredBooks = userBooks.filter(function (value) {
-          return value == bookid;
-      });
-      if(filteredBooks.length > 0) {
-          callback(filteredBooks);
+  getRequestedUser: function (userid, callback) {
+       readFromFile(usersDB, function (text) {
+           findUser(transformToObject(text), userid, function (user) {
+               callback(user);
+           });
+       });
+  },
+  filterUsersItems: function (itemId, usersItems, callback) {
+      if (usersItems) {
+          var filteredItems = usersItems.filter(function (value) {
+              return value == itemId;
+          });
+          filteredItems.length > 0 ? callback(filteredItems) : callback(undefined);
       } else {
           callback(undefined);
       }
   },
-  addBooksToUser: function (file, userId, bookId, callback) {
-       readFromFile(file, function (text) {
-           addBookToPolka(transformToObject(text), userId, bookId, function (books) {
-               callback(books);
-           })
-       })
+  addItemToUser: function (userId, item, callback) {
+      readFromFile(usersDB, function (text) {
+          addToUser(transformToObject(text), userId, item, function (newInfo) {
+              callback(newInfo);
+          });
+      });
   },
-  removeBookFromUser: function (file, userId, bookId, callback) {
-      readFromFile(file, function (text) {
-          removeBookFromPolka(transformToObject(text), userId, bookId, function (books) {
-              callback(books);
-          })
-      })
+  removeItemFromUser: function (userId, item, callback) {
+      readFromFile(usersDB, function (text) {
+          removeFromUser(transformToObject(text), userId, item, function (newInfo) {
+              callback(newInfo);
+          });
+      });
   },
   editItemInfo: function (file, itemId, newInfo, callback) {
       readFromFile(file, function (text) {

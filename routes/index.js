@@ -56,8 +56,17 @@ router.get('/edit_profile', require('./profile').edit);
 
 router.post('/edit_profile', require('./profile').editProfile);
 
-/* upload user icon */
+/* upload profile icon */
 router.post('/upload_img', require('./profile').uploadImg);
+
+/* get other user's page */
+router.get('/user/:userid', require('./user').get);
+
+/* subscript on %user% page */
+router.post('/add_subscription', require('./profile').addSubscription);
+
+/* unsubscript on %user% page */
+router.post('/remove_subscription', require('./profile').removeSubscription);
 
 //admin
 

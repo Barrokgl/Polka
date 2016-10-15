@@ -22,7 +22,6 @@ $(document).ready(function () {
                 dataType: 'text',
                 processData: false
             }).done(function (data) {
-                console.log(data);
                 $('#send').attr('data-content', data).popover('show');
                 $('div.popover').addClass('popover-success').removeClass('popover-error');
             }).fail(function (data) {

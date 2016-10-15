@@ -8,9 +8,23 @@ block content
             div.col-xs-2
             div.col-xs-8
                 div.row
-                    div.col-xs-4
+                    div.col-xs-3.align-block
                         img.img-responsive(src="../#{book.bookimage}")
-                    div.col-xs-8
+                        if (user)
+                            if (bookAdded)
+                                input.btn.btn-success.top-margin#removeFromPolka(
+                                type="button"
+                                value="Стоит на полке"
+                                )
+                            else
+                                input.btn.btn-default.top-margin#addToPolka(
+                                type="button"
+                                value="Добавить на полку"
+                                )
+                        else
+                            a.btn.btn-default.top-margin(href="/login" role="button") Добавить на полку
+                        p.bookid(hidden="hidden") #{book.id}
+                    div.col-xs-9
                         div.row
                             if (user)
                                 if (user.admin)
@@ -18,6 +32,8 @@ block content
                                         h3.bookname.underline #{book.bookname}
                                     div.col-xs-3
                                         a.text-muted(href='/edit_book/:#{book.id}') редактировать
+                                else
+                                    h3.bookname.underline #{book.bookname}
                             else
                                 h3.bookname.underline #{book.bookname}
                         p Автор: #{book.author}
@@ -29,19 +45,5 @@ block content
                         p #{book.text}
                 div.row
                     div.col-xs-12
-                        if (user)
-                            if (bookAdded)
-                                //a.btn.btn-success(href="/profile" role="button") Стоит на полке
-                                input.btn.btn-success#removeFromPolka(
-                                type="button"
-                                value="Стоит на полке"
-                                )
-                            else
-                                input.btn.btn-default#addToPolka(
-                                type="button"
-                                value="Добавить на полку"
-                                )
-                        else
-                            a.btn.btn-default(href="/login" role="button") Добавить на полку
-                        p.bookid(hidden="hidden") #{book.id}
+
             div.col-xs-2

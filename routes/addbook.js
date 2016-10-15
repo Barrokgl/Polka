@@ -10,7 +10,7 @@ exports.get = function(req, res) {
 
 exports.post = function (req, res, next) {
     dao.parseForm(req, res, function (fields, fileType) {
-        dao.checkBook(file, fields, function (exist) {
+        dao.checkBook(fields, function (exist) {
             if (!exist) {
                 if (fileType == 'image/jpeg' || fileType == 'image/png') {
                     dao.addNewItem(fields, file);

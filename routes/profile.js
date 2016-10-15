@@ -5,10 +5,13 @@ var HttpError = require('libs/error').HttpError;
 
 exports.get = function(req, res) {
     if (req.session.user) {
-        dao.getRequestedBook(config.get('dbs:bookstable'), req.user.books, function (books) {
-            res.render('profile', {
-                title: 'Profile',
-                polka: books
+        dao.getRequestedBook(req.user.books, function (books) {
+            dao.getRequestedUser(req.user.subscriptions, function (users) {
+                res.render('profile', {
+                    title: 'Profile',
+                    polka: books,
+                    subscriptions: users
+                });
             });
         });
     } else {
@@ -18,12 +21,12 @@ exports.get = function(req, res) {
 
 // handle requests for edit user polka
 exports.addToPolka = function(req, res, next) {
-    var bookid = [parseInt(req.body.bookid)];
-    dao.getRequestedBook(config.get('dbs:bookstable'), bookid, function (book) {
+    var bookid = [parseInt(req.body.value)];
+    dao.getRequestedBook(bookid, function (book) {
         if (book) {
             require('libs/logs')(module).info('adding book with id: '+book[0].id);
-            dao.addBooksToUser(config.get('dbs:userstable'), req.user.id, book[0].id, function (books) {
-                req.session.user.books = books;
+            dao.addItemToUser(req.user.id, req.body, function (newInfo) {
+                req.session.user.books = newInfo;
                 res.status(200).end();
             });
         } else {
@@ -33,12 +36,12 @@ exports.addToPolka = function(req, res, next) {
 };
 
 exports.removeBook = function (req, res, next) {
-    var bookid = [parseInt(req.body.bookid)];
-    dao.getRequestedBook(config.get('dbs:bookstable'), bookid, function (book) {
+    var bookid = [parseInt(req.body.value)];
+    dao.getRequestedBook(bookid, function (book) {
         if (book) {
             require('libs/logs')(module).info('removing book with id: '+book[0].id);
-            dao.removeBookFromUser(config.get('dbs:userstable'), req.user.id, book[0].id, function (books) {
-                req.session.user.books = books;
+            dao.removeItemFromUser(req.user.id, req.body,  function (newInfo) {
+                req.session.user.books = newInfo;
                 res.status(200).end();
             });
         } else {
@@ -96,6 +99,17 @@ exports.editProfile = function (req, res, next) {
     }
 };
 
+exports.addSubscription = function (req, res, next) {
+    dao.addItemToUser(req.session.user.id, req.body, function (newValue) {
+        req.session.user[req.body.property] = newValue;
+        res.status(200).end();
+    });
+};
 
-
+exports.removeSubscription = function (req, res, next) {
+    dao.removeItemFromUser(req.session.user.id, req.body, function (newValue) {
+        req.session.user[req.body.property] = newValue;
+        res.status(200).end();
+    });
+};
 

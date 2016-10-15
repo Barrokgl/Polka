@@ -26,24 +26,38 @@ $(document).ready(function () {
              alert(':(');
           });
    });
-   
-   
-   // upload new profile
+
+   $('.form-group').click(function () {
+      $('#send').popover('hide');
+   });
+
    $('#send').click(function () {
-      $.post('/edit_profile', {
-         username: $('#username').val(),
-         lastname: $('#lastname').val(),
-         firstname: $('#firstname').val(),
-         patronymic: $('#patronymic').val(),
-         usersex: $('#sex').val(),
-         birthdate: pickadate.getDate(),
-         country: $('#country').val(),
-         interests: $('#interests').val(),
-         about: $('#about').val()
-      },{},'text').done(function (data) {
-         alert('yes');
-      }).fail(function () {
-         alert('no');
-      })
-   })
+      $('#data').submit();
+   });
+   // validate info
+   $('#data').validator().on('submit', function (e) {
+      if (e.isDefaultPrevented()) {
+
+      } else {
+         e.preventDefault();
+         // upload new profile
+         $.post('/edit_profile', {
+            username: $('#username').val(),
+            lastname: $('#lastname').val(),
+            firstname: $('#firstname').val(),
+            patronymic: $('#patronymic').val(),
+            usersex: $('#sex').val(),
+            birthdate: pickadate.getDate(),
+            country: $('#country').val(),
+            interests: $('#interests').val(),
+            about: $('#about').val()
+         },{},'text').done(function (data) {
+            $('#send').attr('data-content', data).popover('show');
+            $('div.popover').addClass('popover-success').removeClass('popover-error');
+         }).fail(function () {
+            $('#send').attr('data-content', data).popover('show');
+            $('div.popover').addClass('popover-error').removeClass('popover-success');
+         });
+      }
+   });
 });

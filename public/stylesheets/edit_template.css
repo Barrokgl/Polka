@@ -1,9 +1,23 @@
 #data {
     margin-bottom: 30px;
 }
+
 #upload {
     margin-top: 15px;
 }
+
 #upload-image {
     margin-top: 15px;
+}
+
+.popover-error {
+    color: rgb(169, 68, 66);
+    background-color: rgb(242, 222, 222);
+    border-color: rgb(235, 204, 209);
+}
+
+.popover-success {
+    color: rgb(60, 169, 64);
+    background-color: rgb(215, 242, 215);
+    border-color: rgb(197, 235, 190);
 }

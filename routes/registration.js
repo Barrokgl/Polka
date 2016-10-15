@@ -1,10 +1,9 @@
 var users = require('api/dao');
 var config = require('config');
-var file = config.get('dbs:userstable');
 
 exports.post = function (req, res) {
     // check user
-    users.checkUser(file, req.body, function (exist) {
+    users.checkUser(req.body, function (exist) {
         if (!exist) {
             users.addNewItem(req.body, file);
             req.session.user = req.body.user;

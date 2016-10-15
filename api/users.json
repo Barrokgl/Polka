@@ -5,22 +5,26 @@
         "username": "georgykrivon",
         "password": "Db2d3bda",
         "books": [
-            10,
             3,
-            4,
             9,
+            4,
+            10,
             5
         ],
         "icon": "uploads/upload_74180001265e14a5ba46e658c6937a65.jpg",
         "lastname": "Кривоносов",
         "firstname": "Георгий",
         "patronymic": "Константинович",
-        "usersex": "Мужской",
+        "usersex": "",
         "birthdate": "Sat Apr 08 1995 00:00:00 GMT+0400 (MSD)",
         "country": "Россия",
         "interests": "js",
         "about": "",
-        "admin": true
+        "admin": true,
+        "subscriptions": [
+            3,
+            4
+        ]
     },
     {
         "id": "2",
@@ -38,5 +42,20 @@
         "username": "Sergey",
         "password": "Password123",
         "id": 3
+    },
+    {
+        "login": "sample@email.com",
+        "username": "user1",
+        "password": "db2d3bda",
+        "id": 4,
+        "books": [],
+        "lastname": "",
+        "firstname": "",
+        "patronymic": "",
+        "usersex": "",
+        "birthdate": "Thu Oct 13 2016 00:00:00 GMT+0300 (MSK)",
+        "country": "",
+        "interests": "",
+        "about": ""
     }
 ]

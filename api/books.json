@@ -36,7 +36,10 @@
         "genre": "Школьная классика, Проза XIX-XX веков",
         "year": "1936",
         "text": "«Мастер и Маргарита» - одна из немногих тем, на которую говорят из поколения в поколение вот уже почти век. Любовь и ненависть, добро и зло… Причудлив",
-        "bookimage": "uploads/upload_c28701c96f25ee1bf8ee4fa3f9b8a7db.jpg"
+        "bookimage": "uploads/upload_c28701c96f25ee1bf8ee4fa3f9b8a7db.jpg",
+        "isbn": "",
+        "publisher": "",
+        "setting": ""
     },
     {
         "id": "5",
@@ -45,7 +48,10 @@
         "genre": "Детективы и боевики, Проза XIX-XX веков",
         "year": "1930",
         "text": "В книгу «Приключения Шерлока Холмса», написанную Артуром Конан Дойлом, вошли два романа о приключениях великого сыщика \"Этюд в багровых тонах\" ",
-        "bookimage": "uploads/upload_115a7aed6f728ea6b7402cbfd0feab94.jpg"
+        "bookimage": "uploads/upload_115a7aed6f728ea6b7402cbfd0feab94.jpg",
+        "isbn": "",
+        "publisher": "",
+        "setting": ""
     },
     {
         "id": "6",
@@ -54,7 +60,10 @@
         "genre": "Мистика, ужасы, триллеры",
         "year": "1996",
         "text": "Начальником блока смертников тюрьмы «Холодная гора» много лет работает Пол Джейкомб. Пол провел много казней сам, что сделало его циником",
-        "bookimage": "uploads/upload_3cbeaf79d772971f682d6c2ccce73c8e.jpg"
+        "bookimage": "uploads/upload_3cbeaf79d772971f682d6c2ccce73c8e.jpg",
+        "isbn": "",
+        "publisher": "",
+        "setting": ""
     },
     {
         "id": "7",

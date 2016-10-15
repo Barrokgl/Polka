@@ -1,6 +1,9 @@
 extends layout
 block append head
     script(src='../javascripts/edit-book.js' defer)
+    script(src="../bower_components/bootstrap/js/tooltip.js")
+    script(src="../bower_components/bootstrap/js/popover.js")
+    script(src="../bower_components/bootstrap-validator/dist/validator.min.js")
     link(rel='stylesheet' href='/stylesheets/edit_template.css')
 block content
     div.container
@@ -44,32 +47,45 @@ block content
                                     placeholder='Название книги'
                                     name='bookname'
                                     type='text'
+                                    data-error="поле неправильно заполнено"
+                                    pattern='[a-zA-Zа-яА-ЯёЁ0-9-_., ]{1,50}'
                                     value=book.bookname
                                     )
+                                    div.help-block.with-errors
                                 div.form-group
                                     label(for='author') Автор книги
                                     input#author.form-control(
                                     placeholder='Автор'
                                     name='author'
                                     type='text'
+                                    data-error="поле неправильно заполнено"
+                                    pattern='[a-zA-Zа-яА-ЯёЁ0-9-_., ]{1,50}'
                                     value=book.author
                                     )
+                                    div.help-block.with-errors
                                 div.form-group
                                     label(for='genre') Жанр
                                     input#genre.form-control(
                                     placeholder='Жанр'
                                     name='genre'
                                     type='text'
+                                    data-error="поле неправильно заполнено"
+                                    pattern='[a-zA-Zа-яА-ЯёЁ0-9-_., ]{1,50}'
                                     value=book.genre
                                     )
+                                    div.help-block.with-errors
                                 div.form-group
                                     label(for='year') Год издания
                                     input#year.form-control(
                                     placeholder='Автор'
                                     name='year'
                                     type='text'
+                                    title='4 цифры'
+                                    data-error="поле неправильно заполнено"
+                                    pattern='[0-9]{4}'
                                     value=book.year
                                     )
+                                    div.help-block.with-errors
                                 div.form-group
                                     label(for='text')
                                     textarea#text.form-control(
@@ -79,38 +95,51 @@ block content
                                     data-error="поле неправильно заполнено"
                                     placeholder='Описание книги'
                                     ) #{book.text}
+                                    div.help-block.with-errors
                                 div.form-group
                                     label(for='isbn')
                                     input#isbn.form-control(
                                     placeholder='Код ISBN'
                                     name='ISBN'
                                     type='text'
+                                    data-error="поле неправильно заполнено"
+                                    pattern='((1[03])*[ ]*(: ){0,1})*(([0-9Xx][- ]*){13}|([0-9Xx][- ]*){10})'
                                     value=book.isbn
                                     )
+                                    div.help-block.with-errors
                                 div.form-group
                                     label(for='publisher')
                                     input#publisher.form-control(
                                     placeholder='Издательство'
                                     name='publisher'
                                     type='text'
+                                    data-error="поле неправильно заполнено"
+                                    pattern='[a-zA-Zа-яА-ЯёЁ0-9-_., ]{1,50}'
                                     value=book.publisher
                                     )
+                                    div.help-block.with-errors
                                 div.form-group
                                     label(for='seires')
                                     input#seires.form-control(
                                     placeholder='Серия'
                                     name='seires'
                                     type='text'
+                                    data-error="поле неправильно заполнено"
+                                    pattern='[a-zA-Zа-яА-ЯёЁ0-9-_., ]{1,50}'
                                     value=book.seires
                                     )
+                                    div.help-block.with-errors
                                 div.form-group
                                     label(for='setting')
                                     input#setting.form-control(
                                     placeholder='Вселенная'
                                     name='setting'
                                     type='text'
+                                    data-error="поле неправильно заполнено"
+                                    pattern='[a-zA-Zа-яА-ЯёЁ0-9-_., ]{1,50}'
                                     value=book.setting
                                     )
+                                    div.help-block.with-errors
                                 div.form-group
                                     label(for='additional')
                                     textarea#additional.form-control(
@@ -120,6 +149,7 @@ block content
                                     data-error="поле неправильно заполнено"
                                     placeholder='Дополнительные сведения'
                                     ) #{book.additional}
+                                    div.help-block.with-errors
                                 a#send.btn.btn-default(
                                 role="button"
                                 tabindex="0"

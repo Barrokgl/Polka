@@ -1,40 +1,46 @@
 extends layout
 block append head
-    script(src='../javascripts/birthdate.js')
-    link(rel='stylesheet', href='/stylesheets/profile.css')
+    script(src='../javascripts/user.js')
 block content
     div.container
         div.row
             div.col-xs-2
             div.col-xs-8.main
                 div.row
-                    div.col-xs-3
-                        if (user.icon)
-                            img.img-responsive.img-circle.user-icon(src="#{user.icon}")
+                    div.col-xs-3.align-block
+                        if (userInfo.icon)
+                            img.img-responsive.img-circle.user-icon(src="../#{userInfo.icon}")
                         else
-                            img.img-responsive.img-circle(src="/images/user-default.png")
+                            img.img-responsive.img-circle(src="..//images/user-default.png" style="display: inline;")
+                        if (user)
+                            if (subscribed)
+                                input.btn.btn-success.top-margin#removeFromSubscriptions(
+                                type="button"
+                                value="Подписаны"
+                                )
+                            else
+                                input.btn.btn-default.top-margin#addToSubscriptions(
+                                type="button"
+                                value="Подписаться"
+                                )
+                        else
+                            a.btn.btn-default.top-margin(href="/login" role="button") Подписаться
+                        p.userid(hidden="hidden") #{userInfo.id}
                     div.col-xs-9
                         div.row
-                            div.col-xs-9
-                                h4.text-capitalize.name #{user.username}
-                                p.userid(hidden="hidden") #{user.id}
-                            div.col-xs-3
-                                a.text-muted(href='/edit_profile') редактировать
+                            h4.text-capitalize.name #{userInfo.username}
                         div.row
                             div.col-xs-12
-                                p #{user.lastname} #{user.firstname}
-                                p=user.patronymic
+                                p #{userInfo.lastname} #{userInfo.firstname}
+                                p=userInfo.patronymic
                                 p.text-primary Дата рождения
-                                if (user.birthdate)
-                                 p.birthdate=user.birthdate
+                                if (userInfo.birthdate)
+                                    p.birthdate=userInfo.birthdate
                                 p.text-primary Страна
-                                p=user.country
+                                p=userInfo.country
                                 p.text-primary Интересы
-                                p=user.interests
-                                p=user.about
-                                if (user.admin)
-                                    p.text-primary Статус пользователя
-                                    p Admin
+                                p=userInfo.interests
+                                p=userInfo.about
                 div.row.top-margin
                     div.col-xs-12
                         h2.name Полка книг
@@ -65,4 +71,3 @@ block content
                             div.col-xs-12.empty-block
                                 p Подписок нету
             div.col-xs-2
-

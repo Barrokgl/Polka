@@ -1,12 +1,10 @@
-var users = require('api/dao');
-var config = require('config');
-var file = config.get('dbs:userstable');
+var dao = require('api/dao');
 
 exports.get = function(req, res) {
     res.render('login', { title: 'login or Sign up' });
 };
 exports.post = function(req, res) {
-    users.userAuthentication(file, req.body, function (auth) {
+    dao.userAuthentication(req.body, function (auth) {
         if (auth) {
             //if remember set cookie maxAge 2 weeks
             if (req.body.remember) {
