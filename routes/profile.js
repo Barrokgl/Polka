@@ -7,6 +7,8 @@ exports.get = function(req, res) {
     if (req.session.user) {
         dao.getRequestedBook(req.user.books, function (books) {
             dao.getRequestedUser(req.user.subscriptions, function (users) {
+                console.log(req.user.books);
+                console.log(books);
                 res.render('profile', {
                     title: 'Profile',
                     polka: books,
@@ -21,8 +23,7 @@ exports.get = function(req, res) {
 
 // handle requests for edit user polka
 exports.addToPolka = function(req, res, next) {
-    var bookid = [parseInt(req.body.value)];
-    dao.getRequestedBook(bookid, function (book) {
+    dao.getRequestedBook([req.body], function (book) {
         if (book) {
             require('libs/logs')(module).info('adding book with id: '+book[0].id);
             dao.addItemToUser(req.user.id, req.body, function (newInfo) {
@@ -36,8 +37,7 @@ exports.addToPolka = function(req, res, next) {
 };
 
 exports.removeBook = function (req, res, next) {
-    var bookid = [parseInt(req.body.value)];
-    dao.getRequestedBook(bookid, function (book) {
+    dao.getRequestedBook([req.body], function (book) {
         if (book) {
             require('libs/logs')(module).info('removing book with id: '+book[0].id);
             dao.removeItemFromUser(req.user.id, req.body,  function (newInfo) {
@@ -63,14 +63,15 @@ exports.uploadImg = function (req, res, next) {
         dao.parseForm(req, res, function (fields, filetype) {
             if (filetype == 'image/jpeg' || filetype == 'image/png') {
                 //delete old icon
-                fs.unlink('public/'+req.user.icon , function (err) {
-                    if (err) throw new Error(err);
-                    console.log('delete old image')
-                });
-                //add new icon
+                if (req.user.icon) {
+                    fs.unlink('public/'+req.user.icon , function (err) {
+                        if (err) throw new Error(err);
+                        console.log('delete old image')
+                    });
+                }//add new icon
                 req.user.icon = fields.userimage;
                 //update user profile
-                dao.editItemInfo(config.get('dbs:userstable'), req.user.id, req.user, function (updatedUser) {
+                dao.editModelInfo(config.get('dbs:userstable'), req.user.id, req.user, function (updatedUser) {
                     req.session.user = updatedUser;
                     res.status(200).send('Иконка загружена');
                 });
@@ -79,7 +80,7 @@ exports.uploadImg = function (req, res, next) {
                     if (err) throw new Error(err);
                     console.log('deleted broken image')
                 });
-                res.status(200).send('Не соотвествует формату');
+                res.status(401).send('Не соотвествует формату');
             }
 
         });
@@ -90,7 +91,7 @@ exports.uploadImg = function (req, res, next) {
 
 exports.editProfile = function (req, res, next) {
     if (req.session.user) {
-        dao.editItemInfo(config.get('dbs:userstable'), req.user.id , req.body, function (updatedUser) {
+        dao.editModelInfo(config.get('dbs:userstable'), req.user.id , req.body, function (updatedUser) {
             req.session.user = req.user = updatedUser;
             res.status(200).send('Профиль обновлен')
         });
@@ -112,4 +113,19 @@ exports.removeSubscription = function (req, res, next) {
         res.status(200).end();
     });
 };
+
+// function addStatusOfBook(booksFromCollection, usersBooks) {
+//     // iterate user's books
+//     result = [];
+//     for (i=0; i < usersBooks.length; i++) {
+//         //iterate books from collection
+//         for(j=0; j < booksFromCollection.length; j++) {
+//             if (usersBooks[i].id == booksFromCollection[j].id) {
+//                 booksFromCollection[j].status = usersBooks[i].status;
+//                 result.push(booksFromCollection[j]);
+//             }
+//         }
+//     }
+//
+// }
 

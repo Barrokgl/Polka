@@ -1,4 +1,7 @@
 $(document).ready(function () {
+   $('body').click(function () {
+      $('#upload').popover('hide');
+   });
    var sex = $('.usersex').val();
    $('#sex').val(sex);
    var pickadate = new Pikaday({
@@ -19,11 +22,13 @@ $(document).ready(function () {
          dataType: 'text',
          processData: false
       })
-          .done(function () {
-             alert('horay!');
+          .done(function (data) {
+             $('#upload').attr('data-content', data).popover('show');
+             $('div.popover').addClass('popover-success').removeClass('popover-error');
           })
-          .fail(function () {
-             alert(':(');
+          .fail(function (data) {
+             $('#upload').attr('data-content', data.responseText).popover('show');
+             $('div.popover').addClass('popover-error').removeClass('popover-success');
           });
    });
 

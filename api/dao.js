@@ -56,9 +56,15 @@ function addToUser(text, userId, item, callback) {
     for (i=0; i < text.length; i++) {
         if (text[i]['id'] == userId) {
             if (text[i].hasOwnProperty(item.property)) {
-                text[i][item.property].push(parseInt(item.value));
+                text[i][item.property].push({
+                    id: parseInt(item.id),
+                    status: item.status?item.status:''
+                });
             } else {
-                text[i][item.property] = [parseInt(item.value)];
+                text[i][item.property] = [{
+                    id: parseInt(item.id),
+                    status: item.status?item.status:''
+                }];
             }
             callback(text[i][item.property]);
             break;
@@ -78,7 +84,7 @@ function removeFromUser(text, userId, item, callback) {
         if (text[i]['id'] == userId) {
             if(text[i].hasOwnProperty(item.property)){
                 text[i][item.property] = text[i][item.property].filter(function (value) {
-                    return value != item.value;
+                    return value.id != item.id;
                 });
             } else {
                 text[i][item.property] = [];
@@ -115,7 +121,7 @@ function findBook(text, bookid, callback) {
             //iterate all books in table
             for (i=0; i < text.length; i++) {
                 // if find book => push to callback array
-                if (text[i].id == bookid[j]) {
+                if (text[i].id == bookid[j].id) {
                     find.push(text[i]);
                 }
             }
@@ -171,7 +177,7 @@ function authenticateUser(text, user, callback) {
 }
 
 //edit user porfile and upload icon
-function editItem(file , text , itemId, newInfo, callback) {
+function editModel(file , text , itemId, newInfo, callback) {
     //find item by id
     for (i=0; i<text.length; i++) {
         if (text[i]['id'] == itemId) {
@@ -270,7 +276,7 @@ var dao = {
   filterUsersItems: function (itemId, usersItems, callback) {
       if (usersItems) {
           var filteredItems = usersItems.filter(function (value) {
-              return value == itemId;
+              return value.id == itemId;
           });
           filteredItems.length > 0 ? callback(filteredItems) : callback(undefined);
       } else {
@@ -291,9 +297,9 @@ var dao = {
           });
       });
   },
-  editItemInfo: function (file, itemId, newInfo, callback) {
+  editModelInfo: function (file, itemId, newInfo, callback) {
       readFromFile(file, function (text) {
-          editItem(file, transformToObject(text), itemId, newInfo, function (upadtedItem) {
+          editModel(file, transformToObject(text), itemId, newInfo, function (upadtedItem) {
               callback(upadtedItem);
           })
       })

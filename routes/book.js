@@ -7,7 +7,8 @@ var fs = require('fs');
 
 exports.get = function (req, res, next) {
     //transform to array-like object
-    var bookid = [req.params.bookid.slice(1)];
+    //костыль... просто листай дальше
+    var bookid = [{id: req.params.bookid.slice(1)}];
     // get book by id
     dao.getRequestedBook(bookid, function (book) {
         if (book) {
@@ -53,7 +54,7 @@ exports.edit = function (req, res, next) {
 exports.editBook = function (req, res, next) {
     if (req.session.user.admin) {
         var bookid = [req.params.bookid.slice(1)];
-        dao.editItemInfo(file, bookid , req.body, function (updatedBook) {
+        dao.editModelInfo(file, bookid , req.body, function (updatedBook) {
             res.status(200).send('Книга обновлена')
         });
     } else {
@@ -74,7 +75,7 @@ exports.uploadBookCover = function (req, res, next) {
                         if (err) throw new Error(err);
                         console.log('delete old image');
                         // add new image
-                        dao.editItemInfo(file, bookid, fields, function () {
+                        dao.editModelInfo(file, bookid, fields, function () {
                             res.status(200).send('обложка книги обновлена');
                         });
                     });
@@ -84,7 +85,7 @@ exports.uploadBookCover = function (req, res, next) {
                     if (err) throw new Error(err);
                     console.log('deleted broken image')
                 });
-                res.status(200).send('Картинка не соотвествует формату');
+                res.status(401).send('Картинка не соотвествует формату');
             }
         })
     } else {

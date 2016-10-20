@@ -1,4 +1,7 @@
 $(document).ready(function () {
+    $('body').click(function () {
+        $('#upload').popover('hide');
+    });
     // upload new bookcover
    $('#upload').click(function () {
        var formData = new FormData($('form#image')[0]);
@@ -10,11 +13,13 @@ $(document).ready(function () {
            dataType: 'text',
            processData: false
        })
-           .done(function () {
-               console.log('horay');
+           .done(function (data) {
+               $('#upload').attr('data-content', data).popover('show');
+               $('div.popover').addClass('popover-success').removeClass('popover-error');
            })
-           .fail(function () {
-               console.log('no')
+           .fail(function (data) {
+               $('#upload').attr('data-content', data.responseText).popover('show');
+               $('div.popover').addClass('popover-error').removeClass('popover-success');
            });
    });
     $('.form-group').click(function () {
