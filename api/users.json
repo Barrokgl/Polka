@@ -1,0 +1,74 @@
+[
+    {
+        "id": "1",
+        "login": "georgykrivon@gmail.com",
+        "username": "georgykrivon",
+        "password": "Db2d3bda",
+        "books": [
+            {
+                "id": 8,
+                "status": "readable"
+            },
+            {
+                "id": 3,
+                "status": "readable"
+            },
+            {
+                "id": 9,
+                "status": "readable"
+            }
+        ],
+        "icon": "uploads/upload_74180001265e14a5ba46e658c6937a65.jpg",
+        "lastname": "Кривоносов",
+        "firstname": "Георгий",
+        "patronymic": "Константинович",
+        "usersex": "",
+        "birthdate": "Sat Apr 08 1995 00:00:00 GMT+0400 (MSD)",
+        "country": "Россия",
+        "interests": "js",
+        "about": "",
+        "admin": true,
+        "subscriptions": [
+            3,
+            4
+        ]
+    },
+    {
+        "id": "2",
+        "login": "barrokgl@gmail.com",
+        "username": "barrokgl",
+        "password": "Db2d3bda",
+        "books": [
+            {
+                "id": 5,
+                "status": "readable"
+            },
+            {
+                "id": 6,
+                "status": "readable"
+            }
+        ],
+        "icon": "uploads/upload_6be2108dd4f30dbcbc02f2f68d2ddb43.jpg"
+    },
+    {
+        "login": "tlg-13@ya.ru",
+        "username": "Sergey",
+        "password": "Password123",
+        "id": 3
+    },
+    {
+        "login": "sample@email.com",
+        "username": "user1",
+        "password": "db2d3bda",
+        "id": 4,
+        "books": [],
+        "lastname": "",
+        "firstname": "",
+        "patronymic": "",
+        "usersex": "",
+        "birthdate": "Thu Oct 13 2016 00:00:00 GMT+0300 (MSK)",
+        "country": "",
+        "interests": "",
+        "about": ""
+    }
+]

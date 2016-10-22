@@ -5,4 +5,3 @@
 /public/bower_components
 /sessions
 *.log
-/api/*.json
