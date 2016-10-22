@@ -14,6 +14,7 @@ module.exports = function (req, res, next) {
           if (!exist) {
               req.session.destroy();
               res.redirect('/login');
+              console.log('destroy session');
           // if user exist write his data to req and
           // req.locals properties and give it to next middleware
           } else {

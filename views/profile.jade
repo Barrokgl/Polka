@@ -1,7 +1,6 @@
 extends layout
 block append head
     script(src='../javascripts/birthdate.js')
-    link(rel='stylesheet', href='/stylesheets/profile.css')
 block content
     div.container
         div.row
@@ -35,6 +34,7 @@ block content
                                 if (user.admin)
                                     p.text-primary Статус пользователя
                                     p Admin
+                                    a.text-warning(href='/admin') Админская панель
                 div.row.top-margin
                     div.col-xs-12
                         h2.name Полка книг
@@ -56,7 +56,7 @@ block content
                                 div.col-xs-12.subscriptions
                                     a(href='/user/:#{subscr.id}')
                                         if (subscr.icon)
-                                            img.img-responsive(src='../#{subscr.icon}' alt="#{subscr.username}")
+                                            img.img-responsive.img-circle(src='../#{subscr.icon}' alt="#{subscr.username}")
                                         else
                                             img.img-responsive.img-circle(src="/images/user-default.png")
                                     p

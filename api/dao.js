@@ -43,7 +43,6 @@ function transformToJson(text) {
 function addItemToFile(itemToAdd, text, file) {
     // set id of new item
     itemToAdd.id =  text.length+1;
-    console.log(itemToAdd);
     text.push(itemToAdd);
     //create write stream to write itemToAdd to file
     writeToFile(file, text);
@@ -217,7 +216,7 @@ function parseMultipartForm(req, res, callback) {
     });
     //Call back at the end of the form.
     form.on('end', function () {
-        callback(fields, fileType)
+        callback(fields, fileType);
     });
     form.parse(req);
 }
@@ -227,15 +226,15 @@ var dao = {
           readFromFile(usersDB , function (text) {
               checkUserExist(transformToObject(text), user, function (exist) {
                   callback(exist);
-              })
-          })
+              });
+          });
   },
   checkBook: function (book, callback) {
         readFromFile(booksDB, function (text) {
             checkBookExist(transformToObject(text), book, function (exist) {
                 callback(exist);
-            })
-        })
+            });
+        });
   },
   addNewItem: function (item, file) {
          readFromFile(file, function (text) {
@@ -245,26 +244,31 @@ var dao = {
   parseForm: function (req, res, callback) {
         parseMultipartForm(req, res, function (fields, fileType) {
             callback(fields, fileType);
-        })
+        });
   },
   userAuthentication: function (user, callback) {
       readFromFile(usersDB ,function (text) {
           authenticateUser(transformToObject(text), user, function (auth) {
               callback(auth);
-          })
-      })
+          });
+      });
   },
-  accessBookCollection: function (callback) {
+  getBooksCollection: function (callback) {
       readFromFile(booksDB , function (text) {
           callback(transformToObject(text));
-      })
+      });
+  },
+  getUsersCollection: function (callback) {
+      readFromFile(usersDB, function (text) {
+          callback(transformToObject(text));
+      });
   },
   getRequestedBook: function (bookid, callback) {
       readFromFile(booksDB, function (text) {
           findBook(transformToObject(text), bookid, function (exist) {
               callback(exist);
-          })
-      })
+          });
+      });
   },
   getRequestedUser: function (userid, callback) {
        readFromFile(usersDB, function (text) {

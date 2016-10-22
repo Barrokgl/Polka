@@ -57,6 +57,9 @@ a {
   text-align: center;
 }
 
+.space-block {
+  height: 50px;
+}
 .user-icon {
   max-width: 165px;
 }

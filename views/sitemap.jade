@@ -1,0 +1,54 @@
+extends layout
+block append head
+    link(rel='stylesheet' href='/stylesheets/sitemap.css')
+block content
+    div.container-fluid
+        div.row
+            h2.col-xs-2 Карта сайта
+        div.row.top-margin
+            div.col-xs-11.col-xs-offset-1
+                h3 Основные страницы
+                ul
+                    li
+                        a(href='/') Главная страница
+                    li
+                        a(href='/login') Страница авторизации
+                    li
+                        a(href='/about') О нас
+                    li
+                        a(href='/library') Библиотека
+                    li
+                        a(href='/profile') Страница профиля
+                    li
+                        a(href='/admin') Админская панель
+                    li
+                        a(href='/addbook') Ручное добавление книг
+        div.row.top-margin
+            div.col-xs-1
+            div.col-xs-4
+                h3 Книги
+                each book, i in books
+                    div.col-xs-12.content-block-style
+                        div.row
+                            div.col-xs-3
+                                img.small-image(src='../#{book.bookimage}')
+                            div.col-xs-9
+                                p.description
+                                    a(href='/book/:#{book.id}') id: #{book.id}, Название: #{book.bookname}
+            div.col-xs-2
+            div.col-xs-4
+                h3 Пользователи
+                each user, i in users
+                    div.col-xs-12.content-block-style
+                        div.row
+                            div.col-xs-3
+                                if (user.icon)
+                                    img.small-image.img-circle.user-icon(src="#{user.icon}")
+                                else
+                                    img.small-image.img-circle(src="/images/user-default.png")
+                            div.col-xs-9
+                                p.description
+                                    a(href='/user/:#{user.id}') id: #{user.id}, Имя: #{user.username}
+            div.col-xs-1
+        div.row
+            div.col-xs-12.space-block

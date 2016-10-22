@@ -5,8 +5,8 @@ exports.post = function (req, res) {
     // check user
     users.checkUser(req.body, function (exist) {
         if (!exist) {
-            users.addNewItem(req.body, file);
-            req.session.user = req.body.user;
+            users.addNewItem(req.body, config.get('dbs:userstable'));
+            req.session.user = res.locals.user = req.body;
             res.status(201).end();
         }
         else {

@@ -11,14 +11,14 @@ nav.navbar.navbar-default.navbar-static-top(role="navigation")
         div.navbar-collapse.collapse#bs-navbar-collapse
             form.navbar-form.navbar-left.nav-search-align(role="search")
                 div.form-group
-                    input.form-control(type="text" placeholder="Поиск")
-                    a(href="/search")
+                    input.form-control(type="text" placeholder="Поиск" disabled)
+                    a
                         span.glyphicon.glyphicon-search.search-icon
             ul.nav.navbar-nav.navbar-right.nav-align
                 li
-                    a О нас
+                    a(href='/about') О нас
                 li
-                    a Библиотека
+                    a(href='/library') Библиотека
                 if user
                     li
                         a(href='/profile') Пользователь #{user.username}

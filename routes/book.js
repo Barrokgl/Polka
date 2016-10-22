@@ -31,10 +31,11 @@ exports.get = function (req, res, next) {
 };
 
 exports.edit = function (req, res, next) {
-    var bookid = [req.params.bookid.slice(1)];
+    var bookid = [{id: req.params.bookid.slice(1)}];
     if (req.user) {
         if (req.session.user.admin) {
             dao.getRequestedBook(bookid, function (book) {
+                console.log(book);
                 if (book) {
                     res.render('edit_book', {
                         book: book[0]
@@ -67,7 +68,7 @@ exports.uploadBookCover = function (req, res, next) {
         // parse form with image
         dao.parseForm(req, res, function (fields, filetype) {
             if (filetype == 'image/jpeg' || filetype == 'image/png') {
-                var bookid = [req.params.bookid.slice(1)];
+                var bookid = [{id: req.params.bookid.slice(1)}];
                 // get this book
                 dao.getRequestedBook(bookid, function (book) {
                     // delete old image

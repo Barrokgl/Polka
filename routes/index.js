@@ -76,5 +76,18 @@ router.get('/admin', require('./admin').get);
 /* get all books */
 router.get('/admin/books', require('./admin').book);
 
+/* sitemap page*/
+router.get('/sitemap', require('./admin').sitemap);
+
+/* about page */
+router.get('/about', function (req, res, next) {
+    res.render('about');
+});
+
+/* library page */
+router.get('/library', function (req, res, next) {
+    res.render('library');
+});
+
 module.exports = router;
 

@@ -1,0 +1,17 @@
+.content-block-style {
+    align-content: center;
+    height: 70px;
+    background-color: rgba(136, 239, 140, 0.31);
+    border-radius: 6px;
+}
+
+.small-image {
+    max-height: 50px;
+    max-width: 50px;
+    padding-top: 10px;
+}
+
+.description {
+    text-align: left;
+    padding-top: 20px;
+}

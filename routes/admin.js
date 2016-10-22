@@ -12,14 +12,25 @@ exports.get = function (req, res, next) {
     } else {
         res.redirect('/login');
     }
-
 };
+
 exports.book = function (req, res, next) {
     if (req.session.user.admin) {
-        dao.accessBookCollection(function (books) {
+        dao.getBooksCollection(function (books) {
             res.render('adminpanel/adminbooks', {books: books})
         });
     } else {
         next(new HttpError(403, 'Forbidden'))
     }
+};
+
+exports.sitemap = function (req, res, next) {
+    dao.getBooksCollection(function (books) {
+       dao.getUsersCollection(function (users) {
+           res.render('sitemap',{
+               books: books,
+               users: users
+           })
+       });
+    });
 };
