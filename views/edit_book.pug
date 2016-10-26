@@ -16,13 +16,13 @@ block content
                             div.col-xs-8
                                 legend.name Редактирование книги
                             div.col-xs-4
-                                a.text-muted(href='/book/:#{book.id}') страница книги
+                                a.text-muted(href='/book/'+book.id) страница книги
                         form#image(role='form')
                             fieldset
                                 div.form-group
                                     div.col-xs-4
                                         if (book.bookimage)
-                                            img.img-responsive(src='../#{book.bookimage}')
+                                            img.img-responsive(src='../'+book.bookimage)
                                         else
                                             img.img-responsive(src='images/default-bookcover.png')
                                     div.col-xs-8

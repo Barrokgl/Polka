@@ -31,16 +31,17 @@ $(document).ready(function () {
             var remember = $('[name="checkbox"]').prop("checked");
             //send to server
             $.post(url, {
-                    login: $("[name='login']").val(),
-                    username: $("[name='username']").val(),
-                    password: $("[name='password']").val(),
-                    remember: remember ? remember : undefined
-                },{},'text').done(function () {
+                login: $("[name='login']").val(),
+                username: $("[name='username']").val(),
+                password: $("[name='password']").val(),
+                remember: remember ? remember : undefined
+            },{},'text').done(function () {
                 window.location = '/';
-                }).fail(function (data) {
+            }).fail(function (data) {
                 $('#send').attr('data-content', data.responseText).popover('show');
             });
         }
     });
 });
+
 

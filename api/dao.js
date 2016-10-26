@@ -129,6 +129,7 @@ function findBook(text, bookid, callback) {
     find.length > 0 ? callback(find) : callback(false);
 }
 
+
 //find user in db
 function findUser(text, userid, callback) {
     var find = [];

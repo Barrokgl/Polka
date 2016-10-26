@@ -28,6 +28,7 @@ exports.sitemap = function (req, res, next) {
     dao.getBooksCollection(function (books) {
        dao.getUsersCollection(function (users) {
            res.render('sitemap',{
+               title: 'Карта сайта',
                books: books,
                users: users
            })

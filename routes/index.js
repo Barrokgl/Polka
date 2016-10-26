@@ -23,7 +23,7 @@ router.post('/registration', require('./registration').post);
 //books
 
 /* get book */
-router.get('/book/:bookid', require('./book').get);
+router.get('/book/:bookid/', require('./book').get);
 
 /* edit book GET handler*/
 router.get('/edit_book/:bookid', require('./book').edit);

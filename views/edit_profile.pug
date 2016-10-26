@@ -20,7 +20,7 @@ block content
                                 div.form-group
                                     div.col-xs-4
                                         if (user.icon)
-                                            img.img-responsive(src="#{user.icon}")
+                                            img.img-responsive(src='/'+user.icon)
                                         else
                                             img.img-responsive(src="/images/user-default.png")
                                     div.col-xs-8

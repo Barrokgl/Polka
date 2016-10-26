@@ -7,8 +7,6 @@ exports.get = function(req, res) {
     if (req.session.user) {
         dao.getRequestedBook(req.user.books, function (books) {
             dao.getRequestedUser(req.user.subscriptions, function (users) {
-                console.log(req.user.books);
-                console.log(books);
                 res.render('profile', {
                     title: 'Profile',
                     polka: books,
@@ -33,7 +31,7 @@ exports.addToPolka = function(req, res, next) {
         } else {
             res.status(500).end();
         }
-    })
+    });
 };
 
 exports.removeBook = function (req, res, next) {
@@ -47,7 +45,7 @@ exports.removeBook = function (req, res, next) {
         } else {
             res.status(500).end();
         }
-    })
+    });
 };
 
 exports.edit = function (req, res, next) {
@@ -113,19 +111,3 @@ exports.removeSubscription = function (req, res, next) {
         res.status(200).end();
     });
 };
-
-// function addStatusOfBook(booksFromCollection, usersBooks) {
-//     // iterate user's books
-//     result = [];
-//     for (i=0; i < usersBooks.length; i++) {
-//         //iterate books from collection
-//         for(j=0; j < booksFromCollection.length; j++) {
-//             if (usersBooks[i].id == booksFromCollection[j].id) {
-//                 booksFromCollection[j].status = usersBooks[i].status;
-//                 result.push(booksFromCollection[j]);
-//             }
-//         }
-//     }
-//
-// }
-

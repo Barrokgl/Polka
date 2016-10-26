@@ -9,7 +9,7 @@ block content
                 div.row
                     div.col-xs-3
                         if (user.icon)
-                            img.img-responsive.img-circle.user-icon(src="#{user.icon}")
+                            img.img-responsive.img-circle.user-icon(src="/"+user.icon)
                         else
                             img.img-responsive.img-circle(src="/images/user-default.png")
                     div.col-xs-9
@@ -41,10 +41,10 @@ block content
                         if (polka)
                             each book in polka
                                 div.col-xs-12.polka
-                                    a(href='/book/:#{book.id}')
-                                        img.img-responsive(src='../#{book.bookimage}' alt="#{book.bookname}")
+                                    a(href='/book/'+book.id)
+                                        img.img-responsive(src='../'+book.bookimage alt="#{book.bookname}")
                                     p
-                                        a(href='/book/:#{book.id}') #{book.bookname}
+                                        a(href='/book/'+book.id) #{book.bookname}
                         else
                             div.col-xs-12.empty-block
                                 p Нету книжек на полке
@@ -54,13 +54,13 @@ block content
                         if (subscriptions)
                             each subscr in subscriptions
                                 div.col-xs-12.subscriptions
-                                    a(href='/user/:#{subscr.id}')
+                                    a(href='/user/'+subscr.id)
                                         if (subscr.icon)
-                                            img.img-responsive.img-circle(src='../#{subscr.icon}' alt="#{subscr.username}")
+                                            img.img-responsive.img-circle(src='../'+subscr.icon alt="#{subscr.username}")
                                         else
                                             img.img-responsive.img-circle(src="/images/user-default.png")
                                     p
-                                        a(href='/user/:#{subscr.id}') #{subscr.username}
+                                        a(href='/user/'+subscr.id) #{subscr.username}
                         else
                             div.col-xs-12.empty-block
                                 p Подписок нету

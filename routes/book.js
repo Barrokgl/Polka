@@ -6,9 +6,10 @@ var config = require('config');
 var fs = require('fs');
 
 exports.get = function (req, res, next) {
+    console.log(req.params.bookid);
     //transform to array-like object
     //костыль... просто листай дальше
-    var bookid = [{id: req.params.bookid.slice(1)}];
+    var bookid = [{id: req.params.bookid}];
     // get book by id
     dao.getRequestedBook(bookid, function (book) {
         if (book) {
@@ -31,7 +32,7 @@ exports.get = function (req, res, next) {
 };
 
 exports.edit = function (req, res, next) {
-    var bookid = [{id: req.params.bookid.slice(1)}];
+    var bookid = [{id: req.params.bookid}];
     if (req.user) {
         if (req.session.user.admin) {
             dao.getRequestedBook(bookid, function (book) {
@@ -54,7 +55,7 @@ exports.edit = function (req, res, next) {
 
 exports.editBook = function (req, res, next) {
     if (req.session.user.admin) {
-        var bookid = [req.params.bookid.slice(1)];
+        var bookid = [req.params.bookid];
         dao.editModelInfo(file, bookid , req.body, function (updatedBook) {
             res.status(200).send('Книга обновлена')
         });
@@ -68,7 +69,7 @@ exports.uploadBookCover = function (req, res, next) {
         // parse form with image
         dao.parseForm(req, res, function (fields, filetype) {
             if (filetype == 'image/jpeg' || filetype == 'image/png') {
-                var bookid = [{id: req.params.bookid.slice(1)}];
+                var bookid = [{id: req.params.bookid}];
                 // get this book
                 dao.getRequestedBook(bookid, function (book) {
                     // delete old image
