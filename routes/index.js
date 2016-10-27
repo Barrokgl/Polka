@@ -68,6 +68,9 @@ router.post('/add_subscription', require('./profile').addSubscription);
 /* unsubscript on %user% page */
 router.post('/remove_subscription', require('./profile').removeSubscription);
 
+/* set book on shelf status */
+router.post('/set_book_status', require('./profile').setBookStatus);
+
 //admin
 
 /* admin panel */

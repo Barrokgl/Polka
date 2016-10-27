@@ -1,6 +1,7 @@
 extends layout
 block append head
-    script(src='../javascripts/birthdate.js')
+    script(src='../javascripts/profile.js')
+    link(rel='stylesheet' href='/stylesheets/profile.css')
 block content
     div.container
         div.row
@@ -45,11 +46,17 @@ block content
                                         img.img-responsive(src='../'+book.bookimage alt="#{book.bookname}")
                                     p
                                         a(href='/book/'+book.id) #{book.bookname}
+                                    p.hidden.bookstatus #{book.status}
+                                    p.hidden.bookid #{book.id}
+                                    select
+                                        option(value='Хочу прочитать') Хочу прочитать
+                                        option(value='Читаю') Читаю
+                                        option(value='Прочитана') Прочитана
                         else
                             div.col-xs-12.empty-block
                                 p Нету книжек на полке
                 div.row.top-margin
-                    div.col-xs-12
+                    div.col-xs-12.row-margin
                         h2.name Подписки
                         if (subscriptions)
                             each subscr in subscriptions

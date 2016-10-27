@@ -25,10 +25,8 @@ $('document').ready(function () {
     function removeBook() {
          $.post('/remove_book', {
              property: 'books',
-             value: {
-                 id: $('.bookid').text(),
-                 status: 'remove'
-             }
+             id: $('.bookid').text(),
+             status: 'remove'
          }, {}, 'text').done(function () {
              $('#removeFromPolka').replaceWith("<input id='addToPolka'>");
              $('#addToPolka').attr('type', 'button')
@@ -42,6 +40,6 @@ $('document').ready(function () {
                  .addClass('top-margin')
                  .addClass('btn-warning')
                  .val('Произошла ошибка');
-         })
+         });
      }
 });

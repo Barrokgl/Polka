@@ -7,22 +7,22 @@
         "books": [
             {
                 "id": 8,
-                "status": "readable"
-            },
-            {
-                "id": 3,
-                "status": "readable"
+                "status": "Читаю"
             },
             {
                 "id": 9,
-                "status": "readable"
+                "status": "Хочу прочитать"
+            },
+            {
+                "id": 3,
+                "status": "Читаю"
             }
         ],
         "icon": "uploads/upload_74180001265e14a5ba46e658c6937a65.jpg",
         "lastname": "Кривоносов",
         "firstname": "Георгий",
         "patronymic": "Константинович",
-        "usersex": "",
+        "usersex": "Не выбрано",
         "birthdate": "Sat Apr 08 1995 00:00:00 GMT+0400 (MSD)",
         "country": "Россия",
         "interests": "js",

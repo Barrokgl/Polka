@@ -2,8 +2,10 @@ $(document).ready(function () {
    $('body').click(function () {
       $('#upload').popover('hide');
    });
-   var sex = $('.usersex').val();
-   $('#sex').val(sex);
+   var sex = $('.usersex').text();
+   var selector = "#sex option[value='"+sex+"']";
+   // $('#sex').val(sex);
+   $(selector).attr('selected', 'selected');
    var pickadate = new Pikaday({
       field: document.getElementById('date')
    });

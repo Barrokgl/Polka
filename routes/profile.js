@@ -111,3 +111,12 @@ exports.removeSubscription = function (req, res, next) {
         res.status(200).end();
     });
 };
+
+exports.setBookStatus = function (req, res, next) {
+    req.body.id = parseInt(req.body.id, 10);
+    dao.setStatusOfUsersBook(req.body, req.user.id, function (books) {
+        console.log(books);
+        req.session.user.books = books;
+        res.status(200).end();
+    });
+};

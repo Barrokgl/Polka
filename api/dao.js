@@ -98,6 +98,25 @@ function removeFromUser(text, userId, item, callback) {
     writeToFile(file, text);
 }
 
+//set status of book
+function setStatusOfBook(newStatus, usersCollection, userId, callback) {
+    //iterate all users
+    for(i=0; i < usersCollection.length; i++) {
+        if (usersCollection[i].id == userId) {
+            //iterate users books
+            for(j=0; j <usersCollection[i].books.length; j++) {
+                if (usersCollection[i].books[j].id == newStatus.id) {
+                    // set new status
+                    usersCollection[i].books[j] = newStatus;
+                    //send back new books arr
+                    callback(usersCollection[i].books);
+                }
+            }
+        }
+    }
+    writeToFile(usersDB, usersCollection);
+}
+
 //compare our books with props of newbook
 function checkBookExist(text, book, callback) {
     var checkBookArr = [];
@@ -121,6 +140,10 @@ function findBook(text, bookid, callback) {
             for (i=0; i < text.length; i++) {
                 // if find book => push to callback array
                 if (text[i].id == bookid[j].id) {
+                    // add status of book if it exists
+                    if (bookid[j].status) {
+                        text[i].status = bookid[j].status;
+                    }
                     find.push(text[i]);
                 }
             }
@@ -302,13 +325,21 @@ var dao = {
           });
       });
   },
+  setStatusOfUsersBook: function (newBook, userId, callback) {
+      readFromFile(usersDB, function (text) {
+          setStatusOfBook(newBook, transformToObject(text), userId, function (books) {
+              callback(books)
+          });
+      });
+  },
   editModelInfo: function (file, itemId, newInfo, callback) {
       readFromFile(file, function (text) {
-          editModel(file, transformToObject(text), itemId, newInfo, function (upadtedItem) {
-              callback(upadtedItem);
+          editModel(file, transformToObject(text), itemId, newInfo, function (updatedItem) {
+              callback(updatedItem);
           })
       })
   }
 };
 
 module.exports = dao;
+
