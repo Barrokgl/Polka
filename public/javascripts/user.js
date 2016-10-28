@@ -4,7 +4,7 @@ $(document).ready(function () {
     function addSubscription() {
         $.post('/add_subscription', {
             property: 'subscriptions',
-            value: $('.userid').text()
+            id: $('.userid').text()
         },{}, 'text').done(function () {
             $('#addToSubscriptions').replaceWith("<input id='removeFromSubscriptions'>");
             $('#removeFromSubscriptions').attr('type', 'button')
@@ -23,7 +23,7 @@ $(document).ready(function () {
     function removeSubscription() {
         $.post('/remove_subscription', {
             property: 'subscriptions',
-            value: $('.userid').text()
+            id: $('.userid').text()
         }, {}, 'text').done(function () {
             $('#removeFromSubscriptions').replaceWith("<input id='addToSubscriptions'>");
             $('#addToSubscriptions').attr('type', 'button')

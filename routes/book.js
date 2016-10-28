@@ -55,7 +55,7 @@ exports.edit = function (req, res, next) {
 
 exports.editBook = function (req, res, next) {
     if (req.session.user.admin) {
-        var bookid = [req.params.bookid];
+        var bookid = [{id: req.params.bookid}];
         dao.editModelInfo(file, bookid , req.body, function (updatedBook) {
             res.status(200).send('Книга обновлена')
         });

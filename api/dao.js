@@ -162,7 +162,7 @@ function findUser(text, userid, callback) {
             //iterate all books in table
             for (i=0; i < text.length; i++) {
                 // if find user => push to callback array
-                if (text[i].id == userid[j]) {
+                if (text[i].id == userid[j].id) {
                     find.push(text[i]);
                 }
             }

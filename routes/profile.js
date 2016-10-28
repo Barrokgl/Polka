@@ -7,6 +7,8 @@ exports.get = function(req, res) {
     if (req.session.user) {
         dao.getRequestedBook(req.user.books, function (books) {
             dao.getRequestedUser(req.user.subscriptions, function (users) {
+                console.log(req.user.subscriptions);
+                console.log(users);
                 res.render('profile', {
                     title: 'Profile',
                     polka: books,

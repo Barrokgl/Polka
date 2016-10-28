@@ -3,9 +3,10 @@ var fs = require('fs');
 var HttpError = require('libs/error').HttpError;
 
 exports.get = function (req, res, next) {
-    var userid = [req.params.userid];
+    var userid = [{id:req.params.userid}];
     //get user by id
     dao.getRequestedUser(userid, function (user) {
+        console.log(user);
         if (user) {
             if (req.user && user[0].id == req.user.id) {
                 res.redirect('/profile');
