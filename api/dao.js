@@ -304,7 +304,11 @@ var dao = {
   filterUsersItems: function (itemId, usersItems, callback) {
       if (usersItems) {
           var filteredItems = usersItems.filter(function (value) {
-              return value.id == itemId;
+              if (value.id){
+                  return value.id == itemId;
+              } else {
+                  return value == itemId;
+              }
           });
           filteredItems.length > 0 ? callback(filteredItems) : callback(undefined);
       } else {

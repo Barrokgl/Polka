@@ -6,7 +6,6 @@ exports.get = function (req, res, next) {
     var userid = [req.params.userid];
     //get user by id
     dao.getRequestedUser(userid, function (user) {
-        console.log(user);
         if (user) {
             if (req.user && user[0].id == req.user.id) {
                 res.redirect('/profile');
@@ -15,7 +14,7 @@ exports.get = function (req, res, next) {
                     dao.getRequestedUser(user[0].subscriptions, function (users) {
                         if (req.user) {
                             dao.filterUsersItems(user[0].id, req.user.subscriptions, function (value) {
-                                console.log(value);
+
                                 res.render('user', {
                                     title: user.username+' page',
                                     subscribed: value,
@@ -26,7 +25,7 @@ exports.get = function (req, res, next) {
                             });
                         } else {
                             res.render('user', {
-                                title: user.username+' page',
+                                title: user[0].username+' page',
                                 subscribed: undefined,
                                 userInfo: user[0],
                                 polka: books,
