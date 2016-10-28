@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "start": "NODE_ENV=production NODE_PATH=. node daemon.js",
+    "start": "NODE_ENV=production NODE_PATH=. node ./bin/www",
     "dev": "NODE_ENV=development NODE_PATH=. node daemon.js",
     "postinstall": "bower install"
   },

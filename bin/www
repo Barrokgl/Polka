@@ -76,6 +76,9 @@ function onError(error) {
     default:
       throw error;
   }
+  process.on('uncaughtException', function (err) {
+    console.log('Unhandled error: '+err);
+  });
 }
 
 /**
