@@ -1,8 +1,7 @@
 var nodemon = require('nodemon');
 var log = require('./libs/logs')(module);
 var config = require('./config');
-var fork = require('child_process').fork;
-
+var forever = require('forever-monitor');
 
 function startApplication() {
     if (process.env.NODE_ENV == 'development') {
@@ -16,21 +15,24 @@ function startApplication() {
             log.notice('Polka restarted due to: ', file ? file : 'command rs');
         });
     } else {
-        var demon = fork('./bin/www', {
-            silent: false
+        var child = new (forever.Monitor)('./bin/www', {
+            max: 5,
+            silent: false,
+            args: []
         });
-        log.info('Application has started, listening on port: '+config.get('port'));
-        demon.on('error', function (err) {
-            log.error('error incoming: '+err);
-            startApplication();
+
+        child.on('exit', function () {
+            console.log('your-filename.js has exited after 3 restarts');
         });
-        demon.on('exit', function (code, signal) {
-            log.warning('app exit with code: '+code+' signal: ' +signal);
-            demon.kill();
+
+        child.on('restart', function() {
+            console.error('Forever restarting script for ' + child.times + ' time');
         });
-        demon.on('message', function (message) {
-            log.info(message);
+
+        child.on('exit:code', function(code) {
+            console.error('Forever detected script exited with code ' + code);
         });
+        child.start();
     }
 }
 
