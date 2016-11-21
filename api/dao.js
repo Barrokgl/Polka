@@ -6,7 +6,7 @@ var upload = config.get('uploaddir');
 var formidable = require('formidable');
 var log = require('libs/logs')(module);
 
-// trans stream to string
+//transform stream to string
 function readFromFile(file, callback) {
     var readStream = fs.createReadStream( file, {encoding: 'utf-8'}, function(err){if (err) {throw new Error(err);}});
     var str = '';
@@ -18,7 +18,7 @@ function readFromFile(file, callback) {
     });
 }
 
-// create writeStream and write to file
+//create writeStream and write to file
 function writeToFile(file, text) {
     var writeStream = fs.createWriteStream(file, {flags: 'w'});
     writeStream.write(transformToJson(text));
@@ -29,12 +29,12 @@ function writeToFile(file, text) {
     });
 }
 
-// transformToObject json to object
+//transformToObject json to object
 function transformToObject(text) {
     return JSON.parse(text);
 }
 
-// transformToObject object to json
+//transformToObject object to json
 function transformToJson(text) {
     return JSON.stringify(text, null, 4);
 }

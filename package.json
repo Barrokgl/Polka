@@ -20,7 +20,7 @@
     "formidable": "^1.0.17",
     "jstransformer": "*",
     "mongodb": "^2.2.1",
-    "monk": "^3.0.6",
+    "mongoose": "^4.6.7",
     "morgan": "^1.7.0",
     "nconf": "^0.8.4",
     "pug": "^2.0.0-beta6",

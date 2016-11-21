@@ -74,7 +74,7 @@ exports.uploadBookCover = function (req, res, next) {
                 dao.getRequestedBook(bookid, function (book) {
                     // delete old image
                     fs.unlink('public/'+book[0].bookimage , function (err) {
-                        if (err) throw new Error(err);
+                        if (err) {throw new Error(err)};
                         console.log('delete old image');
                         // add new image
                         dao.editModelInfo(file, bookid, fields, function () {
@@ -84,7 +84,7 @@ exports.uploadBookCover = function (req, res, next) {
                 });
             } else {
                 fs.unlink('public/'+fields.bookimage , function (err) {
-                    if (err) throw new Error(err);
+                    if (err) {throw new Error(err)};
                     console.log('deleted broken image')
                 });
                 res.status(401).send('Картинка не соотвествует формату');

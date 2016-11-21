@@ -83,12 +83,12 @@ router.get('/admin/books', require('./admin').book);
 router.get('/sitemap', require('./admin').sitemap);
 
 /* about page */
-router.get('/about', function (req, res, next) {
+router.get('/about', (req, res, next) => {
     res.render('about');
 });
 
 /* library page */
-router.get('/library', function (req, res, next) {
+router.get('/library', (req, res, next) => {
     res.render('library');
 });
 
