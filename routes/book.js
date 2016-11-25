@@ -1,28 +1,26 @@
-var dao = require('api/dao');
-var file = require('config').get('dbs:bookstable');
-var HttpError = require('libs/error').HttpError;
-var log = require('libs/logs')(module);
-var config = require('config');
-var fs = require('fs');
+const dao = require('api/dao');
+const Book = require('api/book');
+const User = require('api/user');
+const file = require('config').get('dbs:bookstable');
+const HttpError = require('libs/error').HttpError;
+const log = require('libs/logs')(module);
+const config = require('config');
+const fs = require('fs');
 
 exports.get = function (req, res, next) {
-    console.log(req.params.bookid);
-    //transform to array-like object
-    //костыль... просто листай дальше
-    var bookid = [{id: req.params.bookid}];
-    // get book by id
-    dao.getRequestedBook(bookid, function (book) {
+    Book.get(req.params.bookid, function (book) {
+        console.log(book);
         if (book) {
             if (req.user) {
-                dao.filterUsersItems(book[0].id, req.user.books, function (value) {
+                User.filterItems(book._id, req.user.books, function (value) {
                     res.render('book', {
-                        book: book[0],
+                        book: book,
                         bookAdded: value
                     })
                 })
             } else {
                 res.render('book', {
-                    book: book[0]
+                    book: book
                 })
             }
         } else {
@@ -32,14 +30,12 @@ exports.get = function (req, res, next) {
 };
 
 exports.edit = function (req, res, next) {
-    var bookid = [{id: req.params.bookid}];
     if (req.user) {
         if (req.session.user.admin) {
-            dao.getRequestedBook(bookid, function (book) {
-                console.log(book);
+            Book.get(req.params.bookid , function (book) {
                 if (book) {
                     res.render('edit_book', {
-                        book: book[0]
+                        book: book
                     })
                 } else {
                     next(new HttpError(500, 'Problem loading book editor'))
@@ -69,11 +65,10 @@ exports.uploadBookCover = function (req, res, next) {
         // parse form with image
         dao.parseForm(req, res, function (fields, filetype) {
             if (filetype == 'image/jpeg' || filetype == 'image/png') {
-                var bookid = [{id: req.params.bookid}];
                 // get this book
-                dao.getRequestedBook(bookid, function (book) {
+                Book.get(req.params.bookid, function (book) {
                     // delete old image
-                    fs.unlink('public/'+book[0].bookimage , function (err) {
+                    fs.unlink('public/'+book.bookimage , function (err) {
                         if (err) {throw new Error(err)};
                         console.log('delete old image');
                         // add new image

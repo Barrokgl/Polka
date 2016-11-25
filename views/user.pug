@@ -25,7 +25,7 @@ block content
                                 )
                         else
                             a.btn.btn-default.top-margin(href="/login" role="button") Подписаться
-                        p.userid(hidden="hidden") #{userInfo.id}
+                        p.userid(hidden="hidden") #{userInfo._id}
                     div.col-xs-9
                         div.row
                             h4.text-capitalize.name #{userInfo.username}
@@ -47,10 +47,10 @@ block content
                         if (polka)
                             each book in polka
                                 div.col-xs-12.polka
-                                    a(href='/book/'+book.id)
+                                    a(href='/book/'+book._id)
                                         img.img-responsive(src='../'+book.bookimage alt="#{book.bookname}")
                                     p
-                                        a(href='/book/'+book.id) #{book.bookname}
+                                        a(href='/book/'+book._id) #{book.bookname}
                         else
                             div.col-xs-12.empty-block
                                 p Нету книжек на полке
@@ -60,13 +60,13 @@ block content
                         if (subscriptions)
                             each subscr in subscriptions
                                 div.col-xs-12.subscriptions
-                                    a(href='/user/'+subscr.id)
+                                    a(href='/user/'+subscr._id)
                                         if (subscr.icon)
                                             img.img-responsive(src='../'+subscr.icon alt="#{subscr.username}")
                                         else
                                             img.img-responsive.img-circle(src="/images/user-default.png")
                                     p
-                                        a(href='/user/'+subscr.id) #{subscr.username}
+                                        a(href='/user/'+subscr._id) #{subscr.username}
                         else
                             div.col-xs-12.empty-block
                                 p Подписок нету

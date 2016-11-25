@@ -1,6 +1,8 @@
-var config = require('../config');
-var HttpError = require('../libs/error').HttpError;
-var dao = require('../api/dao');
+const config = require('../config');
+const HttpError = require('../libs/error').HttpError;
+const dao = require('../api/dao');
+const User = require('api/user');
+const Book = require('api/book');
 
 exports.get = function (req, res, next) {
     if (req.user) {
@@ -16,7 +18,7 @@ exports.get = function (req, res, next) {
 
 exports.book = function (req, res, next) {
     if (req.session.user.admin) {
-        dao.getBooksCollection(function (books) {
+        Book.getAll(function (books) {
             res.render('adminpanel/adminbooks', {books: books})
         });
     } else {
@@ -25,8 +27,8 @@ exports.book = function (req, res, next) {
 };
 
 exports.sitemap = function (req, res, next) {
-    dao.getBooksCollection(function (books) {
-       dao.getUsersCollection(function (users) {
+    Book.getAll(function (books) {
+       User.getAll(function (users) {
            res.render('sitemap',{
                title: 'Карта сайта',
                books: books,

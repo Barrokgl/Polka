@@ -1,4 +1,5 @@
-var dao = require('api/dao');
+const dao = require('api/dao');
+const User = require('api/user');
 
 exports.get = function(req, res, next) {
     res.render('login', { title: 'login or Sign up'});
@@ -6,7 +7,7 @@ exports.get = function(req, res, next) {
 
 exports.post = function(req, res, next) {
     console.log(req.body);
-    dao.userAuthentication(req.body, function (auth) {
+    User.authenticate(req.body, function (auth) {
         if (auth) {
             //if remember set cookie maxAge 2 weeks
             if (req.body.remember) {

@@ -1,14 +1,14 @@
-var dao = require('api/dao');
-var config = require('config');
-var fs = require('fs');
-var HttpError = require('libs/error').HttpError;
+const dao = require('api/dao');
+const User = require('api/user');
+const Book = require('api/book');
+const config = require('config');
+const fs = require('fs');
+const HttpError = require('libs/error').HttpError;
 
 exports.get = function(req, res) {
     if (req.session.user) {
-        dao.getRequestedBook(req.user.books, function (books) {
-            dao.getRequestedUser(req.user.subscriptions, function (users) {
-                console.log(req.user.subscriptions);
-                console.log(users);
+       Book.getMany(req.user.books, function (books) {
+            User.getMany(req.user.subscriptions, function (users) {
                 res.render('profile', {
                     title: 'Profile',
                     polka: books,
@@ -23,9 +23,10 @@ exports.get = function(req, res) {
 
 // handle requests for edit user polka
 exports.addToPolka = function(req, res, next) {
-    dao.getRequestedBook([req.body], function (book) {
+    let bookid = req.body.id;
+    Book.get(bookid, function (book) {
         if (book) {
-            require('libs/logs')(module).info('adding book with id: '+book[0].id);
+            require('libs/logs')(module).info('adding book with id: '+book.id);
             dao.addItemToUser(req.user.id, req.body, function (newInfo) {
                 req.session.user.books = newInfo;
                 res.status(200).end();
@@ -37,9 +38,10 @@ exports.addToPolka = function(req, res, next) {
 };
 
 exports.removeBook = function (req, res, next) {
-    dao.getRequestedBook([req.body], function (book) {
+    let bookid = req.body.id;
+    Book.get(bookid, function (book) {
         if (book) {
-            require('libs/logs')(module).info('removing book with id: '+book[0].id);
+            require('libs/logs')(module).info('removing book with id: '+book.id);
             dao.removeItemFromUser(req.user.id, req.body,  function (newInfo) {
                 req.session.user.books = newInfo;
                 res.status(200).end();

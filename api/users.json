@@ -20,6 +20,10 @@
             {
                 "id": 10,
                 "status": "Прочитана"
+            },
+            {
+                "id": 2,
+                "status": "readable"
             }
         ],
         "icon": "uploads/upload_74180001265e14a5ba46e658c6937a65.jpg",

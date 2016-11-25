@@ -14,8 +14,8 @@
       "userstable": "./api/users.json",
       "bookstable": "./api/books.json",
       "mongo": {
-        "dev": "mongod://localhost:27017",
-        "prod": "mongodb://heroku_qwbt6zjv:db2d3bda@ds137267.mlab.com:37267/heroku_qwbt6zjv"
+        "dev": "mongodb://localhost:27017",
+        "prod": "mongodb://barrok:db2d3bda@ds137267.mlab.com:37267/heroku_qwbt6zjv"
       }
   },
   "uploaddir": "./public/uploads",

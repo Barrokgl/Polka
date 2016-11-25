@@ -1,4 +1,4 @@
-const mongoose = require('/data/mongoose');
+const mongoose = require('data/mongoose');
 const Schema = mongoose.Schema;
 
 let Counters = new Schema({
@@ -9,10 +9,10 @@ let Counters = new Schema({
 let Counter = mongoose.model('Counter', Counters);
 
 module.exports = function count(sequenceName) {
-    let SequenceDoc = Counter.findAndModify({
+    let sequenceDoc = Counter.findAndModify({
         query: {_id: sequenceName},
         update:{$inc:{sequence_value:1}},
         new: true
     });
-    return SequenceDoc.sequence_value;
+    return sequenceDoc.sequence_value;
 };

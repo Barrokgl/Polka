@@ -1,9 +1,9 @@
-const mongoose = require('/data/mongoose');
-const Schema = mongoose.Schema;
+const mongoose = require('data/mongoose');
+const autoIncrement = require('mongoose-auto-increment');
+const Schema = require('mongoose').Schema;
 
 //define book model
 let Books = new Schema({
-    _id: {type: Number, required: true},
     bookname: {type: String, required: true},
     author: {type: String, required: true},
     genre: String,
@@ -15,4 +15,6 @@ let Books = new Schema({
     setting: String
 });
 
-module.exports.BooksModel = mongoose.model('Book', Books);
+Books.plugin(autoIncrement.plugin, 'Book');
+
+module.exports = require('mongoose').model('Book', Books);
