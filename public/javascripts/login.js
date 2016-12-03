@@ -36,6 +36,7 @@ $(document).ready(function () {
                 password: $("[name='password']").val(),
                 remember: remember ? remember : undefined
             },{},'text').done(function () {
+                console.log('poop');
                 window.location = '/';
             }).fail(function (data) {
                 $('#send').attr('data-content', data.responseText).popover('show');

@@ -3,84 +3,88 @@ const counter = require('data/models/counter');
 
 let BookService = {};
 
-BookService.get = function get(bookId, callback) {
-    Book.findById(bookId, (err, book)=>{
-        if (err) {
-            throw new Error(err)
-        } else {
-            callback(book);
-        }
+BookService.get = function get(bookId) {
+    return new Promise((resolve, reject) => {
+        Book.findById(bookId)
+            .then(book => resolve(book))
+            .catch(err => reject(err));
     });
 };
 
-BookService.getMany = function getMany(books, callback) {
-    let booksId = books.map((book)=>{return book.id});
-    console.log(booksId);
-    Book.find({
-        _id: {
-            // send array of _id
-            $in: booksId
-    }
-    }, (err, result)=>{
-        if (err) {
-            throw new Error(err)
-        } else {
-            callback(result);
-        }
+BookService.getMany = function getMany(books) {
+    return new Promise((resolve, reject) => {
+        let booksId = books.map((book)=>{return book._id});
+        Book.find({
+            _id: {
+                //send array of _ids
+                $in: booksId
+            }
+        })
+            .then(result => {
+                // TODO: refactor this to easy implementation
+                if(result) {
+                    result = result.map(book => {
+                        for(let i = 0; i < books.length; i++) {
+                            if(books[i]._id == book._id) {
+                                book.status = books[i].status;
+                            } else {
+                                ///
+                            }
+                        }
+                        return book;
+                    });
+                    resolve(result);
+                } else {
+                    resolve;
+                }
+            })
+            .catch(err => reject(err));
     });
 };
 
-BookService.getAll = function getAll(callback) {
-    Book.find({}, (err, books)=>{
-        if (err) {
-            throw new Error(err)
-        } else {
-            callback(books);
-        }
+BookService.getAll = function getAll() {
+    return new Promise((resolve, reject) => {
+       Book.find({})
+           .then(users => resolve(users))
+           .catch(err => reject(err));
     });
 };
 
-BookService.create = function create(bookData, callback) {
-    bookData._id = counter('books');
-    let newBook = new Book(bookData);
-    newBook.save((err)=>{
-        if (err) {
-            throw new Error(err)
-        } else {
-            callback();
-        }
-    });
-};
-
-BookService.update = function update(userId, bookData, callback) {
-    Book.findByIdAndUpdate(bookId, bookData, (err)=>{
-        if(err){
-           throw new Error(err);
-        } else {
-            callback();
-        }
-    });
-};
-
-BookService.delete = function deleteBook(bookId, callback) {
-    Book.findByIdAndRemove(bookId, (err)=>{
-        if(err){
-            throw new Error(err)
-        }
-        callback();
+BookService.create = function create(bookData) {
+    return new Promise((resolve, reject) => {
+        bookData._id = counter('books');
+        let newBook = new Book(bookData);
+        newBook.save()
+            .then(book => resolve(book))
+            .catch(err => reject(book));
     })
 };
 
-BookService.checkExist = function checkExist(bookParams, callback) {
+BookService.update = function update(bookId, bookData) {
+    return new Promise((resolve, reject) => {
+        Book.findByIdAndUpdate(bookId, bookData)
+            .then(book => resolve(book))
+            .catch(err => reject(err));
+    });
+};
+
+BookService.delete = function deleteBook(bookId) {
+    return new Promise((resolve, reject) => {
+        Book.findByIdAndRemove(bookId)
+            .then(response => resolve(response))
+            .catch(err => reject(err));
+    });
+};
+
+BookService.checkExist = function checkExist(bookParams) {
       let params = {
           author: bookParams.author,
           bookname: bookParams.bookname
       };
-      Book.find(params, (err, book) => {
-          if(err) {
-              throw new Error(err);
-          }
-          callback(book);
+      return new Promise((resolve, reject) => {
+          Book.find(params)
+              .then(book => resolve(book))
+              .catch(err => reject(err));
       });
 };
 

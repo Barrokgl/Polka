@@ -1,23 +1,19 @@
-var express = require('express');
-var path = require('path');
-var favicon = require('serve-favicon');
-var logger = require('morgan');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
-var config = require('config');
-var session = require('express-session');
-var FileStore = require('session-file-store')(session);
-var HttpError = require('libs/error').HttpError;
-var log = require('libs/logs')(module);
+const express = require('express');
+const path = require('path');
+const favicon = require('serve-favicon');
+const logger = require('morgan');
+const cookieParser = require('cookie-parser');
+const bodyParser = require('body-parser');
+const config = require('config');
+const session = require('express-session');
+const mongoStrore = require('connect-mongo')(session);
+//var FileStore = require('session-file-store')(session);
+const HttpError = require('libs/error').HttpError;
+const log = require('libs/logs')(module);
 
-// Mongo
-// var mongo = require('mongodb');
-// var monk = require('monk');
-// var db = monk('localhost:27017/Polka');
+const routes = require('routes/index');
 
-var routes = require('routes/index');
-
-var app = express();
+let app = express();
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -29,21 +25,28 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.use(cookieParser());
+// app.use(session({
+//   store: new FileStore,
+//   secret: config.get('session:secret'),
+//   saveUninitialized: config.get('session:saveUninitialized'),
+//   resave: config.get('session:resave')
+// }));
+const connection = require('data/mongoose').connection;
 app.use(session({
-  store: new FileStore,
-  secret: config.get('session:secret'),
-  saveUninitialized: config.get('session:saveUninitialized'),
-  resave: config.get('session:resave')
+    store: new mongoStrore({
+        mongooseConnection: connection,
+        ttl: 14 * 24 * 60 * 60,
+        autoRemove: 'native',
+        touchAfter: 24 * 3600
+    }),
+    secret: config.get('session:secret'),
+    saveUninitialized: config.get('session:saveUninitialized'),
+    resave: config.get('session:resave'),
+
 }));
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Make our db accessible to our router
-// app.use(function(req,res,next){
-//   req.db = db;
-//   next();
-// });
-
-// registered dao handler
+// registered login handler
 app.use(require('libs/loadUser'));
 
 //Error sender
@@ -51,11 +54,9 @@ app.use(require('libs/sendHttpError'));
 
 app.use('/', routes);
 
-
-
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  var err = new HttpError(404, 'Not Found');
+  let err = new HttpError(404, 'Not Found');
   next(err);
 });
 

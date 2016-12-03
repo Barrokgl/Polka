@@ -3,8 +3,7 @@ $(document).ready(function () {
     $('#removeFromSubscriptions').on('click', removeSubscription);
     function addSubscription() {
         $.post('/add_subscription', {
-            property: 'subscriptions',
-            id: $('.userid').text()
+            _id: $('.userid').text()
         },{}, 'text').done(function () {
             $('#addToSubscriptions').replaceWith("<input id='removeFromSubscriptions'>");
             $('#removeFromSubscriptions').attr('type', 'button')
@@ -22,8 +21,7 @@ $(document).ready(function () {
     }
     function removeSubscription() {
         $.post('/remove_subscription', {
-            property: 'subscriptions',
-            id: $('.userid').text()
+            _id: $('.userid').text()
         }, {}, 'text').done(function () {
             $('#removeFromSubscriptions').replaceWith("<input id='addToSubscriptions'>");
             $('#addToSubscriptions').attr('type', 'button')

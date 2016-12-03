@@ -9,22 +9,24 @@ module.exports = function (req, res, next) {
       next()
   } else {
       // check user in our db using session data
-      User.get(req.session.user.id, function (exist) {
-          // if no such user, this means bad session or some bug
-          // so we break current session end redirect to login
-          if (!exist) {
-              req.session.destroy();
-              res.redirect('/login');
-              console.log('destroy session');
-          // if user exist write his data to req and
-          // req.locals properties and give it to next middleware
-          } else {
-              if (req.session.user.login == config.get('admin') || req.session.user.login == config.get('admin2')) {
-                  req.session.user.admin = true;
+      User.get(req.session.user._id)
+          .then(exist => {
+              // if no such user, this means bad session or some bug
+              // so we break current session end redirect to login
+              if (!exist) {
+                  req.session.destroy();
+                  res.redirect('/login');
+                  console.log('destroy session');
+                  // if user exist write his data to req and
+                  // req.locals properties and give it to next middleware
+              } else {
+                  if (req.session.user.login == config.get('admin') || req.session.user.login == config.get('admin2')) {
+                      req.session.user.admin = true;
+                  }
+                  req.user = res.locals.user = req.session.user;
+                  next()
               }
-              req.user = res.locals.user = req.session.user;
-              next()
-          }
-      });
+          })
+          .catch(err => next(err));
   }
 };

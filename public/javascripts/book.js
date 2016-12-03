@@ -4,8 +4,7 @@ $('document').ready(function () {
     function addBook() {
         // send request
         $.post('/add_to_polka', {
-            property: 'books',
-            id: $('.bookid').text(),
+            _id: $('.bookid').text(),
             status: 'readable'
         },{}, 'text').done(function () {
             $('#addToPolka').replaceWith("<input id='removeFromPolka'>");
@@ -24,8 +23,7 @@ $('document').ready(function () {
     }
     function removeBook() {
          $.post('/remove_book', {
-             property: 'books',
-             id: $('.bookid').text(),
+             _id: $('.bookid').text(),
              status: 'remove'
          }, {}, 'text').done(function () {
              $('#removeFromPolka').replaceWith("<input id='addToPolka'>");

@@ -42,12 +42,12 @@ block content
                         if (polka)
                             each book in polka
                                 div.col-xs-12.polka
-                                    a(href='/book/'+book.id)
+                                    a(href='/book/'+book._id)
                                         img.img-responsive(src='../'+book.bookimage alt="#{book.bookname}")
                                     p
                                         a(href='/book/'+book.id) #{book.bookname}
                                     p.hidden.bookstatus #{book.status}
-                                    p.hidden.bookid #{book.id}
+                                    p.hidden.bookid #{book._id}
                                     select
                                         option(value='Хочу прочитать') Хочу прочитать
                                         option(value='Читаю') Читаю

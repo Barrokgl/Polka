@@ -11,27 +11,30 @@ exports.get = function(req, res) {
 
 exports.post = function (req, res, next) {
     dao.parseForm(req, res, function (fields, fileType) {
-        Book.checkExist(fields, function (exist) {
-            if (!exist) {
-                Book.create(fields, () => {
-                    if (fileType != 'image/jpeg' || fileType != 'image/png') {
-                        fs.unlink('public/' + fields.bookimage, function (err) {
-                            if (err) throw new Error(err);
-                            log.warning('deleted broken image')
-                        });
-                        //dao.addNewItem(fields, file);
-                        res.status(200).send('Успешно, но обложка не загружена');
-                    } else {
-                        res.status(200).send('Книга добавлена');
-                    }
-                });
-            } else {
-                res.status(400).send('Такая книга уже добавлена');
-                fs.unlink('public/'+fields.bookimage, function (err) {
-                    if (err) throw err;
-                    log.warning('tried to load existing book')
-                })
-            }
-        })
+        Book.checkExist(fiels)
+            .then(exist => {
+                if (!exist) {
+                    Book.create(fields)
+                        .then(book => {
+                            if (fileType != 'image/jpeg' || fileType != 'image/png') {
+                                fs.unlink('public/' + fields.bookimage, function (err) {
+                                    if (err) throw new Error(err);
+                                    log.warning('deleted broken image')
+                                });
+                                res.status(200).send('Успешно, но обложка не загружена');
+                            } else {
+                                res.status(200).send('Книга добавлена');
+                            }
+                        })
+                        .catch(err => next(err));
+                } else {
+                    res.status(400).send('Такая книга уже добавлена');
+                    fs.unlink('public/'+fields.bookimage, function (err) {
+                        if (err) throw err;
+                        log.warning('tried to load existing book')
+                    });
+                }
+            })
+            .catch(err => next(err));
     });
 };

@@ -6,23 +6,23 @@
         "password": "Db2d3bda",
         "books": [
             {
-                "id": 8,
+                "_id": 8,
                 "status": "Хочу прочитать"
             },
             {
-                "id": 9,
+                "_id": 9,
                 "status": "Читаю"
             },
             {
-                "id": 3,
+                "_id": 3,
                 "status": "Прочитана"
             },
             {
-                "id": 10,
+                "_id": 10,
                 "status": "Прочитана"
             },
             {
-                "id": 2,
+                "_id": 2,
                 "status": "readable"
             }
         ],
@@ -38,13 +38,13 @@
         "admin": true,
         "subscriptions": [
             {
-                "id": 3
+                "_id": 3
             },
             {
-                "id": 4
+                "_id": 4
             },
             {
-                "id": 2,
+                "_id": 2,
                 "status": ""
             }
         ]
@@ -56,11 +56,11 @@
         "password": "Db2d3bda",
         "books": [
             {
-                "id": 5,
+                "_id": 5,
                 "status": "readable"
             },
             {
-                "id": 6,
+                "_id": 6,
                 "status": "readable"
             }
         ],

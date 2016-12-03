@@ -18,22 +18,27 @@ exports.get = function (req, res, next) {
 
 exports.book = function (req, res, next) {
     if (req.session.user.admin) {
-        Book.getAll(function (books) {
-            res.render('adminpanel/adminbooks', {books: books})
-        });
+        Book.getAll()
+            .then(books => {
+                res.render('adminpanel/adminbooks', {books: books});
+            })
+            .catch(err => next(err));
     } else {
         next(new HttpError(403, 'Forbidden'))
     }
 };
 
 exports.sitemap = function (req, res, next) {
-    Book.getAll(function (books) {
-       User.getAll(function (users) {
-           res.render('sitemap',{
-               title: 'Карта сайта',
-               books: books,
-               users: users
-           })
-       });
-    });
+    Book.getAll()
+        .then(books => {
+            User.getAll()
+                .then(users => {
+                    res.render('sitemap',{
+                        title: 'Карта сайта',
+                        books: books,
+                        users: users
+                    });
+                });
+        })
+        .catch(err => next(err));
 };

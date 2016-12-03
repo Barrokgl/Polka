@@ -18,7 +18,7 @@ $(document).ready(function () {
     // set statuses for books
     var books = $('div.polka');
     $.each(books, function (index, value) {
-        var status = $(this).children('.bookstatus').text();
+        var status = $(this).children('p.hidden.bookstatus').text();
         var selector = "option[value='"+status+"']";
         $(this).children('select').children(selector).attr('selected', 'selected');
     });
@@ -28,7 +28,7 @@ $(document).ready(function () {
         var bookid = $(this).parent().children('p.bookid').text();
         var status = $(this).val();
         $.post('/set_book_status',{
-            id: bookid,
+            _id: bookid,
             status: status
         },{}, 'text').done(function () {
 

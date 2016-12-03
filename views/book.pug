@@ -23,7 +23,7 @@ block content
                                 )
                         else
                             a.btn.btn-default.top-margin(href="/login" role="button") Добавить на полку
-                        p.bookid(hidden="hidden") #{book.id}
+                        p.bookid(hidden="hidden") #{book._id}
                     div.col-xs-9
                         div.row
                             if (user)
@@ -31,7 +31,7 @@ block content
                                     div.col-xs-9
                                         h3.bookname.underline #{book.bookname}
                                     div.col-xs-3
-                                        a.text-muted(href='/edit_book/'+book.id) редактировать
+                                        a.text-muted(href='/edit_book/'+book._id) редактировать
                                 else
                                     h3.bookname.underline #{book.bookname}
                             else

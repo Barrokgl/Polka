@@ -4,52 +4,63 @@ const Book = require('api/book');
 const config = require('config');
 const fs = require('fs');
 const HttpError = require('libs/error').HttpError;
+const log = require('libs/logs')(module);
 
-exports.get = function(req, res) {
+exports.get = function(req, res, next) {
     if (req.session.user) {
-       Book.getMany(req.user.books, function (books) {
-            User.getMany(req.user.subscriptions, function (users) {
-                res.render('profile', {
-                    title: 'Profile',
-                    polka: books,
-                    subscriptions: users
-                });
-            });
-        });
+        Book.getMany(req.user.books)
+            .then(books => {
+                User.getMany(req.user.subscriptions)
+                    .then(users => {
+                        res.render('profile', {
+                            title: 'Profile',
+                            polka: books,
+                            subscriptions: users
+                        });
+                    });
+            })
+            .catch(err => next(err));
     } else {
-        res.redirect('/login');
+        res.redirect('login');
     }
 };
 
 // handle requests for edit user polka
 exports.addToPolka = function(req, res, next) {
-    let bookid = req.body.id;
-    Book.get(bookid, function (book) {
-        if (book) {
-            require('libs/logs')(module).info('adding book with id: '+book.id);
-            dao.addItemToUser(req.user.id, req.body, function (newInfo) {
-                req.session.user.books = newInfo;
-                res.status(200).end();
-            });
-        } else {
-            res.status(500).end();
-        }
-    });
+    let bookid = req.body._id;
+    Book.get(bookid)
+        .then(book => {
+            if (book) {
+                require('libs/logs')(module).info('adding book with id: '+book.id);
+                User.addBook(req.user._id, req.body)
+                    .then(newInfo => {
+                        req.session.user = req.user = newInfo;
+                        res.status(200).end();
+                    })
+                    .catch(err => next(err));
+            } else {
+                res.status(500).end();
+            }
+        })
+        .catch(err => next(err));
 };
 
 exports.removeBook = function (req, res, next) {
     let bookid = req.body.id;
-    Book.get(bookid, function (book) {
-        if (book) {
-            require('libs/logs')(module).info('removing book with id: '+book.id);
-            dao.removeItemFromUser(req.user.id, req.body,  function (newInfo) {
-                req.session.user.books = newInfo;
-                res.status(200).end();
-            });
-        } else {
-            res.status(500).end();
-        }
-    });
+    Book.get(bookid)
+        .then(book => {
+            if (book) {
+                require('libs/logs')(module).info('removing book with id: '+book._id);
+                User.removeBook(req.user._id, req.body)
+                    .then(newInfo => {
+                        req.session.user = req.user = newInfo;
+                        res.status(200).end();
+                    })
+                    .catch(err => next(err));
+            } else {
+                res.status(500).end();
+            }
+        })
 };
 
 exports.edit = function (req, res, next) {
@@ -73,18 +84,25 @@ exports.uploadImg = function (req, res, next) {
                 }//add new icon
                 req.user.icon = fields.userimage;
                 //update user profile
-                dao.editModelInfo(config.get('dbs:userstable'), req.user.id, req.user, function (updatedUser) {
-                    req.session.user = updatedUser;
-                    res.status(200).send('Иконка загружена');
-                });
+                User.update(req.user._id, req.user)
+                    .then(user => {
+                        if (user) {
+                            req.session.user = req.user = user;
+                            res.status(200).send('Иконка загружена');
+                        } else {
+                            res.status(500).send('Что-то пошло не так');
+                        }
+                    })
+                    .catch(err => next(err));
             } else {
                 fs.unlink('public/'+fields.userimage , function (err) {
-                    if (err) throw new Error(err);
+                    if (err) {
+                        next(err);
+                    };
                     console.log('deleted broken image')
                 });
                 res.status(401).send('Не соотвествует формату');
             }
-
         });
     } else {
         next(new HttpError(403, 'Forbidden'));
@@ -93,33 +111,44 @@ exports.uploadImg = function (req, res, next) {
 
 exports.editProfile = function (req, res, next) {
     if (req.session.user) {
-        dao.editModelInfo(config.get('dbs:userstable'), req.user.id , req.body, function (updatedUser) {
-            req.session.user = req.user = updatedUser;
-            res.status(200).send('Профиль обновлен')
-        });
+        User.update(req.user._id, req.body)
+            .then(user => {
+                if(user) {
+                    req.session.user = req.user = user;
+                    res.status(200).send('Профиль обновлен');
+                } else {
+                    next(new HttpError(500, 'Что-то пошло не так...'))
+                }
+            })
+            .catch(err => next(err));
     } else {
         next(new HttpError(403, 'Forbidden'));
     }
 };
 
 exports.addSubscription = function (req, res, next) {
-    dao.addItemToUser(req.session.user.id, req.body, function (newValue) {
-        req.session.user[req.body.property] = newValue;
-        res.status(200).end();
-    });
+    User.addSubscription(req.session.user._id, req.body)
+        .then(user => {
+            req.session.user = user;
+            res.status(200).end();
+        })
+        .catch(err => next(err));
 };
 
 exports.removeSubscription = function (req, res, next) {
-    dao.removeItemFromUser(req.session.user.id, req.body, function (newValue) {
-        req.session.user[req.body.property] = newValue;
-        res.status(200).end();
-    });
+    User.removeSubcription(req.session.user._id, req.body)
+        .then(user => {
+            req.session.user = req.user = user;
+            res.status(200).end();
+        })
+        .catch(err => next(err));
 };
 
 exports.setBookStatus = function (req, res, next) {
-    req.body.id = parseInt(req.body.id, 10);
-    dao.setStatusOfUsersBook(req.body, req.user.id, function (books) {
-        req.session.user.books = books;
-        res.status(200).end();
-    });
+    User.setStatusOfBook(req.user._id, req.body)
+        .then(user => {
+            req.session.user = req.user = user;
+            res.status(200).end();
+        })
+        .catch(err => next(err));
 };

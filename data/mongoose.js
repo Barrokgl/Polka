@@ -4,6 +4,9 @@ const config = require('config');
 const Schema = mongoose.Schema;
 const autoIncrement = require('mongoose-auto-increment');
 
+// user native Promise
+mongoose.Promise = global.Promise;
+
 //contect to db
 mongoose.connect(config.get('dbs:mongo:prod'));
 

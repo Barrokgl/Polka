@@ -8,39 +8,44 @@ const config = require('config');
 const fs = require('fs');
 
 exports.get = function (req, res, next) {
-    Book.get(req.params.bookid, function (book) {
-        console.log(book);
-        if (book) {
-            if (req.user) {
-                User.filterItems(book._id, req.user.books, function (value) {
+    Book.get(req.params.bookid)
+        .then(book => {
+            if(book) {
+                if(req.user){
+                    User.filterItems(book._id, req.user.books)
+                        .then(value => {
+                            console.log(value);
+                            res.render('book', {
+                                book: book,
+                                bookAdded: value
+                            });
+                        });
+                } else {
                     res.render('book', {
-                        book: book,
-                        bookAdded: value
-                    })
-                })
+                        book: book
+                    });
+                }
             } else {
-                res.render('book', {
-                    book: book
-                })
+                next(new HttpError(404, 'Ups, no such book'));
             }
-        } else {
-            next(new HttpError(404,'Ups, no such book'));
-        }
-    })
+        })
+        .catch(err => next(err));
 };
 
 exports.edit = function (req, res, next) {
     if (req.user) {
         if (req.session.user.admin) {
-            Book.get(req.params.bookid , function (book) {
-                if (book) {
-                    res.render('edit_book', {
-                        book: book
-                    })
-                } else {
-                    next(new HttpError(500, 'Problem loading book editor'))
-                }
-            })
+            Book.get(req.params.bookid)
+                .then(book => {
+                    if(book) {
+                        res.render('edit_book',{
+                            book: book
+                        });
+                    } else {
+                        next(new HttpError(500, 'Problem loading book editor'));
+                    }
+                })
+                .catch(err => next(err));
         } else {
             next(new HttpError(403, 'Forbidden'))
         }
@@ -51,10 +56,14 @@ exports.edit = function (req, res, next) {
 
 exports.editBook = function (req, res, next) {
     if (req.session.user.admin) {
-        var bookid = [{id: req.params.bookid}];
-        dao.editModelInfo(file, bookid , req.body, function (updatedBook) {
-            res.status(200).send('Книга обновлена')
-        });
+        let bookId = req.params.bookid;
+        Book.update(bookId, req.body)
+            .then(book => {
+                if(book) {
+                    res.status(200).send('Книга обновлена');
+                }
+            })
+            .catch(err => next(err));
     } else {
         next(new HttpError(403, 'Forbidden'));
     }
@@ -66,17 +75,25 @@ exports.uploadBookCover = function (req, res, next) {
         dao.parseForm(req, res, function (fields, filetype) {
             if (filetype == 'image/jpeg' || filetype == 'image/png') {
                 // get this book
-                Book.get(req.params.bookid, function (book) {
-                    // delete old image
-                    fs.unlink('public/'+book.bookimage , function (err) {
-                        if (err) {throw new Error(err)};
-                        console.log('delete old image');
-                        // add new image
-                        dao.editModelInfo(file, bookid, fields, function () {
-                            res.status(200).send('обложка книги обновлена');
+                let bookId = req.params.bookid;
+                Book.get(bookId)
+                    .then(book => {
+                        fs.unlink('public/'+book.bookimage, (err) => {
+                            if(err) {
+                                next(err);
+                            }
+                            Book.update(bookId, fields)
+                                .then(book => {
+                                    if (book) {
+                                        res.status(200).send('обложка книги обновлена');
+                                    } else {
+                                        res.status(500).send('Что-то пошло не так');
+                                    }
+                                })
+                                .catch(err => next(err));
                         });
-                    });
-                });
+                    })
+                    .catch(err => next(err));
             } else {
                 fs.unlink('public/'+fields.bookimage , function (err) {
                     if (err) {throw new Error(err)};
