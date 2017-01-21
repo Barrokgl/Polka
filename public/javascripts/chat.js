@@ -17,8 +17,8 @@ $('document').ready(function(){
 
 function createWS() {
    return new Promise((resolve, reject) => {
-       ///window.socket = new WebSocket('wss://go-chatter.herokuapp.com/ws');
-       window.socket = new WebSocket('ws://localhost:8080/ws');
+       window.socket = new WebSocket('wss://go-chatter.herokuapp.com/ws');
+       // window.socket = new WebSocket('ws://localhost:8080/ws');
        socket.onerror = function(error) {
            reject(error);
        };
