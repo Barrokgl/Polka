@@ -2,7 +2,6 @@ const fs = require('fs');
 const dao = require('../api/dao');
 const Book = require('api/book');
 const config = require('../config');
-const file = config.get('dbs:bookstable');
 const log = require('../libs/logs')(module);
 
 exports.get = function(req, res) {

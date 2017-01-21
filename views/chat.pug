@@ -1,0 +1,48 @@
+extends layout
+block append head
+    link(rel='stylesheet', href='/stylesheets/chat.css')
+    script(src='../javascripts/chat.js' defer)
+
+block content
+    div.container
+        div.row
+            div.col-xs-1
+            div.col-xs-10
+                div.row
+                    div.panel.panel-primary
+                        div.panel-body.chat-window
+                        div.panel-footer
+                            div.input-group
+                                input.form-control.input-sm.chat-input(
+                                placeholder='Введите сообщение'
+                                type='text'
+                                )
+                                span.input-group-btn
+                                    button.btn.btn-default.chat-btn Отправить
+            div.col-xs-1
+    //div.container
+    //    div.row
+    //        div.col-xs-1
+    //        div.col-xs-10
+    //            div.row
+    //                div.panel-primary.panel
+    //                    div.panel-heading
+    //                        span.glyphicon.glyphicon-comment Чаты
+    //                    div.panel-body
+    //                        div.chat-group
+    //                            ul.list-group
+    //                                each chat in chats
+    //                                    li.list-group-item.chat-name #{chat.name}
+    //                        div.row.hidden
+    //                            div.panel.panel-primary
+    //                                div.panel-body.chat-window
+    //                                div.panel-footer
+    //                                    div.input-group
+    //                                        input.form-control.input-sm.chat-input(
+    //                                        placeholder='Введите сообщение'
+    //                                        type='text'
+    //                                        )
+    //                                        span.input-group-btn
+    //                                            button.btn.btn-default.chat-btn Отправить
+    //        div.col-xs-1
+

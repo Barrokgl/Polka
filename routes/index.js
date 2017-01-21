@@ -92,5 +92,10 @@ router.get('/library', (req, res, next) => {
     res.render('library');
 });
 
+// chats
+
+/* chats mainpage */
+router.get('/chats', require('./chat').get);
+
 module.exports = router;
 
